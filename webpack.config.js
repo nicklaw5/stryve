@@ -31,12 +31,20 @@ module.exports = {
         loader: 'vue-html'
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      },
+      {
+        test: /\.png|\.jpe?g|\.gif/,
         loader: 'url',
         query: {
           limit: 10000,
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.woff|\.woff2|\.svg|\.eot|\.ttf/,
+        loader: 'url?prefix=font/&limit=10000'
       }
     ]
   },
