@@ -5,7 +5,7 @@
   "author": "https://github.com/nicklaw5",
   "scripts": {
     "w-app": "webpack-dev-server --content-base src --inline --hot",
-    "d-app": "nw ./src",
+    "d-app": "webpack --progress --hide-modules && nw /src",
     "build": "webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
   },
