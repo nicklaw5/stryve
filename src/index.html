@@ -5,7 +5,10 @@
     <title>Stryve App</title>
   </head>
   <body>
-    <app></app>
+
+    <register v-if="store.isRegistering"></register>
+	<login v-else></login>
+    
     <script src="../dist/build.js"></script>
   </body>
 </html>
