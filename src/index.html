@@ -6,9 +6,23 @@
   </head>
   <body>
 
-    <register v-if="store.isRegistering"></register>
-	<login v-else></login>
-    
+  	<!-- if authenticated -->
+	<div v-if="store.authenticated">
+		<h1>logged in</h1>
+	</div>
+	<!-- /if authenticated -->
+
+	<!-- not authenticated -->
+	<div v-else>
+		<div id="login-or-register">
+			<div id="login-or-register-inner">
+    			<register v-if="store.isRegistering"></register>    		
+				<login v-else></login>
+	    	</div>
+	    </div>
+	</div>
+    <!-- /not authenticated -->
+
     <script src="../dist/build.js"></script>
   </body>
 </html>
