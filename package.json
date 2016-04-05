@@ -4,7 +4,7 @@
   "description": "A socket.io-driven chat application.",
   "author": "https://github.com/nicklaw5",
   "scripts": {
-    "w-app": "webpack-dev-server --content-base src --inline --hot",
+    "w-app": "webpack-dev-server --inline --hot",
     "d-app": "webpack --progress --hide-modules && nw /src",
     "build": "webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"

@@ -5,16 +5,17 @@ export function options(method, endpoint, body, include_auth_header) {
 	var options = {}
 
 	// set new options
-	if(typeof method != 'undefined' && typeof method == 'string')
+	if(typeof method === 'string')
 		options['method'] = method.toUpperCase()
 
-	if(typeof endpoint != 'undefined' && typeof endpoint == 'string')
+	if(typeof endpoint === 'string')
 		options['url'] = API_BASE + endpoint
 
-	if(typeof body != 'undefined' && typeof body == 'object')
+	if(typeof body === 'object')
 		options['body'] = body
 
-	if(typeof include_auth_header != 'undefined' && include_auth_header === true)
+	if(typeof include_auth_header !== 'undefined'
+		&& include_auth_header === true)
 		options['headers'] = { 'Authorization': 'some token' }
 
 	return options

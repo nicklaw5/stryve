@@ -1,22 +1,20 @@
 <template>
 	<h1>Login</h1>
-	<input type="text" v-model="user.email" @keyup.enter="tryLogin" placeholder="Email">
+	<input type="text" v-model="user.email" @keyup.enter="tryLogin($event)" placeholder="Email">
 	<br><br>
-	<input type="password" v-model="user.password" @keyup.enter="tryLogin" placeholder="Password">
+	<input type="password" v-model="user.password" @keyup.enter="tryLogin($event)" placeholder="Password">
 	<br><br>
-	<button class="btn-block" type="button" @click="tryLogin">Log in</button>
+	<button class="btn-block" type="button" @click="tryLogin($event)">Log in</button>
 	<br><br>
-	<a href="" @click.prevent="store.isRegistering = !store.isRegistering">Register</a>
+	<a href="" @click.prevent="showLoginForm($event)">Register</a>
 </template>
 
 <script>
-import store from '../vuex/store'
-import { loginUser } from '../vuex/actions'
+import { loginUser, toggleIsRegistering } from '../vuex/auth/actions'
 
 export default {
 	data() {
 		return {
-			store: store.state,
 			user: {
 				email: 'nick@account.com',
 				password: 'test1234'
@@ -26,12 +24,19 @@ export default {
 	vuex: {
 		getters: {},
 		actions: {
-			loginUser
+			loginUser,
+			toggleIsRegistering
 		}
 	},
+	computed: {
+
+	},
 	methods: {
-		tryLogin(e) {
+		tryLogin ($event) {
 			this.loginUser(this.user.email, this.user.password)
+		},
+		showLoginForm ($event) {
+			this.toggleIsRegistering()
 		}
 	}
 }

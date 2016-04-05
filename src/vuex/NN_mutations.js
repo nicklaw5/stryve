@@ -59,7 +59,7 @@ import * as types from './mutation-types'
 
 export default {
 
-	[types.LOGIN_USER] (state, id) {
-		setAuthToken(state, id)
+	[types.LOGIN_USER] (state, response) {
+		setAuthToken(state, response)
 	}
 }

@@ -7,7 +7,7 @@
   <body>
 
   	<!-- if authenticated -->
-	<div v-if="store.authenticated">
+	<div v-if="isAuthenticated">
 		<h1>logged in</h1>
 	</div>
 	<!-- /if authenticated -->
@@ -16,13 +16,13 @@
 	<div v-else>
 		<div id="login-or-register">
 			<div id="login-or-register-inner">
-    			<register v-if="store.isRegistering"></register>    		
+    			<register v-if="isRegistering"></register>    		
 				<login v-else></login>
 	    	</div>
 	    </div>
 	</div>
     <!-- /not authenticated -->
 
-    <script src="../dist/build.js"></script>
+    <script src="dist/build.js"></script>
   </body>
 </html>
