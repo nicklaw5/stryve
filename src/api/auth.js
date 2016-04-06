@@ -12,7 +12,7 @@ export function createAuthSession({ email, password }, cb) {
 	var body = { email: email, password: password }
 
 	// api call here
-	cb(ajax.post('auth/login', body, null))
+	ajax.post('auth/login', body, null, cb)
 	// console.log(options);
 	// cb();
 }

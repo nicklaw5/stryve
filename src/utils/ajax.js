@@ -14,11 +14,9 @@ export function options(method, endpoint, body, incl_auth_header) {
 	if(typeof body === 'object')
 		options['body'] = body
 
-	// if(typeof incl_auth_header !== 'undefined'
-	// 	&& incl_auth_header === true)
-	// 	options['headers'] = { 'Authorization': 'some token' }
-
-	options['headers'] = {'Access-Control-Allow-Origin': 'localhost:8080' }
+	if(typeof incl_auth_header !== 'undefined'
+		&& incl_auth_header === true)
+		options['headers'] = { 'Authorization': 'some token' }
 
 	options['json'] = true
 	return options
@@ -40,7 +38,7 @@ export function post(endpoint, body, incl_auth_header, cb) {
 	  // .withCredentials()
 	  .end(function(err, res){
 	  	if(err)
-	  		console.log(res);
+	  		// console.log(res);
 
 	  	console.log(res)
 	    // assert(200 == res.status);
