@@ -1,18 +1,18 @@
 {
-  "main": "./src/index.html",
+  "main": "index.html",
   "name": "stryve-app",
   "description": "A socket.io-driven chat application.",
   "author": "https://github.com/nicklaw5",
   "scripts": {
     "w-app": "webpack-dev-server --inline --hot",
-    "d-app": "webpack --progress --hide-modules && nw /src",
+    "d-app": "webpack --progress --hide-modules && nw .",
     "build": "webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
   },
   "window": {
     "title": "Stryve App",
     "icon": "./src/assets/img/logo-100x100.png",
-    "frame": false,
+    "frame": true,
     "width": 1016,
     "height": 500,
     "position": "center",
@@ -46,6 +46,7 @@
     "socket.io-client": "^1.4.5",
     "striptags": "^2.1.1",
     "style-loader": "^0.13.1",
+    "superagent": "^1.8.3",
     "url-loader": "^0.5.7",
     "vue": "^1.0.20",
     "vue-hot-reload-api": "^1.2.1",

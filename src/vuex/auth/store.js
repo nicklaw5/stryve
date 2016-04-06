@@ -1,12 +1,14 @@
 import { 
 	LOGIN_USER,
-	TOGGLE_IS_REGISTERING
-	} from '../mutation-types'
+	REGISTER_USER,
+	TOOGLE_AUTH_FORM,
+	TOGGLE_IS_AUTHENTICATED
+} from '../mutation-types'
 
 // initial state
 const state = {
-	isAuthenticated: false,
-	isRegistering: false
+	authForm: 'login', // 'login' or 'register'
+	isAuthenticated: false
 }
 
 // mutations
@@ -16,8 +18,16 @@ const mutations = {
 		console.log(response)
   	},
 
-	[TOGGLE_IS_REGISTERING] (state) {
-		state.isRegistering = !state.isRegistering
+  	[REGISTER_USER] (state, response) {
+		console.log(response)
+  	},
+
+	[TOOGLE_AUTH_FORM] (state, form) {
+		state.authForm = form
+	},
+	
+	[TOGGLE_IS_AUTHENTICATED] (state) {
+		state.isAuthenticated = !state.isAuthenticated
 	}
 }
 

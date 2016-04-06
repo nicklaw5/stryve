@@ -1,28 +1,45 @@
 <template>
 	<h1>Register</h1>
-	<input type="text" v-model="user.username" @keyup.enter="registerUser" placeholder="Name">
+	<input type="text" v-model="form.username" @keyup.enter="registerUser" placeholder="Name">
 	<br><br>
-	<input type="email" v-model="user.email" @keyup.enter="registerUser" placeholder="Email">
+	<input type="email" v-model="form.email" @keyup.enter="registerUser" placeholder="Email">
 	<br><br>
-	<input type="password" v-model="user.password" @keyup.enter="registerUser" placeholder="Password">
+	<input type="password" v-model="form.password" @keyup.enter="registerUser" placeholder="Password">
 	<br><br>
 	<button class="btn-block" type="button" @click="registerUser">Register</button>
 	<br><br>
-	<a href="" @click.prevent="store.isRegistering = !store.isRegistering">Login</a>
+	Already have an account? 
+	<a href="" @click.prevent="showLoginForm($event)">Login</a>
 </template>
 
 <script>
-import store from '../vuex/store'
+import { 
+	registerUser,
+	toggleAuthForm
+} from '../vuex/auth/actions'
 
 export default {
 	data() {
 		return {
-			store: store.state,
-			user: {
+			form: {
 				username: '',
 				email: '',
 				password: ''
 			}
+		}
+	},
+	vuex: {
+		actions: {
+			registerUser,
+			toggleAuthForm
+		}
+	},
+	methods: {
+		tryRegister ($event) {
+			this.registerUser(this.form.username, this.form.email, this.form.password)
+		},
+		showLoginForm ($event) {
+			this.toggleAuthForm('login')
 		}
 	}
 }
