@@ -20,16 +20,14 @@
 import store from '../vuex/store'
 import Login from './Login.vue'
 import Register from './Register.vue'
+import { authForm, isAuthenticated } from '../vuex/auth/getters'
 
-export default {	
-	data () {
-		return {}
-	},
+export default {
 	store,
 	vuex: {
 		getters: {
-			authForm: state => state.auth.authForm,
-			isAuthenticated: state => state.auth.isAuthenticated
+			authForm: authForm,
+			isAuthenticated: isAuthenticated,
 		},
 	},
 	components: {

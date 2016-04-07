@@ -16,6 +16,6 @@ Vue.config.debug = true
 emojify.setConfig({ mode: 'data-uri'})
 
 new Vue({
-  el: 'body',
-  components: { App }
+	el: 'body',
+	components: { App }
 })

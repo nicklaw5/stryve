@@ -1,10 +1,10 @@
 <template>
 	<h1>Login</h1>
-	<input type="text" v-model="form.email" @keyup.enter="tryLogin($event)" placeholder="Email">
+	<input type="text" v-model="form.email" @keyup.enter="attemptLogin($event)" placeholder="Email">
 	<br><br>
-	<input type="password" v-model="form.password" @keyup.enter="tryLogin($event)" placeholder="Password">
+	<input type="password" v-model="form.password" @keyup.enter="attemptLogin($event)" placeholder="Password">
 	<br><br>
-	<button class="btn-block" type="button" @click="tryLogin($event)">Log in</button>
+	<button class="btn-block" type="button" @click="attemptLogin($event)">Log in</button>
 	<br><br>
 	Haven't got an account? 
 	<a href="" @click.prevent="showRegistrationForm($event)">Register</a>
@@ -12,8 +12,8 @@
 
 <script>
 import { 
-	loginUser,
-	toggleAuthForm 
+	toggleAuthForm,
+	attemptUserLogin
 } from '../vuex/auth/actions'
 
 export default {
@@ -27,13 +27,13 @@ export default {
 	},
 	vuex: {
 		actions: {
-			loginUser,
-			toggleAuthForm
+			toggleAuthForm,
+			attemptUserLogin
 		}
 	},
 	methods: {
-		tryLogin ($event) {
-			this.loginUser(this.form.email, this.form.password)
+		attemptLogin ($event) {
+			this.attemptUserLogin(this.form)
 		},
 		showRegistrationForm ($event) {
 			this.toggleAuthForm('register')

@@ -1,6 +1,7 @@
 import { 
 	LOGIN_USER,
 	REGISTER_USER,
+	SET_ACCESS_TOKEN,
 	TOOGLE_AUTH_FORM,
 	TOGGLE_IS_AUTHENTICATED
 } from '../mutation-types'
@@ -15,11 +16,15 @@ const state = {
 const mutations = {
 	
 	[LOGIN_USER] (state, response) {
-		console.log(response)
+
   	},
 
   	[REGISTER_USER] (state, response) {
 		console.log(response)
+  	},
+
+  	[SET_ACCESS_TOKEN] (state, access_token) {
+  		localStorage.access_token = access_token
   	},
 
 	[TOOGLE_AUTH_FORM] (state, form) {

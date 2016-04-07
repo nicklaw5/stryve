@@ -5,18 +5,24 @@ export const toggleAuthForm = ({ dispatch }, form) => {
 	dispatch(types.TOOGLE_AUTH_FORM, form)
 }
 
-export const toggleIsAuthenticated = ({ dispatch }) => {
-	dispatch(types.TOGGLE_IS_AUTHENTICATED)
-}
+// export const toggleIsAuthenticated = ({ dispatch }) => {
+// 	dispatch(types.TOGGLE_IS_AUTHENTICATED)
+// }
 
-export const loginUser = ({ dispatch }, email, password) => {
-	api.createAuthSession({ email, password }, res => {
-		dispatch(types.LOGIN_USER, res)
+export const attemptUserLogin = ({ dispatch }, payload) => {
+	api.createAuthSession(payload, response => {
+		if(response.code === 200) {
+			dispatch(types.TOGGLE_IS_AUTHENTICATED)
+			dispatch(types.SET_ACCESS_TOKEN, response.response.token)
+			return 'sasas';
+		} else {
+			// throw error here
+		}
 	})
 }
 
-export const registerUser = ({ dispatch }, username, email, password) => {
-	api.createNewUser({ username, email, password }, res => {
-		dispatch(types.REGISTER_USER, res)
+export const attemptUserRegistration = ({ dispatch }, payload) => {
+	api.createNewUser(payload, response => {
+		dispatch(types.REGISTER_USER, response)
 	})
 }
