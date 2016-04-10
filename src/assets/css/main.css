@@ -95,6 +95,9 @@ a:hover {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
+.text-danger { color: #ed3838 }
+.text-success { color: #2C9E6A }
+
 .float-right { float: right; }
 .float-left { float: left; }
 .clear { clear: both; }

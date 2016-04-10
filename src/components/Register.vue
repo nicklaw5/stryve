@@ -6,6 +6,7 @@
 	<br><br>
 	<input type="password" v-model="form.password" @keyup.enter="attemptRegistration($event)" placeholder="Password">
 	<br><br>
+	<auth-message :message="authMessage"></auth-message>
 	<button class="btn-block" type="button" @click="attemptRegistration($event)">Register</button>
 	<br><br>
 	Already have an account? 
@@ -14,9 +15,12 @@
 
 <script>
 import { 
+	setAuthMessage,
 	toggleAuthForm,
 	attemptUserRegistration
 } from '../vuex/auth/actions'
+import AuthMessage from './AuthMessage.vue'
+import { authMessage } from '../vuex/auth/getters'
 
 export default {
 	data() {
@@ -28,17 +32,28 @@ export default {
 			}
 		}
 	},
+	components: {
+		AuthMessage
+	},
+	created() {
+		this.setAuthMessage('', '')
+	},
 	vuex: {
+		getters: {
+			authMessage: authMessage
+		},
 		actions: {
+			setAuthMessage,
 			toggleAuthForm,
 			attemptUserRegistration
 		}
 	},
 	methods: {
-		attemptRegistration ($event) {
+		attemptRegistration (event) {
+			this.setAuthMessage('success', 'Registering...')
 			this.attemptUserRegistration(this.form)
 		},
-		showLoginForm ($event) {
+		showLoginForm (event) {
 			this.toggleAuthForm('login')
 		}
 	}

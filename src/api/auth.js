@@ -1,18 +1,27 @@
 import * as ajax from '../utils/ajax'
 
 /**
- * Attempts to create an authenticated session with the API server.
+ * Create a user authenticated session.
  */
-export function createAuthSession(payload, cb) {
+export function postCreateAuthSession(payload, cb) {
 	ajax.post('auth/login', payload, null, cb, () => {
 		cb()
 	})
 }
 
 /**
- * Attempts to create a new user with the API server.
+ * Destroy a user authenticated session.
  */
-export function createNewUser(payload, cb) {
+export function postDestroyAuthSession(cb) {
+	ajax.post('auth/logout', null, true, cb, () => {
+		cb()
+	})
+}
+
+/**
+ * Create a new user.
+ */
+export function postCreateNewUser(payload, cb) {
 	ajax.post('auth/register', payload, null, cb, () => {
 		cb()
 	})

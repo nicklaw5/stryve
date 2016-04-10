@@ -48,11 +48,11 @@ module.exports = {
       }
     ]
   },
-  // node: {
-  //   fs: 'empty',
-  //   net: 'empty',
-  //   tls: 'empty'
-  // },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   devServer: {
     historyApiFallback: true,
     noInfo: true

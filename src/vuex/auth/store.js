@@ -1,38 +1,61 @@
-import { 
-	LOGIN_USER,
-	REGISTER_USER,
-	SET_ACCESS_TOKEN,
+import {
+	SET_USER,
+	LOGOUT_USER,
+	SET_AUTH_MESSAGE,
 	TOOGLE_AUTH_FORM,
-	TOGGLE_IS_AUTHENTICATED
+	AUTHENTICATE_USER,
+	DESTROY_ACCESS_TOKEN
 } from '../mutation-types'
 
-// initial state
+// initial module state
 const state = {
+	user: {},
 	authForm: 'login', // 'login' or 'register'
-	isAuthenticated: false
+	isAuthenticated: false,
+	authMessage: { tone: '', message: '' } // tone can be 'danger' or 'success'
 }
 
 // mutations
 const mutations = {
 	
-	[LOGIN_USER] (state, response) {
+	[SET_USER] (state, response) {
+		setIsAuthenticated(true)
+		setAuthMessage('', '')
+		state.user = response
+	},
 
-  	},
+	[SET_AUTH_MESSAGE] (state, tone, message) {
+		setAuthMessage(tone, message);
+	},
 
-  	[REGISTER_USER] (state, response) {
-		console.log(response)
-  	},
+	[AUTHENTICATE_USER] (state, response) {
+			setIsAuthenticated(true)
+			setAuthMessage('', '')
+			localStorage.access_token = response.token
+	},
 
-  	[SET_ACCESS_TOKEN] (state, access_token) {
-  		localStorage.access_token = access_token
-  	},
+	[LOGOUT_USER] (state) {
+		delete localStorage.access_token
+		setIsAuthenticated(false)
+	},
 
 	[TOOGLE_AUTH_FORM] (state, form) {
 		state.authForm = form
 	},
-	
-	[TOGGLE_IS_AUTHENTICATED] (state) {
-		state.isAuthenticated = !state.isAuthenticated
+
+	[DESTROY_ACCESS_TOKEN] (state) {
+		delete localStorage.access_token
+	}
+}
+
+function setIsAuthenticated(boolean) {
+	state.isAuthenticated = boolean
+}
+
+function setAuthMessage(tone, message) {
+	state.authMessage = {
+		tone: tone,
+		message: message
 	}
 }
 
@@ -40,3 +63,4 @@ export default {
   state,
   mutations
 }
+
