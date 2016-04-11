@@ -1,3 +1,5 @@
+import * as token from '../../utils/token'
+
 export function authForm (state) {
 	return state.auth.authForm
 }
@@ -7,7 +9,7 @@ export function isAuthenticated (state) {
 }
 
 export function getAccessToken (state) {
-	return localStorage.access_token
+	return token.get()
 }
 
 export function authMessage (state) {

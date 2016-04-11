@@ -38,7 +38,8 @@ export default {
 		if(typeof this.getAccessToken != 'undefined') {
 			this.setAuthMessage('success', 'Logging in...')
 			// attempt to login using access token
-			this.attemptUserAutomatedLogin()
+			// this.attemptUserAutomatedLogin()
+			this.attemptUserLogin(null, true)
 		} else {
 			this.setAuthMessage('', '')
 		}

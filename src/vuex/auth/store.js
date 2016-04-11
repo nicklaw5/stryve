@@ -1,11 +1,5 @@
-import {
-	SET_USER,
-	LOGOUT_USER,
-	SET_AUTH_MESSAGE,
-	TOOGLE_AUTH_FORM,
-	AUTHENTICATE_USER,
-	DESTROY_ACCESS_TOKEN
-} from '../mutation-types'
+import * as types from '../mutation-types'
+import * as token from '../../utils/token'
 
 // initial module state
 const state = {
@@ -18,32 +12,42 @@ const state = {
 // mutations
 const mutations = {
 	
-	[SET_USER] (state, response) {
+	[types.LOGIN_SUCCESS] (state, access_token) {
+		setAuthMessage('', '')
+		setIsAuthenticated(true)
+		token.set(access_token)
+	},
+
+	[types.LOGIN_FAILURE] (state, error) {
+		setAuthMessage('danger', error)
+	},
+
+	[types.SET_USER] (state, response) {
 		setIsAuthenticated(true)
 		setAuthMessage('', '')
 		state.user = response
 	},
 
-	[SET_AUTH_MESSAGE] (state, tone, message) {
+	[types.SET_AUTH_MESSAGE] (state, tone, message) {
 		setAuthMessage(tone, message);
 	},
 
-	[AUTHENTICATE_USER] (state, response) {
+	[types.AUTHENTICATE_USER] (state, response) {
 			setIsAuthenticated(true)
 			setAuthMessage('', '')
 			localStorage.access_token = response.token
 	},
 
-	[LOGOUT_USER] (state) {
+	[types.LOGOUT_USER] (state) {
 		delete localStorage.access_token
 		setIsAuthenticated(false)
 	},
 
-	[TOOGLE_AUTH_FORM] (state, form) {
+	[types.TOOGLE_AUTH_FORM] (state, form) {
 		state.authForm = form
 	},
 
-	[DESTROY_ACCESS_TOKEN] (state) {
+	[types.DESTROY_ACCESS_TOKEN] (state) {
 		delete localStorage.access_token
 	}
 }

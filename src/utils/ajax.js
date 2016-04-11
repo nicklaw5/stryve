@@ -1,13 +1,14 @@
 import request from 'superagent'
+import * as token from './token'
 const base_url = 'http://api.stryve.io/api/'
 
-export function post(endpoint, body, authenticate, cb) {
+export function post(endpoint, body, useAccessToken, cb) {
 
-	if(authenticate) {
+	if(useAccessToken) {
 		request
 			.post(base_url + endpoint)
 			.set('Content-Type', 'application/json')
-			.set('Authorization', localStorage.access_token)
+			.set('Authorization', token.get())
 			.send((typeof body == 'object')? JSON.stringify(body) : '')
 			.end((err, res) => {
 				cb(res.body)
@@ -28,7 +29,7 @@ export function get(endpoint, body, authenticate, cb) {
 		request
 			.get(base_url + endpoint)
 			.set('Content-Type', 'application/json')
-			.set('Authorization', localStorage.access_token)
+			.set('Authorization', token.get())
 			.send((typeof body == 'object')? JSON.stringify(body) : '')
 			.end((err, res) => {
 				cb(res.body)
