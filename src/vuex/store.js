@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './app/store'
 import auth from './auth/store'
+import users from './users/store'
 import servers from './servers/store'
 import createLogger from '../middleware/logger'
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
 	modules: {
 		app,
 		auth,
+		users,
 		servers
 	},
 	strict: debug,

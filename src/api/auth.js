@@ -13,19 +13,24 @@ export function postCreateAuthSession(payload, tryAccessToken, cb, errorCb) {
 }
 
 /**
- * Destroy a user authenticated session.
+ * Create a new user.
  */
-export function postDestroyAuthSession(cb) {
-	ajax.post('auth/logout', null, true, cb, () => {
-		cb()
+export function postCreateRegisteredUser(payload, cb, errorCb) {
+	ajax.post('auth/register', payload, null, res => {
+		(res.code === codes.CREATED)
+			? cb(res.response)
+			: errorCb(res.response)
 	})
 }
 
 /**
- * Create a new user.
+ * Destroy a user authenticated session.
  */
-export function postCreateNewUser(payload, cb) {
-	ajax.post('auth/register', payload, null, cb, () => {
-		cb()
+export function postDestroyAuthSession(cb, errorCb) {
+	ajax.post('auth/logout', null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
 	})
 }
+

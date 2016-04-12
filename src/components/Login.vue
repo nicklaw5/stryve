@@ -12,11 +12,10 @@
 </template>
 
 <script>
-import { 
+import {
 	setAuthMessage,
 	toggleAuthForm,
-	attemptUserLogin,
-	attemptUserAutomatedLogin
+	attemptUserLogin
 } from '../vuex/auth/actions'
 import AuthMessage from './AuthMessage.vue'
 import { authMessage, getAccessToken } from '../vuex/auth/getters'
@@ -34,14 +33,12 @@ export default {
 		AuthMessage
 	},
 	ready() {
-		// attempt to login using access token if available
+		// if available, attempt to login using access token
 		if(typeof this.getAccessToken != 'undefined') {
 			this.setAuthMessage('success', 'Logging in...')
-			// attempt to login using access token
-			// this.attemptUserAutomatedLogin()
 			this.attemptUserLogin(null, true)
 		} else {
-			this.setAuthMessage('', '')
+			// this.setAuthMessage('', '')
 		}
 	},
 	vuex: {
@@ -52,8 +49,7 @@ export default {
 		actions: {
 			setAuthMessage,
 			toggleAuthForm,
-			attemptUserLogin,
-			attemptUserAutomatedLogin
+			attemptUserLogin
 		}
 	},
 	methods: {

@@ -12,14 +12,29 @@ const state = {
 // mutations
 const mutations = {
 	
-	[types.LOGIN_SUCCESS] (state, access_token) {
-		setAuthMessage('', '')
-		setIsAuthenticated(true)
-		token.set(access_token)
+	[types.LOGIN_SUCCESS] (state, response) {
+		loginOrRegistrationSuccess(response)
 	},
 
-	[types.LOGIN_FAILURE] (state, error) {
-		setAuthMessage('danger', error)
+	[types.LOGIN_FAILURE] (state, response) {
+		token.destroy()
+		setAuthMessage('danger', response.errorMessage)
+	},
+
+	[types.LOGOUT_SUCCESS] (state, response) {
+		logoutSuccessOrFailure()
+	},
+
+	[types.LOGOUT_FAILURE] (state, response) {
+		logoutSuccessOrFailure()
+	},
+
+	[types.REGISTARTION_SUCCESS] (state, response) {
+		loginOrRegistrationSuccess(response)
+	},
+	
+	[types.REGISTARTION_FAILURE] (state, response) {
+		setAuthMessage('danger', response.errorMessage)
 	},
 
 	[types.SET_USER] (state, response) {
@@ -51,6 +66,19 @@ const mutations = {
 		delete localStorage.access_token
 	}
 }
+
+function logoutSuccessOrFailure() {
+	token.destroy()
+	setIsAuthenticated(false)
+	setAuthMessage('success', 'Successfully logged out.')
+}
+
+function loginOrRegistrationSuccess(response) {
+	setAuthMessage('', '')
+	setIsAuthenticated(true)
+	token.set(response.token)
+}
+
 
 function setIsAuthenticated(boolean) {
 	state.isAuthenticated = boolean

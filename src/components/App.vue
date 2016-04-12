@@ -1,12 +1,12 @@
 <template>
 	<!-- if authenticated -->
 	<div v-if="isAuthenticated">
-		<!-- <a href="" @click.prevent="attemptUserLogout($event)">Logout</a> -->
 		<server-list></server-list>
 		<div id="server-channels-container">
 			<contacts v-if="showContactsPanel"></contacts>
 			<server-channels v-else></server-channels>
 		</div>
+		<a href="" @click.prevent="attemptUserLogout()">Logout</a>
 		<!-- <channel-messages></channel-messages> -->
 	</div>
 	<!-- /if authenticated -->

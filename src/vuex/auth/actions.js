@@ -11,17 +11,6 @@ export const toggleAuthForm = ({ dispatch }, form) => {
 	dispatch(types.TOOGLE_AUTH_FORM, form)
 }
 
-export const attemptUserAutomatedLogin = ({ dispatch }) => {
-	users.getUserSelf(res => {
-		if(res.code === codes.OK) {
-			dispatch(types.SET_USER, res.response)
-		} else {
-			dispatch(types.SET_AUTH_MESSAGE, 'danger', 'Your session has expired. Log back in.')
-			dispatch(types.DESTROY_ACCESS_TOKEN)
-		}
-	})
-}
-
 // export const attemptUserLogin = ({ dispatch }, payload) => {
 // 	// create auth session with api server and get access token
 // 	auth.postCreateAuthSession(payload, res => {
@@ -43,28 +32,24 @@ export const attemptUserLogin = ({ dispatch }, payload, tryAccessToken) => {
 	// create auth session with api server and get access token
 	auth.postCreateAuthSession(
 		payload,
-		tryAccessToken? true : false,
-		succes 	=> { dispatch(types.LOGIN_SUCCESS, succes.token) },
-		error 	=> { dispatch(types.LOGIN_FAILURE, error.errorMessage) }
+		tryAccessToken,
+		cb 		=> { dispatch(types.LOGIN_SUCCESS, cb) },
+		errorCb	=> { dispatch(types.LOGIN_FAILURE, errorCb)	}
 	)
 }
 
-export const attemptUserLogout = ({ dispatch }, event) => {
-	// attempt to destroy session with api server
-	auth.postDestroyAuthSession(res => {
-		// Destroy access token and change isAuthenticated = false.
-		// Do this no matter what the api response is.
-		// If it fails we don't care, we still want to ...
-		// destroy the access token
-		dispatch(types.LOGOUT_USER)
-	})
+export const attemptUserRegistration = ({ dispatch }, payload) => {
+	auth.postCreateRegisteredUser(
+		payload, 
+		cb 		=> { dispatch(types.REGISTARTION_SUCCESS, cb) },
+		errorCb => { dispatch(types.REGISTARTION_FAILURE, errorCb) }
+	)
 }
 
-export const attemptUserRegistration = ({ dispatch }, payload) => {
-	auth.postCreateNewUser(payload, res => {
-		if(res.code === codes.CREATED)
-			dispatch(types.AUTHENTICATE_USER, res.response)
-		else
-			dispatch(types.SET_AUTH_MESSAGE, 'danger', res.response.errorMessage)
-	})
+export const attemptUserLogout = ({ dispatch }) => {
+	auth.postDestroyAuthSession(
+		cb 		=> { dispatch(types.LOGOUT_SUCCESS) },
+		errorCb => { dispatch(types.LOGOUT_FAILURE) }
+	)
 }
+
