@@ -15,7 +15,3 @@ export function getAccessToken (state) {
 export function authMessage (state) {
 	return state.auth.authMessage
 }
-
-export function user (state) {
-	return state.auth.user
-}

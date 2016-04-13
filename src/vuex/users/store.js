@@ -9,6 +9,13 @@ const state = {
 // mutations
 const mutations = {
 	
+	[types.FETCH_USER_SUCCESS] (state, response) {
+		state.user = response
+	},
+
+	[types.FETCH_USER_FAILURE] (state, response) {
+		console.log(response)
+	}
 }
 
 export default {

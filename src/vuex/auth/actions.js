@@ -1,55 +1,42 @@
 import * as types from '../mutation-types'
 import * as auth from '../../api/auth'
-import * as users from '../../api/users'
-import * as codes from '../../utils/response-codes'
+import { fetchUser } from '../users/actions'
 
-export const setAuthMessage = ({ dispatch }, tone, message) => {
-	dispatch(types.SET_AUTH_MESSAGE, tone, message)
+export const toggleAuthForm = (store, form) => {
+	store.dispatch(types.TOOGLE_AUTH_FORM, form)
 }
 
-export const toggleAuthForm = ({ dispatch }, form) => {
-	dispatch(types.TOOGLE_AUTH_FORM, form)
+export const setAuthMessage = (store, tone, message) => {
+	store.dispatch(types.SET_AUTH_MESSAGE, tone, message)
 }
 
-// export const attemptUserLogin = ({ dispatch }, payload) => {
-// 	// create auth session with api server and get access token
-// 	auth.postCreateAuthSession(payload, res => {
-// 		if(res.code === codes.CREATED) {
-// 			// save access token to localStorage
-// 			dispatch(types.AUTHENTICATE_USER, res.response)
-// 			// get the authenticated users info
-// 			users.getUserSelf(res => {
-// 				if(res.code === codes.OK) {
-// 					// save user info to state
-// 					dispatch(types.SET_USER, res.response)
-// 				}
-// 			})
-// 		}
-// 	})
-// }
-
-export const attemptUserLogin = ({ dispatch }, payload, tryAccessToken) => {
-	// create auth session with api server and get access token
+export const attemptUserLogin = (store, payload, tryAccessToken) => {
 	auth.postCreateAuthSession(
 		payload,
 		tryAccessToken,
-		cb 		=> { dispatch(types.LOGIN_SUCCESS, cb) },
-		errorCb	=> { dispatch(types.LOGIN_FAILURE, errorCb)	}
+		cb 		=> { 
+			store.dispatch(types.LOGIN_SUCCESS, cb)
+			fetchUser(store)
+		},
+		errorCb	=> { store.dispatch(types.LOGIN_FAILURE, errorCb) }
 	)
 }
 
-export const attemptUserRegistration = ({ dispatch }, payload) => {
+export const attemptUserRegistration = (store, payload) => {
 	auth.postCreateRegisteredUser(
 		payload, 
-		cb 		=> { dispatch(types.REGISTARTION_SUCCESS, cb) },
-		errorCb => { dispatch(types.REGISTARTION_FAILURE, errorCb) }
+		cb 		=> { 
+			store.dispatch(types.REGISTARTION_SUCCESS, cb)
+			fetchUser(store)
+		},
+		errorCb => { store.dispatch(types.REGISTARTION_FAILURE, errorCb) }
 	)
 }
 
-export const attemptUserLogout = ({ dispatch }) => {
+export const attemptUserLogout = (store) => {
 	auth.postDestroyAuthSession(
-		cb 		=> { dispatch(types.LOGOUT_SUCCESS) },
-		errorCb => { dispatch(types.LOGOUT_FAILURE) }
+		cb 		=> { store.dispatch(types.LOGOUT_SUCCESS) },
+		errorCb => { store.dispatch(types.LOGOUT_FAILURE) }
 	)
 }
 

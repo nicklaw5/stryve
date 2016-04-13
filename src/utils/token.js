@@ -1,16 +1,14 @@
-const ls = localStorage
-
 module.exports = {
 
 	get: () => {
-		return ls.access_token
+		return localStorage.access_token
 	},
 
 	set: token => {
-		ls.access_token = token
+		localStorage.access_token = token
 	},
 
 	destroy: () => {
-		delete ls.access_token
+		delete localStorage.access_token
 	}
 }

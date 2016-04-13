@@ -37,8 +37,6 @@ export default {
 		if(typeof this.getAccessToken != 'undefined') {
 			this.setAuthMessage('success', 'Logging in...')
 			this.attemptUserLogin(null, true)
-		} else {
-			// this.setAuthMessage('', '')
 		}
 	},
 	vuex: {

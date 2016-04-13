@@ -60,10 +60,10 @@ export default {
 	},
 	methods: {
 		changeServers(event, server) {
-			this.setShowContactsPanel(false)
-			this.emptyServerChannels()
 			this.switchServers(server)
-			this.retrieveServerChannels(server)
+			// this.setShowContactsPanel(false)
+			// this.emptyServerChannels()
+			// this.retrieveServerChannels(server)
 		},
 		contactsPanel(event) {
 			this.resetServerList()

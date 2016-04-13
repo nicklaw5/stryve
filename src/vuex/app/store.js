@@ -1,6 +1,4 @@
-import {
-	SET_SHOW_CONTACTS_PANEL
-} from '../mutation-types'
+import * as types from '../mutation-types'
 
 // initial module state
 const state = {
@@ -10,9 +8,9 @@ const state = {
 // mutations
 const mutations = {
 	
-	[SET_SHOW_CONTACTS_PANEL] (state, boolean) {
+	[types.SHOW_CONTACTS_PANEL] (state, boolean) {
 		state.showContactsPanel = boolean
-	},
+	}
 }
 
 export default {

@@ -3,7 +3,6 @@ import * as token from '../../utils/token'
 
 // initial module state
 const state = {
-	user: {},
 	authForm: 'login', // 'login' or 'register'
 	isAuthenticated: false,
 	authMessage: { tone: '', message: '' } // tone can be 'danger' or 'success'
@@ -29,41 +28,20 @@ const mutations = {
 		logoutSuccessOrFailure()
 	},
 
-	[types.REGISTARTION_SUCCESS] (state, response) {
+	[types.REGISTRATION_SUCCESS] (state, response) {
 		loginOrRegistrationSuccess(response)
 	},
 	
-	[types.REGISTARTION_FAILURE] (state, response) {
+	[types.REGISTRATION_FAILURE] (state, response) {
 		setAuthMessage('danger', response.errorMessage)
 	},
 
-	[types.SET_USER] (state, response) {
-		setIsAuthenticated(true)
-		setAuthMessage('', '')
-		state.user = response
-	},
-
 	[types.SET_AUTH_MESSAGE] (state, tone, message) {
-		setAuthMessage(tone, message);
-	},
-
-	[types.AUTHENTICATE_USER] (state, response) {
-			setIsAuthenticated(true)
-			setAuthMessage('', '')
-			localStorage.access_token = response.token
-	},
-
-	[types.LOGOUT_USER] (state) {
-		delete localStorage.access_token
-		setIsAuthenticated(false)
+		setAuthMessage(tone, message)
 	},
 
 	[types.TOOGLE_AUTH_FORM] (state, form) {
 		state.authForm = form
-	},
-
-	[types.DESTROY_ACCESS_TOKEN] (state) {
-		delete localStorage.access_token
 	}
 }
 

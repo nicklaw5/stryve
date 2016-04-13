@@ -1,7 +1,9 @@
 import * as types from '../mutation-types'
 import * as users from '../../api/users'
-import * as codes from '../../utils/response-codes'
 
-export const setAuthMessage = ({ dispatch }, ) => {
-	// dispatch(types.SET_AUTH_MESSAGE, tone, message)
+export const fetchUser = (store) => {
+	users.getUserSelf(
+		cb 		=> { store.dispatch(types.FETCH_USER_SUCCESS, cb) },
+		errorCb => { store.dispatch(types.FETCH_USER_FAILURE, errorCb) }
+	)
 }
