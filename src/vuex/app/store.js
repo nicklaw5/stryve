@@ -2,14 +2,14 @@ import * as types from '../mutation-types'
 
 // initial module state
 const state = {
-	showContactsPanel: true
+	channelsPanel: 'contacts' // 'contacts' or 'channels'
 }
 
 // mutations
 const mutations = {
 	
-	[types.SHOW_CONTACTS_PANEL] (state, boolean) {
-		state.showContactsPanel = boolean
+	[types.SWITCH_CHANNELS_PANEL] (state, panel) {
+		state.channelsPanel = panel
 	}
 }
 

@@ -1,3 +1,3 @@
-export function showContactsPanel (state) {
-	return state.app.showContactsPanel;
+export function getChannelPanel (state) {
+	return state.app.channelsPanel;
 }

@@ -14,7 +14,7 @@ export const attemptUserLogin = (store, payload, tryAccessToken) => {
 	auth.postCreateAuthSession(
 		payload,
 		tryAccessToken,
-		cb 		=> { 
+		cb 	=> { 
 			store.dispatch(types.LOGIN_SUCCESS, cb)
 			fetchUser(store)
 		},
@@ -25,7 +25,7 @@ export const attemptUserLogin = (store, payload, tryAccessToken) => {
 export const attemptUserRegistration = (store, payload) => {
 	auth.postCreateRegisteredUser(
 		payload, 
-		cb 		=> { 
+		cb => { 
 			store.dispatch(types.REGISTARTION_SUCCESS, cb)
 			fetchUser(store)
 		},

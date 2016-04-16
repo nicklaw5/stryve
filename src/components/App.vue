@@ -3,7 +3,7 @@
 	<div v-if="isAuthenticated">
 		<server-list></server-list>
 		<div id="server-channels-container">
-			<contacts v-if="showContactsPanel"></contacts>
+			<contacts v-if="contactsPanel == 'contacts'"></contacts>
 			<server-channels v-else></server-channels>
 		</div>
 		<a href="" @click.prevent="attemptUserLogout()">Logout</a>
@@ -34,20 +34,17 @@ import ServerChannels from './ServerChannels.vue'
 import ChannelMessages from './ChannelMessages.vue'
 
 // getters
-import { showContactsPanel } from '../vuex/app/getters'
+import { getChannelPanel } from '../vuex/app/getters'
 import { authForm, isAuthenticated } from '../vuex/auth/getters'
 import { setAuthMessage, attemptUserLogout } from '../vuex/auth/actions'
 
 export default {
-	created() {
-		
-	},
 	store,
 	vuex: {
 		getters: {
 			authForm: authForm,
 			isAuthenticated: isAuthenticated,
-			showContactsPanel: showContactsPanel
+			contactsPanel: getChannelPanel
 		},
 		actions: {
 			setAuthMessage,

@@ -37,7 +37,7 @@
 			<ul class="icons">
 				<li>
 					<i class="icon-move-left"
-						@click="showLogOutModal()"
+						@click="attemptUserLogout()"
 						@mouseover="showLogOutTooltip($event)"
 						@mouseleave="hideTooltips()">
 					</i>
@@ -54,18 +54,22 @@
 </template>
 
 <script>
-import { user } from '../vuex/auth/getters'
-import { getServer, getChannel, getChannels } from '../vuex/servers/getters'
+import { getUser } from '../vuex/users/getters'
+import { getServer } from '../vuex/servers/getters'
+import { getChannel, getChannels } from '../vuex/channels/getters'
+import { attemptUserLogout } from '../vuex/auth/actions'
 
 export default {
 	vuex: {
 		getters: {
-			user: user,
+			user: getUser,
 			server: getServer,
 			channel: getChannel,
 			channels: getChannels
 		},
-		actions: {}
+		actions: {
+			attemptUserLogout
+		}
 	},
 	methods: {
 		

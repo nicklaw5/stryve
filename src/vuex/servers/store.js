@@ -1,10 +1,4 @@
-import { 
-	SWITCH_SERVERS,
-	RESET_SERVER_LIST,
-	EMPTY_SERVER_CHANNELS,
-	RETRIEVE_SERVERS_LIST,
-	RETRIEVE_SERVER_CHANNELS
-} from '../mutation-types'
+import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
 import _ from 'lodash'
 
@@ -32,39 +26,23 @@ const state = {
 		},
 		...
 	*/
-	],
-	serverChannel: {
-	/*
-	
-	*/
-	},
-	serverChannels: [
-	/*
-		{
-			uuid: string,
-			name: string,
-			active: bool,
-			avatar: string,
-			created_at: datetime,
-			updated_at: datetime
-		}
-	*/
 	]
 }
 
 // mutations
 const mutations = {
 	
-	[RESET_SERVER_LIST] (state) {
+	[types.RESET_ACTIVE_SERVER] (state) {
+		state.server = {}
 		for(var i = 0; i < state.servers.length; i++)
 			state.servers[i].active = false;
 	},
 
-	[EMPTY_SERVER_CHANNELS] (state) {
-		state.serverChannels = {}
+	[types.EMPTY_SERVER_LIST] (state) {
+		state.servers = []
 	},
 
-	[RETRIEVE_SERVERS_LIST] (state, response) {
+	[types.FETCH_SERVERS_SUCCESS] (state, response) {
 		// state.servers = response
 		var servers = response
 
@@ -75,9 +53,12 @@ const mutations = {
 		state.servers = servers
 	},
 
-	[SWITCH_SERVERS] (state, server) {
-		var index = null
+	[types.FETCH_SERVERS_FAILURE] (state, response) {
+		// TODO
+		console.log(response)
+	},
 
+	[types.SWITCH_SERVERS] (state, server) {
 		// deal with current server connection
 		if(!helpers.isEmptyObject(server)) {
 			// don't connect we're already connected to this server
@@ -97,14 +78,13 @@ const mutations = {
 			// this.disconnectFromChatServer();
 		}
 
-		index = _.findIndex(state.servers, ['active', true])
+		let index = _.findIndex(state.servers, ['active', true])
 		if(index  !== -1)
 			state.servers[index].active = false
 
 		index = _.findIndex(state.servers, ['uuid', server.uuid])
 		state.servers[index].active = true
 		state.server = state.servers[index]
-
 
 		// // prepare request for channels
 		// this.setRequestOptions('get', 'servers/' + server.uuid + '?channels=true', null, true);
@@ -129,39 +109,6 @@ const mutations = {
 		// 	}
 		// }.bind(this));
 	},
-
-	[RETRIEVE_SERVER_CHANNELS] (state, channels) {
-
-		// instantiate chat channels
-		if(typeof channels != 'undefined') {
-
-			// add additional attribute to each channel
-			for(var i = 0; i < channels.length; i++) {
-				channels[i]['active'] = false;
-				channels[i]['ready'] = false;
-				channels[i]['listening'] = false;
-				channels[i]['users'] = [];
-				channels[i]['events'] = [];
-			}
-
-			// set the available channels in this server
-			state.serverChannels = channels;
-
-			// check that we have channels to subscribe to
-			if(state.serverChannels.length < 1) {
-				// there are no channels, lets prompt the user to create one
-				// this.showNewChannelModal();
-			} else {
-				// TODO:: join last known channel (add as a possible user setting)
-
-				// join the first channel in the list
-				// this.switchChatChannels(this.chat_channels[0]);
-			}
-
-		} else {
-			state.serverChannels = [];
-		}
-	}
 }
 
 export default {

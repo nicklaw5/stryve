@@ -2,7 +2,7 @@
 	<div id="server-list-container">
 		<ul>
 			<li @click="contactsPanel($event)"
-				:class="{'active': showContactsPanel }">
+				:class="{'active': getchannelPanel == 'contacts' }">
 				<i class="icon-users"></i>
 			</li>
 		</ul>
@@ -26,49 +26,36 @@
 
 <script>
 import { getServers } from '../vuex/servers/getters'
-import { showContactsPanel } from '../vuex/app/getters'
-import { setShowContactsPanel } from '../vuex/app/actions'
-import { 
-	switchServers,
-	resetServerList,
-	retrieveServerList,
-	emptyServerChannels,
-	retrieveServerChannels,
-} from '../vuex/servers/actions'
+import { getChannelPanel } from '../vuex/app/getters'
+import { switchChannelsPanel } from '../vuex/app/actions'
+import { switchServers, fetchServerList } from '../vuex/servers/actions'
+
 
 export default {
 	created() {
-		this.retrieveServerList()
+		this.fetchServerList()
 	},
 	ready() {
-		// resize window fix (temporary -- this needs to be fixed)
+		// TODO resize window fix (temporary -- this needs to be fixed)
 		window.dispatchEvent(new Event('resize'))
 	},
 	vuex: {
 		getters: {
 			servers: getServers,
-			showContactsPanel: showContactsPanel
+			getchannelPanel: getChannelPanel
 		},
 		actions: {
 			switchServers,
-			resetServerList,
-			retrieveServerList,
-			emptyServerChannels,
-			setShowContactsPanel,
-			retrieveServerChannels
+			fetchServerList,
+			switchChannelsPanel
 		}
 	},
 	methods: {
 		changeServers(event, server) {
 			this.switchServers(server)
-			// this.setShowContactsPanel(false)
-			// this.emptyServerChannels()
-			// this.retrieveServerChannels(server)
 		},
 		contactsPanel(event) {
-			this.resetServerList()
-			this.emptyServerChannels()
-			this.setShowContactsPanel(true)
+			this.switchChannelsPanel('contacts')
 		}
 	}
 }
