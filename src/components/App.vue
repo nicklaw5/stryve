@@ -3,10 +3,10 @@
 	<div v-if="isAuthenticated">
 		<server-list></server-list>
 		<div id="server-channels-container">
-			<contacts v-if="contactsPanel == 'contacts'"></contacts>
-			<server-channels v-else></server-channels>
+			<contacts-panel v-if="contactsPanel == 'contacts'"></contacts-panel>
+			<channels-panel v-else></channels-panel>
+			<user-panel></user-panel>
 		</div>
-		<a href="" @click.prevent="attemptUserLogout()">Logout</a>
 		<!-- <channel-messages></channel-messages> -->
 	</div>
 	<!-- /if authenticated -->
@@ -27,11 +27,13 @@ import store from '../vuex/store'
 
 // components
 import Login from './Login.vue'
-import Contacts from './Contacts.vue'
 import Register from './Register.vue'
 import ServerList from './ServerList.vue'
-import ServerChannels from './ServerChannels.vue'
+import ContactsPanel from './ContactsPanel.vue'
+import ChannelsPanel from './ChannelsPanel.vue'
 import ChannelMessages from './ChannelMessages.vue'
+
+import UserPanel from './UserPanel.vue'
 
 // getters
 import { getChannelPanel } from '../vuex/app/getters'
@@ -53,10 +55,11 @@ export default {
 	},
 	components: {
 		Login,
-		Contacts,
 		Register,
+		UserPanel,
 		ServerList,
-		ServerChannels,
+		ChannelsPanel,
+		ContactsPanel,
 		ChannelMessages
 	}
 }

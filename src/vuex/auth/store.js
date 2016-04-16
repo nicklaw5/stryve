@@ -41,22 +41,28 @@ const mutations = {
 	},
 
 	[types.TOOGLE_AUTH_FORM] (state, form) {
-		state.authForm = form
+		setAuthForm(form)
+	},
+
+	[types.SET_IS_AUTHENTICATED] (state, boolean) {
+		state.isAuthenticated = boolean
 	}
+}
+
+function setAuthForm(form) {
+	state.authForm = form
 }
 
 function logoutSuccessOrFailure() {
 	token.destroy()
+	setAuthForm('login')
 	setIsAuthenticated(false)
 	setAuthMessage('success', 'Successfully logged out.')
 }
 
 function loginOrRegistrationSuccess(response) {
-	setAuthMessage('', '')
-	setIsAuthenticated(true)
 	token.set(response.token)
 }
-
 
 function setIsAuthenticated(boolean) {
 	state.isAuthenticated = boolean

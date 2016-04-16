@@ -2,6 +2,10 @@ import * as types from '../mutation-types'
 import * as auth from '../../api/auth'
 import { fetchUser } from '../users/actions'
 
+export const setIsAuthenticated = (store, boolean) => {
+	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)
+}
+
 export const toggleAuthForm = (store, form) => {
 	store.dispatch(types.TOOGLE_AUTH_FORM, form)
 }
@@ -26,10 +30,10 @@ export const attemptUserRegistration = (store, payload) => {
 	auth.postCreateRegisteredUser(
 		payload, 
 		cb => { 
-			store.dispatch(types.REGISTARTION_SUCCESS, cb)
+			store.dispatch(types.REGISTRATION_SUCCESS, cb)
 			fetchUser(store)
 		},
-		errorCb => { store.dispatch(types.REGISTARTION_FAILURE, errorCb) }
+		errorCb => { store.dispatch(types.REGISTRATION_FAILURE, errorCb) }
 	)
 }
 
