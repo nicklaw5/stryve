@@ -1,7 +1,7 @@
 <template>
 	<div id="server-list-container">
 		<ul>
-			<li @click="contactsPanel($event)"
+			<li @click="switchChannelsPanel('contacts')"
 				:class="{'active': getchannelPanel == 'contacts' }">
 				<i class="icon-users"></i>
 			</li>
@@ -11,9 +11,7 @@
 
 		<ul>
 			<li v-for="server in servers"
-				@mouseover="showServerTooltip($event, server.name)"
-				@mouseleave="hideTooltips($event)"
-				@click="changeServers($event, server)"
+				@click="switchServers(server)"
 				:class="{'active': (server.active) }">
 				{{ server.name | capitalizeFirstLetter }}
 			</li>
@@ -48,14 +46,6 @@ export default {
 			switchServers,
 			fetchServerList,
 			switchChannelsPanel
-		}
-	},
-	methods: {
-		changeServers(event, server) {
-			this.switchServers(server)
-		},
-		contactsPanel(event) {
-			this.switchChannelsPanel('contacts')
 		}
 	}
 }

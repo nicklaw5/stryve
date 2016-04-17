@@ -11,3 +11,14 @@ export function getServersSelf(cb, errorCb) {
 			: errorCb(res.response)
 	})
 }
+
+/**
+ * Get the specified server.
+ */
+export function getServer(server, includeChannels, cb, errorCb) {
+	ajax.get('servers/' + server.uuid + ((includeChannels)? '?channels=true' : '' ), null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}

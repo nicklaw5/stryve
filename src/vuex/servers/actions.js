@@ -2,21 +2,37 @@ import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
 import { getChannelPanel } from '../app/getters'
 import { switchChannelsPanel } from '../app/actions'
-import { fetchServerChannels, emptyServerChannels } from '../channels/actions'
 
 export const switchServers = (store, server) => {
 	store.dispatch(types.SWITCH_SERVERS, server)
 	switchChannelsPanel(store, 'channels')
-	emptyServerChannels(store)
-	fetchServerChannels(store, server)
+	emptyChannelList(store)
+	fetchServer(store, server, true)
 }
 
 export const resetActiveServer = (store) => {
 	store.dispatch(types.RESET_ACTIVE_SERVER)
 }
 
+export const emptyChannelList = (store) => {
+	store.dispatch(types.EMPTY_CHANNEL_LIST)
+}
+
 export const emptyServerList = (store) => {
 	store.dispatch(types.RESET_SERVER_LIST)
+}
+
+export const fetchServer = (store, server, includeChannels) => {
+	servers.getServer(
+		server,
+		includeChannels,
+		cb => {
+			store.dispatch(types.FETCH_SERVER_SUCCESS, cb)
+			connectToSocketServer(store, cb)
+			instantiateServerChannels(store, cb.channels)
+		},
+		errorCb	=> { store.dispatch(types.FETCH_SERVER_FAILURE, errorCb) }
+	)
 }
 
 export const fetchServerList = (store) => {
@@ -24,4 +40,16 @@ export const fetchServerList = (store) => {
 		cb 		=> { store.dispatch(types.FETCH_SERVERS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_SERVERS_FAILURE, errorCb) }
 	)
+}
+
+export const connectToSocketServer = (store, server) => {
+	store.dispatch(types.CONNECT_TO_SOCKET_SERVER, server)
+}
+
+export const disconnectToSocketServer = (store) => {
+	
+}
+
+export const instantiateServerChannels = (store, channels) => {
+	store.dispatch(types.INSTANTIATE_CHANNELS, channels)
 }

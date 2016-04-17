@@ -18,8 +18,7 @@ export default new Vuex.Store({
 		app,
 		auth,
 		users,
-		servers,
-		channels
+		servers
 	},
 	strict: debug,
 	middlewares: debug ? [createLogger()] : []

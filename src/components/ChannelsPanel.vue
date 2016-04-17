@@ -30,7 +30,7 @@
 
 <script>
 import { getServer } from '../vuex/servers/getters'
-import { getChannel, getChannels } from '../vuex/channels/getters'
+import { getChannel, getChannels } from '../vuex/servers/getters'
 
 
 export default {

@@ -7,7 +7,7 @@
 			<channels-panel v-else></channels-panel>
 			<user-panel></user-panel>
 		</div>
-		<!-- <channel-messages></channel-messages> -->
+		<channel-container></channel-container>
 	</div>
 	<!-- /if authenticated -->
 
@@ -31,7 +31,7 @@ import Register from './Register.vue'
 import ServerList from './ServerList.vue'
 import ContactsPanel from './ContactsPanel.vue'
 import ChannelsPanel from './ChannelsPanel.vue'
-import ChannelMessages from './ChannelMessages.vue'
+import ChannelContainer from './ChannelContainer.vue'
 
 import UserPanel from './UserPanel.vue'
 
@@ -60,7 +60,7 @@ export default {
 		ServerList,
 		ChannelsPanel,
 		ContactsPanel,
-		ChannelMessages
+		ChannelContainer
 	}
 }
 </script>

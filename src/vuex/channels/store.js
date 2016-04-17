@@ -4,11 +4,7 @@ import _ from 'lodash'
 
 // initial module state
 const state = {
-	channel: {
-	/*
-	
-	*/
-	},
+	channel: {},
 	channels: [
 	/*
 		{
@@ -30,7 +26,7 @@ const mutations = {
 		state.channels = []
 	},
 
-	[types.FETCH_CHANNELS_SUCCESS] (state, channels) {
+	[types.INSTANTIATE_CHANNELS] (state, channels) {
 		// instantiate chat channels
 		if(typeof channels != 'undefined') {
 
@@ -60,11 +56,6 @@ const mutations = {
 		} else {
 			state.channels = [];
 		}
-	},
-
-	[types.FETCH_CHANNELS_FAILURE] (state, response) {
-		// TODO
-		console.log(response)
 	}
 
 }

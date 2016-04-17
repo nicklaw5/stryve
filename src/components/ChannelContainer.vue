@@ -3,7 +3,7 @@
 		<div id="channel-messages-header-wrapper">
 			<div id="channel-messages-header-left">
 				<h3 v-show="chatChannelActive">
-					<span class="hashtag">#</span><span class="channel">{{ chat_channel.name }}</span>
+					<span class="hashtag">#</span><span class="channel">{{ channel.name }}</span>
 				</h3>				
 			</div>
 
@@ -24,7 +24,7 @@
 							<span><i class="icon-share"></i></span>
 						</div>
 						<div id="user-message-input">
-							<input id="chat_message" v-model="chat_message" @keyup.enter="sendMessage()" type="text" placeholder="Chat in {{ chat_channel.name }}..." autocomplete="off">
+							<input id="chat_message" v-model="chat_message" @keyup.enter="sendMessage()" type="text" placeholder="Chat in {{ channel.name }}..." autocomplete="off">
 							<span class="icon-grid"></span>
 						</div>
 					</div>
@@ -32,7 +32,7 @@
 			</div>
 			<div id="messages-container">
 				<ul>
-					<li v-for="event in chat_channel.events">
+					<li v-for="event in channel.events">
 						<div v-if="event.event_type == 'user_message'">
 							<div>
 								<span class="username">{{ event.owner_username }}</span>
@@ -51,30 +51,26 @@
 			</div>
 		</div>
 
-		<div id="channel-users">
-			<ul>
-				<li>
-					<div class="avatar">
-						<span>{{ user.username | getFirstLetterUppercase }}</span>
-					</div>
-					<div class="username">{{ user.username }}</div>
-				</li>
-			</ul>
-		</div>
+		<channel-users v-if="channelPanel == 'channels'"></channel-users>
+				
 	</div>
 </template>
 
 <script>
+import ChannelUsers from './ChannelUsers.vue'
+import { getUser } from '../vuex/users/getters'
+import { getChannel } from '../vuex/servers/getters'
+import { getChannelPanel } from '../vuex/app/getters'
+
 export default {
-	data() {
-		return { }
-	},
-	created() {
-		
+	components: {
+		ChannelUsers
 	},
 	vuex: {
 		getters: {
-			
+			user: getUser,
+			channel: getChannel,
+			channelPanel: getChannelPanel
 		},
 		actions: {
 			
