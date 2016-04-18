@@ -1,6 +1,5 @@
 import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
-import { getChannelPanel } from '../app/getters'
 import { switchChannelsPanel } from '../app/actions'
 
 export const switchServers = (store, server) => {

@@ -1,14 +1,13 @@
 import _ from 'lodash'
-// import store from '../store'
+import store from '../store'
 import io from 'socket.io-client'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import { disconnectToServer } from './actions'
-// import { setUserSocketId } from '../users/actions'
+import { switchServers, disconnectToServer } from './actions'
+import { setUserSocketId } from '../users/actions'
 
 // initial module state
 const state = {
-	socket: {},
 	channel: {},
 	channels: [
 	/*
@@ -23,14 +22,14 @@ const state = {
 	*/
 	],
 	server : {
-	/*
-		uuid: string,
-		name: string,
-		active: bool,
-		avatar: string,
-		created_at: datetime,
-		updated_at: datetime
-	*/
+	
+		uuid: 'string',
+		name: 'string',
+		active: 'bool',
+		avatar: 'string',
+		created_at: 'datetime',
+		updated_at: 'datetime'
+	
 	},
 	servers: [
 	/*
@@ -172,61 +171,65 @@ const mutations = {
 		// 		// handle error
 		// 		handleFailedRequest(body);
 		// 	}
-		// }.bind(this));
+		// });
 	},
 
-	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {
-		state.socket = io(server.server_uri)
-		console.log(state.socket)
+	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {	
+		// console.log(window.socket)	
+		// if(typeof window.socket == 'undefined')
+			// window.socket = {}
 
-		// // connect to the socket if the user hasn't already
-		// if(helpers.isEmptyObject(state.socket)) {
-		// 	// state.socket = io(server.server_uri)
-		// 	console.log(state.socket)
+		// connect to the socket if the user hasn't already
+		if(helpers.isEmptyObject(window.socket)) {
+			window.socket = io(server.server_uri)
 
-		// 	// ON CONNECTION TO SERVER
-		// 	state.socket.on('connected', function(socket_id) {
-		// 		// set the users unique socket_id
-		// 		// setUserSocketId(store, socket_id)
+			// ON CONNECTION TO SERVER
+			window.socket.on('connected', socket_id => {
+				// set the users unique socket_id
+				setUserSocketId(store, window.socket.id)
 
-		// 		// send user and socket data back to server for logging
-		// 		// this.submitUserConnectedEvent();
-		// 	})
+				// send user and socket data back to server for logging
+				// TODO
+				// this.submitUserConnectedEvent();
+			})
+		
 
-		// 	// // ON USER CONNECTED EVENT
-		// 	// state.socket.on('user-connected', function(payload) {
-		// 	// 	console.log(payload);
-		// 	// }.bind(this));
+			// ON USER CONNECTED EVENT
+			window.socket.on('user-connected', function(payload) {
+				console.log(payload)
+			})
 
-		// 	// // ON USER DISCONNECTED EVENT
-		// 	// // state.socket.on('user-disconnected', function(payload) {
-		// 	// // 	console.log(payload);
-		// 	// // }.bind(this));
+			// ON USER DISCONNECTED EVENT
+			// window.socket.on('user-disconnected', function(payload) {
+			// 	console.log(payload);
+			// });
 
-		// 	// // ON ROOMS RESPONSE
-		// 	// state.socket.on('server-channels', function(payload) {
-		// 	// 	console.log(payload);
-		// 	// }.bind(this));
+			// ON ROOMS RESPONSE
+			window.socket.on('server-channels', function(payload) {
+				console.log(payload)
+			})
 
-		// // else if, check that the server hasn't changed
-		// // if it has we need to disconnect first
-		// // then reconnect to the new uri
-		// } else if(state.socket.io.uri !== server.server_uri) {
+		// else if, check that the server hasn't changed
+		// if it has we need to disconnect first
+		// then reconnect to the new uri
+		} else if(window.socket.io.uri != server.server_uri) {
 
-		// 	console.log('disconnecting from ' + state.socket.io.uri);
-		// 	this.disconnectFromChatServer();
+			console.log('disconnecting from ' + window.socket.io.uri);
+			disconnectFromSocketServer();
 
-		// 	// reset the socket
-		// 	state.socket = {};
+			// reset the socket
+			window.socket = {};
 
-		// 	// connect to the new server
-		// 	console.log('connecting to ' + server.server_uri);
-		// 	this.connectToChatServer(server);
+			// connect to the new server
+			console.log('connecting to ' + server.server_uri);
+			// this.connectToChatServer(server);
+			// switchServers(store, server)
 
-		// // else, use current socket connection
-		// } else {
-		// 	// do nothing, we're already connected to the correct server
-		// }
+		// else, use current socket connection
+		} else {
+			// do nothing, we're already connected to the correct server
+			console.log('already connected to this server')
+		}
 	},
 
 	[types.DISCONNECT_FROM_SOCKET_SERVER] (state) {
@@ -235,9 +238,9 @@ const mutations = {
 }
 
 function disconnectFromSocketServer() {
-	if(!helpers.isEmptyObject(state.server)) {
-		state.socket.disconnect();
-		state.socket = {};
+	if(!helpers.isEmptyObject(window.socket)) {
+		window.socket.disconnect();
+		window.socket = {};
 	}
 }
 

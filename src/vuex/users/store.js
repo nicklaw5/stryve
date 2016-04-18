@@ -1,3 +1,4 @@
+import { set } from 'vue'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 
@@ -18,13 +19,7 @@ const mutations = {
 	},
 
 	[types.SET_USER_SOCKET_ID] (state, socket_id) {
-		state.user['socket_id'] = state.socket.id;
-		console.log(user)
-		// if(typeof state.user.socket_id == 'undefined'){
-		// 	state.user['socket_id'] = state.socket.id;
-		// } else {
-		// 	state.user.socket_id = socket_id;
-		// }
+		set(state.user, 'socket_id', socket_id);
 	}
 }
 

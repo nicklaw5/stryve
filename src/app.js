@@ -16,6 +16,9 @@ import './utils/sizer'
 Vue.config.debug = true
 emojify.setConfig({ mode: 'data-uri'})
 
+// create global socket object
+window.socket = {}
+
 new Vue({
 	el: 'body',
 	components: { App }

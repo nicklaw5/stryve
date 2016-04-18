@@ -18,5 +18,4 @@ export const fetchUser = (store) => {
 
 export const setUserSocketId = (store, socketId) => {
 	store.dispatch(types.SET_USER_SOCKET_ID, socketId)
-	console.log(socketId)
 }
