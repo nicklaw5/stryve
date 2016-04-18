@@ -1,9 +1,10 @@
 import * as types from '../mutation-types'
-import { resetActiveServer } from '../servers/actions'
+import { resetActiveServer, disconnectFromSocketServer } from '../servers/actions'
 
-export const switchChannelsPanel = ({ dispatch }, panel) => {
+export const switchChannelsPanel = (store, panel) => {
 	if(panel === 'contacts') {
 		resetActiveServer(store)
+		disconnectFromSocketServer(store)
 	}
-	dispatch(types.SWITCH_CHANNELS_PANEL, panel)
+	store.dispatch(types.SWITCH_CHANNELS_PANEL, panel)
 }

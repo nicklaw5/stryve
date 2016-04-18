@@ -45,8 +45,8 @@ export const connectToSocketServer = (store, server) => {
 	store.dispatch(types.CONNECT_TO_SOCKET_SERVER, server)
 }
 
-export const disconnectToSocketServer = (store) => {
-	
+export const disconnectFromSocketServer = (store) => {
+	store.dispatch(types.DISCONNECT_FROM_SOCKET_SERVER)
 }
 
 export const instantiateServerChannels = (store, channels) => {
