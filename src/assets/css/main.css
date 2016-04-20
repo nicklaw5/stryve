@@ -577,6 +577,10 @@ a:hover {
 .channel-event > span.unsubscriber {
 	color: #ed3838;
 }
+.channel-event-link {
+	cursor: pointer;
+}
+
 #channel-users {
 	padding: 20px 0px;
 	background: #2e3136;

@@ -14,9 +14,8 @@
 	<div id="channels-list">
 		<ul>
 			<li v-for="channel in channels"
-				v-bind:class="{ 'listening': channel.listening, 'active': channel.active }">
-				<span class="channel-name"
-						@click="switchChatChannels(channel)">
+				:class="{ 'listening': channel.listening, 'active': channel.active }">
+				<span class="channel-name" @click="switchChannels(channel)">
 					<span class="hashtag">#</span>{{ channel.name }}
 				</span>
 				<span class="icons">
@@ -30,15 +29,17 @@
 
 <script>
 import { getServer } from '../vuex/servers/getters'
-import { getChannel, getChannels } from '../vuex/servers/getters'
-
+import { getChannels } from '../vuex/servers/getters'
+import { switchChannels } from '../vuex/servers/actions'
 
 export default {
 	vuex: {
 		getters: {
 			server: getServer,
-			channel: getChannel,
 			channels: getChannels
+		},
+		actions: {
+			switchChannels
 		}
 	}
 }

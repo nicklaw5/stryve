@@ -2,7 +2,7 @@
 	<div id="server-list-container">
 		<ul>
 			<li @click="switchChannelsPanel('contacts')"
-				:class="{'active': getchannelPanel == 'contacts' }">
+				:class="{'active': channelPanel == 'contacts' }">
 				<i class="icon-users"></i>
 			</li>
 		</ul>
@@ -28,7 +28,6 @@ import { getChannelPanel } from '../vuex/app/getters'
 import { switchChannelsPanel } from '../vuex/app/actions'
 import { switchServers, fetchServerList } from '../vuex/servers/actions'
 
-
 export default {
 	created() {
 		this.fetchServerList()
@@ -40,7 +39,7 @@ export default {
 	vuex: {
 		getters: {
 			servers: getServers,
-			getchannelPanel: getChannelPanel
+			channelPanel: getChannelPanel
 		},
 		actions: {
 			switchServers,

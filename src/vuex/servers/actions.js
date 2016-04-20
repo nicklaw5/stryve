@@ -1,12 +1,26 @@
 import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
+import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
+import { getUser } from '../users/getters'
 
 export const switchServers = (store, server) => {
 	store.dispatch(types.SWITCH_SERVERS, server)
 	switchChannelsPanel(store, 'channels')
 	emptyChannelList(store)
 	fetchServer(store, server, true)
+}
+
+export const switchChannels = (store, channel) => {
+	store.dispatch(types.SWITCH_CHANNELS, channel)
+}
+
+export const getChannelEvents = (store, channel) => {
+	channels.fetchChannelEvents(
+		channel,
+		cb 		=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_FAILURE, errorCb) }
+	)
 }
 
 export const resetActiveServer = (store) => {

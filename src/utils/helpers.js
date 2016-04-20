@@ -12,9 +12,9 @@ module.exports = {
 	 */
 	capitalizeFirstLetter: value => {
 		if(typeof value != 'string')
-			throw new Error("The provided value is not a string");
+			throw new Error("The provided value is not a string")
 
-	    return value.charAt(0).toUpperCase();
+	    return value.charAt(0).toUpperCase()
 	},
 
 	/**
@@ -24,7 +24,7 @@ module.exports = {
 	 * @return boolean
 	 */
 	isEmptyString: value => {
-	 	return (value === '')? true : false;
+	 	return (value === '')? true : false
 	},
 
 	/**
@@ -34,7 +34,7 @@ module.exports = {
 	 * @return bool
 	 */
 	isNumeric: value => {
-	  	return !isNaN(parseFloat(value)) && isFinite(value);
+	  	return !isNaN(parseFloat(value)) && isFinite(value)
 	},
 
 	/**
@@ -45,13 +45,37 @@ module.exports = {
 	 */
 	isEmptyObject: obj => {
 		if(typeof obj != 'object')
-			return false;
+			return false
 
 	    for(var prop in obj) {
 	        if(obj.hasOwnProperty(prop))
-	            return false;
+	            return false
 	    }
-	    return true;
+	    return true
+	},
+
+	/**
+	 * Converts a http string to a clickable external link
+	 *
+	 * @param string $text
+	 * @return string
+	 */
+	linkify: text => {
+	    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+	    return text.replace(urlRegex, function(url) {
+	        return '<a class="channel-event-link" target="_blank" href="' + url + '">' + url + '</a>'
+	    })
+	},
+
+	/**
+	 * Updates the text displayed in the document title
+	 *
+	 * @param string $text
+	 * @return void
+	 */
+	updateTitleText: text => {
+		document.title = text
 	}
 
 };
+

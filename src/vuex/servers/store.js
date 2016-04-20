@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import store from '../store'
+import emojify from 'emojify.js'
 import io from 'socket.io-client'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import { switchServers, disconnectToServer } from './actions'
 import { setUserSocketId } from '../users/actions'
+import { switchServers, disconnectToServer, getChannelEvents } from './actions'
 
 // initial module state
 const state = {
@@ -149,91 +150,146 @@ const mutations = {
 		index = _.findIndex(state.servers, ['uuid', server.uuid])
 		state.servers[index].active = true
 		state.server = state.servers[index]
-
-		// // prepare request for channels
-		// this.setRequestOptions('get', 'servers/' + server.uuid + '?channels=true', null, true);
-
-		// // submit request
-		// request(this.getRequestOptions(), function (error, response, body) {
-		// 	// parse the response
-		// 	body =  JSON.parse(body);
-
-		// 	// handle success
-		// 	if (body.code == 200) {
-
-				// // connect to the server
-				// this.connectToChatServer(body.response);
-
-				// // prepare chat channels
-				// this.instantiateChatChannels(body.response.channels);
-
-		// 	} else {
-		// 		// handle error
-		// 		handleFailedRequest(body);
-		// 	}
-		// });
 	},
 
-	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {	
-		// console.log(window.socket)	
-		// if(typeof window.socket == 'undefined')
-			// window.socket = {}
-
-		// connect to the socket if the user hasn't already
-		if(helpers.isEmptyObject(window.socket)) {
-			window.socket = io(server.server_uri)
-
-			// ON CONNECTION TO SERVER
-			window.socket.on('connected', socket_id => {
-				// set the users unique socket_id
-				setUserSocketId(store, window.socket.id)
-
-				// send user and socket data back to server for logging
-				// TODO
-				// this.submitUserConnectedEvent();
-			})
-		
-
-			// ON USER CONNECTED EVENT
-			window.socket.on('user-connected', function(payload) {
-				console.log(payload)
-			})
-
-			// ON USER DISCONNECTED EVENT
-			// window.socket.on('user-disconnected', function(payload) {
-			// 	console.log(payload);
-			// });
-
-			// ON ROOMS RESPONSE
-			window.socket.on('server-channels', function(payload) {
-				console.log(payload)
-			})
-
-		// else if, check that the server hasn't changed
-		// if it has we need to disconnect first
-		// then reconnect to the new uri
-		} else if(window.socket.io.uri != server.server_uri) {
-
-			console.log('disconnecting from ' + window.socket.io.uri);
-			disconnectFromSocketServer();
-
-			// reset the socket
-			window.socket = {};
-
-			// connect to the new server
-			console.log('connecting to ' + server.server_uri);
-			// this.connectToChatServer(server);
-			// switchServers(store, server)
-
-		// else, use current socket connection
-		} else {
-			// do nothing, we're already connected to the correct server
-			console.log('already connected to this server')
-		}
+	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {
+		connectToSocketServer(server)
 	},
 
 	[types.DISCONNECT_FROM_SOCKET_SERVER] (state) {
 		disconnectFromSocketServer()
+	},
+
+	[types.SWITCH_CHANNELS] (state, channel) {
+
+		// don't switch if we're already in this channel
+		if(channel.uuid === state.channel.uuid)
+			return
+
+		// check that the user is not already listening on this channel
+		if(!channel.listening) {
+			// subscribe to and listen on this channel
+			subscribeToChannel(channel, store._vm.users.user)
+			listenOnChannel(channel)
+		}
+
+		for(var i = 0; i < state.channels.length; i++) {
+			state.channels[i].active = false
+			
+			// set active channel
+			if(state.channels[i].uuid === channel.uuid) {
+				state.channels[i].active = true
+				state.channel = state.channels[i]
+
+				if(!channel.listening)
+					state.channel.listening = true
+			}
+		}
+
+		// get the last few events that ocurred in this channel
+		if(!state.channel.ready) {
+			getChannelEvents(store, state.channel)
+		} else {
+			// scroll the message container to the bottom
+			this.adjustEventsContainerHeight()
+
+			// focus on chat message input field
+			focusOnElement('chat_message')
+		}
+
+		// update title with channel name
+		helpers.updateTitleText('Stryve App - #' + state.channel.name)
+	},
+
+	[types.FETCH_CHANNEL_EVENTS_SUCCESS] (state, channel_events) {
+		// check we have event to work with
+		if(typeof channel_events == 'undefined')
+			return
+			
+		// add the event to the channel
+		for(var i = channel_events.length - 1; i > -1; i--) {
+			if(channel_events[i].event_text == null)
+				continue
+
+			// add any emoticons
+			channel_events[i].event_text = emojify.replace(channel_events[i].event_text)
+
+			// linkify http text
+			channel_events[i].event_text = helpers.linkify(channel_events[i].event_text)
+
+			// add event to channel
+			state.channel.events.push(channel_events[i])
+		}
+		
+		// scroll the message container to the bottom
+		// this.adjustEventsContainerHeight()
+
+		// focus on chat message input field
+		// focusOnElement('chat_message')
+
+		// channel ready to receive new events
+		state.channel.ready = true
+	},
+
+	[types.FETCH_CHANNEL_EVENTS_FAILURE] (state, response) {
+		// TODO
+		console.log(response)
+	}
+
+}
+
+function listenOnChannel(channel) {
+	// ON USER JOINED CHANNEL
+	window.socket.on('user-subscribed-to::' + channel.uuid, function(payload) {
+		// add event to channel
+		this.pushEventToChatChannel(payload)
+
+		// notify the user
+		// TODO
+		// this.notify(payload.event_text, {})
+	})
+
+	// ON USER LEFT CHANNEL
+	window.socket.on('user-unsubscribed-from::' + channel.uuid, function(payload) {
+		// add event to channel
+		this.pushEventToChatChannel(payload)
+	})
+
+	// ON MESSAGE RECEIVED TO CHANNEL
+	window.socket.on('channel-message::' + channel.uuid, function(payload) {
+		// add event to channel
+		this.pushEventToChatChannel(payload)
+
+		// push down the events container
+		this.adjustEventsContainerHeight()
+	})
+}
+
+function subscribeToChannel(channel, user) {
+	if(!helpers.isEmptyObject(channel)) {
+		window.socket.emit("subscribe-to-channel", {
+			channel_uuid: 	channel.uuid,
+			channel_name: 	channel.name,
+			owner_uuid: 	user.uuid,
+			owner_username: user.username,
+		});
+	}
+}
+
+function pushEventToChatChannel(payload) {
+	// look for the channel the event belongs to
+	for(var i = 0; i < this.chat_channels.length; i++) {
+		if(payload.channel_uuid === this.chat_channels[i].uuid) {
+
+			// insert any found emoticons
+			payload.event_text = emojify.replace(payload.event_text)
+
+			// add the event to the current array of events
+			this.chat_channels[i].events.push(payload)
+
+			// break out of the for loop once found
+			break;
+		}
 	}
 }
 
@@ -244,7 +300,62 @@ function disconnectFromSocketServer() {
 	}
 }
 
+function connectToSocketServer(server)  {
+	// connect to the socket if the user hasn't already
+	if(helpers.isEmptyObject(window.socket)) {
+		window.socket = io(server.server_uri)
+
+		// ON CONNECTION TO SERVER
+		window.socket.on('connected', socket_id => {
+			// set the users unique socket_id
+			setUserSocketId(store, window.socket.id)
+
+			// send user and socket data back to server for logging
+			// TODO
+			// this.submitUserConnectedEvent();
+		})
+	
+
+		// ON USER CONNECTED EVENT
+		window.socket.on('user-connected', function(payload) {
+			console.log(payload)
+		})
+
+		// ON USER DISCONNECTED EVENT
+		// TODO
+		// window.socket.on('user-disconnected', function(payload) {
+		// 	console.log(payload);
+		// });
+
+		// ON ROOMS RESPONSE
+		window.socket.on('server-channels', function(payload) {
+			console.log(payload)
+		})
+
+	// else if, check that the server hasn't changed
+	// if it has we need to disconnect first
+	// then reconnect to the new uri
+	} else if(window.socket.io.uri != server.server_uri) {
+
+		console.log('disconnecting from ' + window.socket.io.uri);
+		disconnectFromSocketServer();
+
+		// reset the socket
+		window.socket = {};
+
+		// connect to the new server
+		console.log('connecting to ' + server.server_uri);
+		connectToSocketServer(store, server)
+
+	// else, use current socket connection
+	} else {
+		// do nothing, we're already connected to the correct server
+		console.log('already connected to this server')
+	}
+}
+
 export default {
   state,
   mutations
 }
+
