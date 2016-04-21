@@ -75,7 +75,46 @@ module.exports = {
 	 */
 	updateTitleText: text => {
 		document.title = text
-	}
+	},
 
+	/**
+	 * Focus the element that has the specified id
+	 *
+	 * @param string $id
+	 * @return void
+	 */
+	focusOnElement: id => {
+		document.getElementById(id).focus()
+	},
+
+	/**
+	 * Make an elements scrollTop the same its scrollHeight
+	 *
+	 * @param string $id
+	 * @return void
+	 */
+	letScrollTopEquateToScrollHeight: id => {
+		setTimeout(function() {
+			let elemenet = document.getElementById(id)
+			let height = elemenet.scrollHeight
+			elemenet.scrollTop = height
+		}, 1)
+	},
+
+	/**
+	 * Creates and emits a new notification
+	 *
+	 * @param string $title
+	 * @param object $options
+	 * @return void
+	 */
+	notification: (title, options) => {
+		let n = new Notification(title, {
+		  body: options.body
+		})
+		
+		// close the notification after 5 secs
+		setTimeout(n.close.bind(n), 5000)
+	}
 };
 

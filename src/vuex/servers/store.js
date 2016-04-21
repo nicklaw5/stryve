@@ -2,6 +2,7 @@ import _ from 'lodash'
 import store from '../store'
 import emojify from 'emojify.js'
 import io from 'socket.io-client'
+import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
 import { setUserSocketId } from '../users/actions'
@@ -191,10 +192,10 @@ const mutations = {
 			getChannelEvents(store, state.channel)
 		} else {
 			// scroll the message container to the bottom
-			this.adjustEventsContainerHeight()
+			helpers.letScrollTopEquateToScrollHeight('messages-container')
 
 			// focus on chat message input field
-			focusOnElement('chat_message')
+			helpers.focusOnElement('chat_message')
 		}
 
 		// update title with channel name
@@ -222,10 +223,10 @@ const mutations = {
 		}
 		
 		// scroll the message container to the bottom
-		// this.adjustEventsContainerHeight()
+		helpers.letScrollTopEquateToScrollHeight('messages-container')
 
 		// focus on chat message input field
-		// focusOnElement('chat_message')
+		helpers.focusOnElement('chat_message')
 
 		// channel ready to receive new events
 		state.channel.ready = true
@@ -242,26 +243,26 @@ function listenOnChannel(channel) {
 	// ON USER JOINED CHANNEL
 	window.socket.on('user-subscribed-to::' + channel.uuid, function(payload) {
 		// add event to channel
-		this.pushEventToChatChannel(payload)
+		pushEventToChannel(payload)
 
-		// notify the user
-		// TODO
+		// notify the user of new user subscription
+		helpers.notification(payload.event_text, {})
 		// this.notify(payload.event_text, {})
 	})
 
 	// ON USER LEFT CHANNEL
 	window.socket.on('user-unsubscribed-from::' + channel.uuid, function(payload) {
 		// add event to channel
-		this.pushEventToChatChannel(payload)
+		pushEventToChannel(payload)
 	})
 
 	// ON MESSAGE RECEIVED TO CHANNEL
 	window.socket.on('channel-message::' + channel.uuid, function(payload) {
 		// add event to channel
-		this.pushEventToChatChannel(payload)
+		pushEventToChannel(payload)
 
 		// push down the events container
-		this.adjustEventsContainerHeight()
+		helpers.letScrollTopEquateToScrollHeight('messages-container')
 	})
 }
 
@@ -276,16 +277,16 @@ function subscribeToChannel(channel, user) {
 	}
 }
 
-function pushEventToChatChannel(payload) {
+function pushEventToChannel(payload) {
 	// look for the channel the event belongs to
-	for(var i = 0; i < this.chat_channels.length; i++) {
-		if(payload.channel_uuid === this.chat_channels[i].uuid) {
+	for(var i = 0; i < state.channels.length; i++) {
+		if(payload.channel_uuid === state.channels[i].uuid) {
 
 			// insert any found emoticons
 			payload.event_text = emojify.replace(payload.event_text)
 
 			// add the event to the current array of events
-			this.chat_channels[i].events.push(payload)
+			state.channels[i].events.push(payload)
 
 			// break out of the for loop once found
 			break;
@@ -311,8 +312,7 @@ function connectToSocketServer(server)  {
 			setUserSocketId(store, window.socket.id)
 
 			// send user and socket data back to server for logging
-			// TODO
-			// this.submitUserConnectedEvent();
+			submitUserConnectedEvent();
 		})
 	
 
@@ -352,6 +352,16 @@ function connectToSocketServer(server)  {
 		// do nothing, we're already connected to the correct server
 		console.log('already connected to this server')
 	}
+}
+
+function submitUserConnectedEvent() {
+	window.socket.emit('user-connected', {
+		server_uuid: 		state.server.uuid,
+		server_name: 		state.server.name,
+		owner_uuid:			store._vm.users.user.uuid,
+		owner_username:		store._vm.users.user.username,
+		access_token: 		token.get()
+	})
 }
 
 export default {

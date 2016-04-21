@@ -43,9 +43,9 @@ var resizeElementts  = function() {
 		$('#channels-list').css('height', (screenH - 52 - 55 - 55));
 	}
 
-	if (typeof app != 'undefined')
-		if(!isEmptyObject(app.chat_channel))
-			app.adjustEventsContainerHeight();
+	// if (typeof app != 'undefined')
+	// 	if(!isEmptyObject(app.chat_channel))
+	// 		app.adjustEventsContainerHeight();
 }
 
 resizeElementts();
