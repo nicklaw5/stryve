@@ -130,14 +130,15 @@ const mutations = {
 			if(state.server.uuid === server.uuid)
 				return;
 
+			// TODO
 			// unscubscribe from any channels the user is listening on
-			// for(var i = 0; i < this.chat_channels.length; i++)
-			// 	if(this.chat_channels[i].listening)
-			// 		this.unsubscribeFromChatChannel(this.chat_channels[i])
+			for(var i = 0; i < state.channels.length; i++)
+				if(state.channels[i].listening)
+					unsubscribeFromChatChannel(state.channels[i], store._vm.users.user)
 
 			// reset chat channels
-			// this.chat_channel = {};
-			// this.chat_channels = {};
+			state.channel = {};
+			state.channels = [];
 
 			// disconnect from current server
 			disconnectFromSocketServer()
@@ -277,6 +278,17 @@ function subscribeToChannel(channel, user) {
 	}
 }
 
+function unsubscribeFromChatChannel(channel, user) {
+	if(!helpers.isEmptyObject(channel)) {
+		window.socket.emit("unsubscribe-from-channel", { 
+			channel_uuid: 	channel.uuid,
+			channel_name: 	channel.name,
+			owner_uuid: 	user.uuid,
+			owner_username: user.username,
+		});
+	}
+}
+
 function pushEventToChannel(payload) {
 	// look for the channel the event belongs to
 	for(var i = 0; i < state.channels.length; i++) {
@@ -312,9 +324,8 @@ function connectToSocketServer(server)  {
 			setUserSocketId(store, window.socket.id)
 
 			// send user and socket data back to server for logging
-			submitUserConnectedEvent();
+			submitUserConnectedEvent(store._vm.users.user);
 		})
-	
 
 		// ON USER CONNECTED EVENT
 		window.socket.on('user-connected', function(payload) {
@@ -354,12 +365,12 @@ function connectToSocketServer(server)  {
 	}
 }
 
-function submitUserConnectedEvent() {
+function submitUserConnectedEvent(user) {
 	window.socket.emit('user-connected', {
 		server_uuid: 		state.server.uuid,
 		server_name: 		state.server.name,
-		owner_uuid:			store._vm.users.user.uuid,
-		owner_username:		store._vm.users.user.username,
+		owner_uuid:			user.uuid,
+		owner_username:		user.username,
 		access_token: 		token.get()
 	})
 }

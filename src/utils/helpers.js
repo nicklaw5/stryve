@@ -94,7 +94,7 @@ module.exports = {
 	 * @return void
 	 */
 	letScrollTopEquateToScrollHeight: id => {
-		setTimeout(function() {
+		setTimeout(() => {
 			let elemenet = document.getElementById(id)
 			let height = elemenet.scrollHeight
 			elemenet.scrollTop = height
