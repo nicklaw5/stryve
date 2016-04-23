@@ -11,7 +11,7 @@
 
 		<ul>
 			<li v-for="server in servers"
-				@click="switchServers(server)"
+				@click="switchServers(server.uuid)"
 				:class="{'active': (server.active) }">
 				{{ server.name | capitalizeFirstLetter }}
 			</li>

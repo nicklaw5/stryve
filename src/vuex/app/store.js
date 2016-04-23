@@ -1,3 +1,4 @@
+import { set } from 'vue'
 import * as types from '../mutation-types'
 
 // initial module state
@@ -9,7 +10,7 @@ const state = {
 const mutations = {
 	
 	[types.SWITCH_CHANNELS_PANEL] (state, panel) {
-		state.channelsPanel = panel
+		set(state, 'channelsPanel', panel)
 	}
 }
 

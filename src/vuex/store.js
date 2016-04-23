@@ -4,7 +4,6 @@ import app from './app/store'
 import auth from './auth/store'
 import users from './users/store'
 import servers from './servers/store'
-import channels from './channels/store'
 import createLogger from '../middleware/logger'
 
 Vue.use(Vuex)

@@ -28,6 +28,17 @@ module.exports = {
 	},
 
 	/**
+	 * Tests whether or not the value passed is 'undefined' or 'null'
+	 * Source - http://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null
+	 * 
+	 * @param mixed $value
+	 * @return boolean
+	 */
+	isNullOrUndefined: value => {
+		return value == null
+	},
+
+	/**
 	 * Tests whether a value is numeric or not
 	 *
 	 * @param mixed $value
@@ -93,12 +104,10 @@ module.exports = {
 	 * @param string $id
 	 * @return void
 	 */
-	letScrollTopEquateToScrollHeight: id => {
-		setTimeout(() => {
-			let elemenet = document.getElementById(id)
-			let height = elemenet.scrollHeight
-			elemenet.scrollTop = height
-		}, 1)
+	letScrollTopEqualScrollHeight: id => {
+		let elemenet = document.getElementById(id)
+		let height = elemenet.scrollHeight
+		elemenet.scrollTop = height
 	},
 
 	/**
@@ -116,5 +125,6 @@ module.exports = {
 		// close the notification after 5 secs
 		setTimeout(n.close.bind(n), 5000)
 	}
+
 };
 

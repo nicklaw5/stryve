@@ -28,12 +28,11 @@ import store from '../vuex/store'
 // components
 import Login from './Login.vue'
 import Register from './Register.vue'
+import UserPanel from './UserPanel.vue'
 import ServerList from './ServerList.vue'
 import ContactsPanel from './ContactsPanel.vue'
 import ChannelsPanel from './ChannelsPanel.vue'
 import ChannelContainer from './ChannelContainer.vue'
-
-import UserPanel from './UserPanel.vue'
 
 // getters
 import { getChannelPanel } from '../vuex/app/getters'

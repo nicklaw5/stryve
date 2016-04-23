@@ -2,22 +2,24 @@ import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
-import { getUser } from '../users/getters'
 
-export const switchServers = (store, server) => {
-	store.dispatch(types.SWITCH_SERVERS, server)
+export const pushEventToChannel = (store, payload) => {
+	store.dispatch(types.PUSH_EVENT_TO_CHANNEL, payload)
+}
+
+export const switchServers = (store, server_uuid) => {
+	store.dispatch(types.SWITCH_SERVERS, server_uuid)
 	switchChannelsPanel(store, 'channels')
-	emptyChannelList(store)
-	fetchServer(store, server, true)
+	fetchServer(store, server_uuid, true)
 }
 
-export const switchChannels = (store, channel) => {
-	store.dispatch(types.SWITCH_CHANNELS, channel)
+export const switchChannels = (store, channel_uuid) => {
+	store.dispatch(types.SWITCH_CHANNELS, channel_uuid)
 }
 
-export const getChannelEvents = (store, channel) => {
+export const getChannelEvents = (store, channel_uuid) => {
 	channels.fetchChannelEvents(
-		channel,
+		channel_uuid,
 		cb 		=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_FAILURE, errorCb) }
 	)
@@ -27,22 +29,14 @@ export const resetActiveServer = (store) => {
 	store.dispatch(types.RESET_ACTIVE_SERVER)
 }
 
-export const emptyChannelList = (store) => {
-	store.dispatch(types.EMPTY_CHANNEL_LIST)
-}
-
-export const emptyServerList = (store) => {
-	store.dispatch(types.RESET_SERVER_LIST)
-}
-
-export const fetchServer = (store, server, includeChannels) => {
+export const fetchServer = (store, server_uuid, includeChannels) => {
 	servers.getServer(
-		server,
+		server_uuid,
 		includeChannels,
 		cb => {
 			store.dispatch(types.FETCH_SERVER_SUCCESS, cb)
 			connectToSocketServer(store, cb)
-			instantiateServerChannels(store, cb.channels)
+			instantiateServerChannels(store, server_uuid, cb.channels)
 		},
 		errorCb	=> { store.dispatch(types.FETCH_SERVER_FAILURE, errorCb) }
 	)
@@ -63,6 +57,6 @@ export const disconnectFromSocketServer = (store) => {
 	store.dispatch(types.DISCONNECT_FROM_SOCKET_SERVER)
 }
 
-export const instantiateServerChannels = (store, channels) => {
-	store.dispatch(types.INSTANTIATE_CHANNELS, channels)
+export const instantiateServerChannels = (store, server_uuid, channels) => {
+	store.dispatch(types.INSTANTIATE_CHANNELS, server_uuid, channels)
 }

@@ -1,23 +1,11 @@
 <template>
 	<div id="channel-messages-container">
-		<div id="channel-messages-header-wrapper">
-			<div id="channel-messages-header-left">
-				<h3 v-if="channelActive">
-					<span class="hashtag">#</span><span class="channel">{{ channel.name }}</span>
-				</h3>				
-			</div>
 
-			<div id="channel-messages-header-right">
-				<ul>
-					<li @click="minimize()"><i class="icon-minus3"></i></li>
-					<li @click="toggleMaximize()"><i class="icon-square-up-right" :class="{ 'icon-square-down-left': isMaximized }"></i></li>
-					<li @click="logOutAndClose()"><i class="icon-cross2"></i></li>
-				</ul>	
-			</div>
-		</div>
+		<channel-header :channel="channel"></channel-header>
 
-		<div id="channel-messages">
-			<div v-if="channelActive" id="user-input">
+		<div v-if="channelSet && channel.ready" id="channel-messages">
+			
+			<div id="user-input">
 				<div id="user-input-inner">
 					<div id="user-input-container">
 						<div id="user-upload">
@@ -30,6 +18,7 @@
 					</div>
 				</div>
 			</div>
+
 			<div id="messages-container">
 				<ul>
 					<li v-for="event in channel.events">
@@ -43,7 +32,7 @@
 						</div>
 						<div v-else>
 							<div class="channel-event">
-								<span class="subscriber" v-bind:class="{ 'unsubscriber': event.event_type === 'user_unsubscribed' }">{{ event.event_text }}</span>
+								<span class="subscriber" :class="{ 'unsubscriber': event.event_type === 'user_unsubscribed' }">{{ event.event_text }}</span>
 							</div>
 						</div>
 					</li>
@@ -57,11 +46,12 @@
 </template>
 
 <script>
-import ChannelUsers from './ChannelUsers.vue'
-import { getUser } from '../vuex/users/getters'
-import { getChannel } from '../vuex/servers/getters'
-import { getChannelPanel } from '../vuex/app/getters'
 import * as helpers from '../utils/helpers'
+import ChannelUsers from './ChannelUsers.vue'
+import ChannelHeader from './ChannelHeader.vue'
+import { getUser } from '../vuex/users/getters'
+import { getChannelPanel } from '../vuex/app/getters'
+import { getChannel } from '../vuex/servers/getters'
 
 export default {
 	data() {
@@ -70,12 +60,13 @@ export default {
 		}
 	},
 	computed: {
-		channelActive() {
+		channelSet() {
 			return !helpers.isEmptyObject(this.channel)
 		}
 	},
 	components: {
-		ChannelUsers
+		ChannelUsers,
+		ChannelHeader
 	},
 	vuex: {
 		getters: {
