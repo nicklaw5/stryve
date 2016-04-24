@@ -1,8 +1,23 @@
 import moment from 'moment'
-import lodash from 'lodash'
-import randomName from 'sillyname'
+// import lodash from 'lodash'
+// import randomName from 'sillyname'
 
 module.exports = {
+
+	/**
+	 * Formats a datestamp to a given format
+	 *
+	 * @requires moment.js - http://momentjs.com/docs/
+	 * @param {string} value
+	 * @param {string} format - optional
+	 * @return {string}
+	 */
+	formatDateTime: (value, format) => {
+		if(typeof format == 'undefined')
+			format = 'D MMM YYYY'
+		let date = moment(value)
+		return date.format(format)
+	},
 
 	/**
 	 * Captilizes the first charatcer of a string
@@ -58,7 +73,7 @@ module.exports = {
 		if(typeof obj != 'object')
 			return false
 
-	    for(var prop in obj) {
+	    for(let prop in obj) {
 	        if(obj.hasOwnProperty(prop))
 	            return false
 	    }
@@ -72,7 +87,7 @@ module.exports = {
 	 * @return string
 	 */
 	linkify: text => {
-	    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+	    let urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
 	    return text.replace(urlRegex, function(url) {
 	        return '<a class="channel-event-link" target="_blank" href="' + url + '">' + url + '</a>'
 	    })
@@ -89,23 +104,34 @@ module.exports = {
 	},
 
 	/**
-	 * Focus the element that has the specified id
+	 * Focus the element that has the specified element_id
 	 *
-	 * @param string $id
+	 * @param string $element_id
 	 * @return void
 	 */
-	focusOnElement: id => {
-		document.getElementById(id).focus()
+	focusOnElement: element_id => {
+		document.getElementById(element_id).focus()
 	},
+
+	/**
+	 * Update an elements value
+	 *
+	 * @param {string} $elemet_id
+	 * @param {string} $value
+	 * @return void
+	 */
+	 updateElementsValue: (element_id, value) => {
+	 	document.getElementById(element_id).value = value
+	 },
 
 	/**
 	 * Make an elements scrollTop the same its scrollHeight
 	 *
-	 * @param string $id
+	 * @param string $element_id
 	 * @return void
 	 */
-	letScrollTopEqualScrollHeight: id => {
-		let elemenet = document.getElementById(id)
+	letScrollTopEqualScrollHeight: element_id => {
+		let elemenet = document.getElementById(element_id)
 		let height = elemenet.scrollHeight
 		elemenet.scrollTop = height
 	},

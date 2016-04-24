@@ -559,11 +559,18 @@ a:hover {
 	padding: 5px 0;
 	color: #CFCFCF;
 	font-size: 16px;
+} 
+#channel-messages > #messages-container > ul > li > div > .message-username-container {
+	padding-bottom: 5px;
 }
 #channel-messages > #messages-container > ul > li > div > div > span.username {
 	font-weight: bold;
 	color: #ffffff;
-	width: 100%;
+}
+#channel-messages > #messages-container > ul > li > div > div > span.timestamp {
+	font-size: .75em;
+	padding-left: 5px;
+	color: #9C9C9C;
 }
 
 .channel-event {

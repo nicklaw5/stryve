@@ -8,3 +8,7 @@ Vue.filter('time', timestamp => {
 Vue.filter('capitalizeFirstLetter', value => {
 	return helpers.capitalizeFirstLetter(value);
 })
+
+Vue.filter('formatTimestamp', (value, format) => {
+	return helpers.formatDateTime(value, format)
+})

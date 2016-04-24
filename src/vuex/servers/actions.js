@@ -3,6 +3,17 @@ import * as servers from '../../api/servers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
 
+export const updateMessageText = (store, text) => {
+	store.dispatch(types.UPDATE_MESSAGE_TEXT, text)
+}
+
+export const sendMessage = (store, text) => {
+	if(!text.trim().length)
+		return
+
+	store.dispatch(types.SEND_MESSAGE, text)
+}
+
 export const pushEventToChannel = (store, payload) => {
 	store.dispatch(types.PUSH_EVENT_TO_CHANNEL, payload)
 }

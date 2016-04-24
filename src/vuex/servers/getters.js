@@ -1,5 +1,9 @@
 import * as helpers from '../../utils/helpers'
 
+// export function getMessageText (state) {
+// 	return state.servers.messageText
+// }
+
 export function getServers (state) {
 	return state.servers.servers
 }
@@ -9,11 +13,6 @@ export function getCurrentServer (state) {
 }
 
 export function getServer (state) {
-	// let server = getCurrentServer(state)
-	// if(!server)
-	// 	return {}
-
-	// console.log(state.servers.servers[getCurrentServer(state)])
 	return state.servers.servers[getCurrentServer(state)]
 }
 

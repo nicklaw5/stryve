@@ -13,7 +13,7 @@
 
 	<div id="channels-list">
 		<ul>
-			<li v-if="channelsSet" v-for="channel in server.channels"
+			<li v-for="channel in server.channels"
 				:class="{ 'listening': channel.listening, 'active': channel.active }">
 				<span class="channel-name" @click="switchChannels(channel.uuid)">
 					<span class="hashtag">#</span>{{ channel.name }}
@@ -28,16 +28,10 @@
 </template>
 
 <script>
-import * as helpers from '../utils/helpers'
 import { getServer } from '../vuex/servers/getters'
 import { switchChannels } from '../vuex/servers/actions'
 
 export default {
-	computed: {
-		channelsSet() {
-			return !helpers.isEmptyObject(this.server.channels)
-		}
-	},
 	vuex: {
 		getters: {
 			server: getServer
