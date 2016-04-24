@@ -4,6 +4,38 @@ import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
 
+export const createNewServer = (store, payload) => {
+	if(!payload.name.length || !payload.region.length) {
+		alert('Both a server name and region are required to create a new server.')
+		return
+	}
+
+	servers.postNewServer(
+		payload,
+		cb 		=> { store.dispatch(types.CREATE_NEW_SERVER_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.CREATE_NEW_SERVER_FAILURE, errorCb) }
+	)
+}
+
+export const fetchServerRegions = (store) => {
+	servers.getServerRegions(
+		cb 		=> { store.dispatch(types.FETCH_SERVER_REGIONS_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.FETCH_SERVER_REGIONS_FAILURE, errorCb) }
+	)
+}
+
+export const showModal = (store, modal) => {
+	store.dispatch(types.SHOW_MODAL, modal)
+}
+
+export const hideModal = (store, modal) => {
+	store.dispatch(types.HIDE_MODAL, modal)
+}
+
+// export const hideModalOverlay = (store) => {
+// 	helpers.removeClassElementFromDom('modal-overlay')
+// }
+
 export const updateMessageText = (store, text) => {
 	store.dispatch(types.UPDATE_MESSAGE_TEXT, text)
 }
@@ -23,7 +55,6 @@ export const switchServers = (store, server_uuid) => {
 	store.dispatch(types.SWITCH_SERVERS, server_uuid)
 	switchChannelsPanel(store, 'channels')
 	fetchServer(store, server_uuid, true)
-	helpers.fireWindowResizeEvent()
 }
 
 export const switchChannels = (store, channel_uuid) => {

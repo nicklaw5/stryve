@@ -22,3 +22,25 @@ export function getServer(server_uuid, includeChannels, cb, errorCb) {
 			: errorCb(res.response)
 	})
 }
+
+/**
+ * Get a list of available servion regions
+ */
+export function getServerRegions(cb, errorCb) {
+	ajax.get('regions', null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}
+
+/**
+ * Create a new server
+ */
+export function postNewServer (payload, cb, errorCb) {
+	ajax.post('servers', payload, true, res => {
+		(res.code === codes.CREATED)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}

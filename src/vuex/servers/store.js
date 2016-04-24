@@ -7,17 +7,50 @@ import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
 import { setUserSocketId } from '../users/actions'
-import { switchServers, disconnectToServer, getChannelEvents, pushEventToChannel } from './actions'
+import { switchServers, disconnectToServer, getChannelEvents, pushEventToChannel, hideModal } from './actions'
 
 // initial module state
 const state = {
+	modalOverlay: false,
+	newServerModal: false,
 	currentChannel: null,
 	currentServer: null,
+	serverRegions: [],
 	servers: {}
 }
 
 // mutations
 const mutations = {
+
+	[types.CREATE_NEW_SERVER_SUCCESS] (state, server) {
+		set(state.servers, server.uuid, server)
+		hideModal(store, 'newServerModal')
+		switchServers(store, server.uuid)
+	},
+
+	[types.CREATE_NEW_SERVER_FAILURE] (store, response) {
+		// TODO
+		console.log(response)
+	},
+
+	[types.FETCH_SERVER_REGIONS_SUCCESS] (state, regions) {
+		set(state, 'serverRegions', regions)
+	},
+
+	[types.FETCH_SERVER_REGIONS_FAILURE] (state, response) {
+		// TODO
+		console.log(response)
+	},
+
+	[types.SHOW_MODAL] (state, modal) {
+		helpers.showModalOverlay()
+		set(state, modal, true)
+	},
+
+	[types.HIDE_MODAL] (state, modal) {
+		helpers.removeClassElementFromDom('modal-overlay')
+		set(state, modal, false)
+	},
 	
 	[types.SEND_MESSAGE] (state, text) {
 		sendChannelMessage(state, text, state.currentChannel, store._vm.users.user)

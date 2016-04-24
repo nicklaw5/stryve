@@ -675,13 +675,12 @@ a:hover {
 	height: 100%;
 	z-index: 9;
 	background: #000;
-	opacity: 0.8;
+	opacity: 0.5;
 }
 
 .new-channel-or-server {
-/*	display: none;*/
 	padding: 15px;
-	background: #1e2124;
+	background: #2E3136;
 	left: 50%;
 	top: 50%;
 	width: 400px;

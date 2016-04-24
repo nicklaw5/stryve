@@ -12,7 +12,7 @@
   "window": {
     "title": "Stryve App",
     "icon": "./src/assets/img/logo-100x100.png",
-    "frame": true,
+    "frame": false,
     "width": 1000,
     "height": 500,
     "position": "center",

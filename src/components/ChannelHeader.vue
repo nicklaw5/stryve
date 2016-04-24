@@ -6,13 +6,13 @@
 			</h3>				
 		</div>
 
-		<!-- <div id="channel-messages-header-right">
+		<div id="channel-messages-header-right">
 			<ul>
 				<li @click="minimize()"><i class="icon-minus3"></i></li>
 				<li @click="toggleMaximize()"><i class="icon-square-up-right" :class="{ 'icon-square-down-left': isMaximized }"></i></li>
 				<li @click="logOutAndClose()"><i class="icon-cross2"></i></li>
 			</ul>	
-		</div> -->
+		</div>
 	</div>
 </template>
 

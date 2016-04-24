@@ -25,3 +25,11 @@ export function getChannel (state) {
 
 	return state.servers.servers[server].channels[channel]
 }
+
+export function getServerRegions (state) {
+	return state.servers.serverRegions
+}
+
+export function getNewServerModal (state) {
+	return state.servers.newServerModal
+}

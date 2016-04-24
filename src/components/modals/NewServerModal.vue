@@ -3,17 +3,17 @@
 	<div id="new-server-modal" class="modal new-channel-or-server">
 		<div class="form-element-wrapper">
 			<label>Server Name:</label>
-			<input v-model="server_name" type="text">
+			<input v-model="form.name" type="text">
 		</div>
 		<div class="form-element-wrapper">
 			<label>Server Region:</label>
-			<select v-model="server_region">
-				<option v-for="region in chat_server_regions" value="{{ region.name }}">{{ region.location }}</option>
+			<select v-model="form.region">
+				<option v-for="region in regions" value="{{ region.name }}">{{ region.location }}</option>
 			</select>
 		</div>
 		<div class="form-element-wrapper">
 			<label>
-				<input type="checkbox" v-model="server_private" />
+				<input type="checkbox" v-model="form.private">
 				This is a private server.
 			</label>
 		</div>
@@ -21,12 +21,12 @@
 			<button id="new-server-modal-create"
 					class="float-right"
 					type="button"
-					@click="createChatServer()">
+					@click="createNewServer(form)">
 				Create Server
 			</button>
 			<button id="new-server-modal-cancel"
 					type="button"
-					@click="hideNewServerModal()">
+					@click="hideModal('newServerModal')">
 				Cancel
 			</button>
 		</div>
@@ -35,24 +35,35 @@
 </template>
 
 <script>
+import randomName from 'sillyname'
+import { getServerRegions } from '../../vuex/servers/getters'
+import { fetchServerRegions, hideModal, createNewServer } from '../../vuex/servers/actions'
+
 export default {
 	data() {
 		return {
-			server_name: '',
-			server_region: '',
-			server_private: false
+			form: {
+				name: '',
+				region: '',
+				private: false
+			}
 		}
+	},
+	created() {
+		this.fetchServerRegions()
+	},
+	ready() {
+		this.form.name = randomName()
 	},
 	vuex: {
 		getters: {
-			
+			regions: getServerRegions
 		},
 		actions: {
-			
+			hideModal,
+			createNewServer,
+			fetchServerRegions
 		}
-	},
-	methods: {
-		
 	}
 }
 </script>

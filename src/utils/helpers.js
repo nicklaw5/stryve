@@ -259,5 +259,26 @@ module.exports = {
 		}
 	},
 
+	/**
+	 * Destroys a class element on the DOM
+	 *	 
+	 * @return void
+	 */
+	removeClassElementFromDom: element => {
+		let el = document.getElementsByClassName(element)
+    	while(el.length > 0)
+        	el[0].parentNode.removeChild(el[0])
+	},
+
+	/**
+	 * Display's a modal overlay 
+	 * 
+	 */
+	showModalOverlay: () => {
+		let overlay = document.createElement('div')
+		overlay.className += ' modal-overlay'
+		document.body.appendChild(overlay)
+	}
+
 };
 
