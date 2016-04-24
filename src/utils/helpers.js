@@ -1,11 +1,9 @@
 import moment from 'moment'
-// import lodash from 'lodash'
-// import randomName from 'sillyname'
 
 module.exports = {
 
 	/**
-	 * Formats a datestamp to a given format
+	 * Formats a UTC datestamp to local time
 	 *
 	 * @requires moment.js - http://momentjs.com/docs/
 	 * @param {string} value
@@ -13,10 +11,11 @@ module.exports = {
 	 * @return {string}
 	 */
 	formatDateTime: (value, format) => {
-		if(typeof format == 'undefined')
+		if(!format)
 			format = 'D MMM YYYY'
-		let date = moment(value)
-		return date.format(format)
+
+		let localTime = moment.utc(value).toDate();
+    	return moment(localTime).format(format);
 	},
 
 	/**
@@ -100,7 +99,7 @@ module.exports = {
 	 * @return void
 	 */
 	updateTitleText: text => {
-		document.title = text
+		window.document.title = text
 	},
 
 	/**
@@ -110,7 +109,10 @@ module.exports = {
 	 * @return void
 	 */
 	focusOnElement: element_id => {
-		document.getElementById(element_id).focus()
+		setTimeout(() => {
+			let el = window.document.getElementById(element_id)
+			if(el) el.focus()
+		}, 5)
 	},
 
 	/**
@@ -121,19 +123,20 @@ module.exports = {
 	 * @return void
 	 */
 	 updateElementsValue: (element_id, value) => {
-	 	document.getElementById(element_id).value = value
+	 	window.document.getElementById(element_id).value = value
 	 },
 
 	/**
 	 * Make an elements scrollTop the same its scrollHeight
 	 *
-	 * @param string $element_id
+	 * @param {object} $container
 	 * @return void
 	 */
-	letScrollTopEqualScrollHeight: element_id => {
-		let elemenet = document.getElementById(element_id)
-		let height = elemenet.scrollHeight
-		elemenet.scrollTop = height
+	letScrollTopEqualScrollHeight: container => {
+		setTimeout(() => {
+			container.scrollTop = container.scrollHeight
+		}, 5)
+		
 	},
 
 	/**
@@ -150,7 +153,111 @@ module.exports = {
 		
 		// close the notification after 5 secs
 		setTimeout(n.close.bind(n), 5000)
-	}
+	},
+	
+	/**
+	 * Returns the window's width
+	 *
+	 * @source - http://stackoverflow.com/questions/8221172/whats-the-raw-javascript-equivalent-to-jquerys-window-width
+	 * @return {int}
+	 */
+	getWindowWidth: () => {
+		let docElemWidth = window.document.documentElement.clientWidth,
+        body = window.document.body
+    	return window.document.compatMode === "CSS1Compat" && docElemWidth || body && body.clientWidth || docElemWidth;
+	},
+
+	/**
+	 * Returns the window's height
+	 *
+	 * @source - http://stackoverflow.com/questions/8221172/whats-the-raw-javascript-equivalent-to-jquerys-window-width
+	 * @return {int}
+	 */
+	getWindowHeight: () => {
+		let docElemHeight = window.document.documentElement.clientHeight,
+        body = window.document.body
+    	return window.document.compatMode === "CSS1Compat" && docElemHeight || body && body.clientHeight || docElemHeight;
+	},
+
+	/**
+	 * Returns an elements width
+	 *	 
+	 * @return {int}
+	 */
+	getElementWidth: () => {
+		// window.document.getElementById(element_id)
+
+	},
+
+	/**
+	 * Returns an elements height
+	 *	 
+	 * @return {int}
+	 */
+	getElementHeight: () => {
+
+	},
+
+	/**
+	 * Sets an elements height
+	 *
+	 * @param {string} $element
+	 * @param {int} $height
+	 * @return void
+	 */
+	setCssProperty: (element, height) => {
+		let el = window.document.getElementById(element)
+
+		el.style.height = height + 'px'
+	},
+
+	/**
+	 * Returns an elements height
+	 *	 
+	 * @param {string} $element
+	 * @param {string} $property
+	 * @param {mixed} $value
+	 * @return void
+	 */
+	setElementCssProperty: (element, property, value) => {
+		let el = window.document.getElementById(element)
+		if(el) el.style[property] = value
+	},
+
+	/**
+	 * Hide an element
+	 *	 
+	 * @return void
+	 */
+	hideAnElement: element => {
+
+	},
+
+	/**
+	 * Dispatches the window resize event
+	 *	 
+	 * @return void
+	 */
+	fireWindowResizeEvent: () => {
+		setTimeout(() => {
+			window.dispatchEvent(new Event('resize'))
+		}, 5)
+	},
+
+	/**
+	 * Destroys any tooltips on the DOM
+	 *	 
+	 * @return void
+	 */
+	hideTooltips: () => {
+		let elements = ['tooltip', 'tooltip-pointer']
+
+		for(let i = 0; i < elements.length; i++) {
+			let el = document.getElementsByClassName(elements[i])
+	    	while(el.length > 0)
+	        	el[0].parentNode.removeChild(el[0])
+		}
+	},
 
 };
 

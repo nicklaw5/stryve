@@ -679,7 +679,7 @@ a:hover {
 }
 
 .new-channel-or-server {
-	display: none;
+/*	display: none;*/
 	padding: 15px;
 	background: #1e2124;
 	left: 50%;

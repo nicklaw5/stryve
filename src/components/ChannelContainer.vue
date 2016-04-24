@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<div id="messages-container">
+			<div v-el:container id="messages-container">
 				<ul>
 					<li v-for="event in channel.events">
 						<div v-if="event.event_type == 'user_message'">
@@ -57,8 +57,8 @@ import ChannelUsers from './ChannelUsers.vue'
 import ChannelHeader from './ChannelHeader.vue'
 import { getUser } from '../vuex/users/getters'
 import { getChannelPanel } from '../vuex/app/getters'
-import { getChannel/*, getMessageText*/ } from '../vuex/servers/getters'
-import { sendMessage/*, updateMessageText*/ } from '../vuex/servers/actions'
+import { getChannel } from '../vuex/servers/getters'
+import { sendMessage } from '../vuex/servers/actions'
 
 export default {
 	data() {
@@ -74,22 +74,21 @@ export default {
 		getters: {
 			user: getUser,
 			channel: getChannel,
-			// message: getMessageText,
 			channelPanel: getChannelPanel
 		},
 		actions: {
-			sendMessage,
-			// updateMessageText
+			sendMessage
 		}
 	},
-	methods: {
-		// onKeyUpMessageEvent(event, text) {
-
-		// 	(event.which === 13 && this.message.trim().length)	// Enter key
-		// 		? this.sendMessage()
-		// 		: this.updateMessageText(text)
-		// }
-	}
+	watch: {
+		'channel.events': function () {
+			this.$nextTick(() => {
+				const container = this.$els.container
+				if(container)
+					helpers.letScrollTopEqualScrollHeight(container)
+			})
+		}
+	},
 }
 </script>
 

@@ -1,9 +1,5 @@
 import * as helpers from '../../utils/helpers'
 
-// export function getMessageText (state) {
-// 	return state.servers.messageText
-// }
-
 export function getServers (state) {
 	return state.servers.servers
 }

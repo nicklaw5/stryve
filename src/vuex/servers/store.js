@@ -11,7 +11,6 @@ import { switchServers, disconnectToServer, getChannelEvents, pushEventToChannel
 
 // initial module state
 const state = {
-	// messageText: '',
 	currentChannel: null,
 	currentServer: null,
 	servers: {}
@@ -106,6 +105,7 @@ const mutations = {
 	},
 
 	[types.SWITCH_SERVERS] (state, server_uuid) {
+
 		// deal with current server connection
 		if(!helpers.isNullOrUndefined(state.currentServer)) {
 			// don't connect if we're already connected to this server
@@ -145,6 +145,8 @@ const mutations = {
 				   	set(state, 'currentServer', key)
 			}
 		}
+		
+		helpers.fireWindowResizeEvent()
 	},
 
 	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {
@@ -187,27 +189,21 @@ const mutations = {
 		}
 
 		// get the last few events that ocurred in this channel
-		// if(!state.channel.ready) {
 		if(!state.servers[state.currentServer].channels[state.currentChannel].ready) {
 			getChannelEvents(store, state.servers[state.currentServer].channels[state.currentChannel].uuid)
-		} else {
-			// scroll the message container to the bottom
-			helpers.letScrollTopEqualScrollHeight('messages-container')
-
-			// focus on chat message input field
-			helpers.focusOnElement('channel_message')
 		}
 
 		// update title with channel name
 		helpers.updateTitleText('Stryve App - #' + state.servers[state.currentServer].channels[state.currentChannel].name)
+
+		// focus on chat message input field
+		helpers.focusOnElement('channel_message')
 	},
 
 	[types.FETCH_CHANNEL_EVENTS_SUCCESS] (state, channel_events) {
 		// check we have events to work with
 		if(helpers.isEmptyObject(channel_events))
 			return
-		
-		// console.log(channel_events)
 
 		// add the event to the channel
 		for(let i = channel_events.length - 1; i > -1; i--) {
@@ -233,14 +229,11 @@ const mutations = {
 		// channel ready to receive new events
 		set(state.servers[state.currentServer].channels[state.currentChannel], 'ready', true)
 
-		setTimeout(() => {
-			// scroll the message container to the bottom
-			helpers.letScrollTopEqualScrollHeight('messages-container')
-
-			// focus on chat message input field
-			helpers.focusOnElement('channel_message')
-		}, 1)
-
+		// fire resize window event 
+		helpers.fireWindowResizeEvent()
+		
+		// focus on chat message input field
+		helpers.focusOnElement('channel_message')
 	},
 
 	[types.FETCH_CHANNEL_EVENTS_FAILURE] (state, response) {
@@ -263,13 +256,7 @@ const mutations = {
 				}
 			}
 		}
-
-		setTimeout(() => {
-			// scroll to the bottom of the messages container
-			helpers.letScrollTopEqualScrollHeight('messages-container')	
-		}, 1)
 	}
-
 }
 
 function listenOnChannel(state, channel_uuid) {
@@ -293,9 +280,6 @@ function listenOnChannel(state, channel_uuid) {
 	window.socket.on('channel-message::' + channel_uuid, payload => {
 		// add event to channel
 		pushEventToChannel(store, payload)
-
-		// push down the events container
-		helpers.letScrollTopEqualScrollHeight('messages-container')
 	})
 }
 
@@ -411,4 +395,3 @@ export default {
   state,
   mutations
 }
-

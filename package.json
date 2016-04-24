@@ -13,11 +13,11 @@
     "title": "Stryve App",
     "icon": "./src/assets/img/logo-100x100.png",
     "frame": true,
-    "width": 1016,
+    "width": 1000,
     "height": 500,
     "position": "center",
-    "min_width": 1016,
-    "min_height": 500
+    "min_width": 800,
+    "min_height": 400
   },
   "webkit": {
     "plugin": true

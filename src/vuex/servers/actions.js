@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
+import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
 
@@ -22,6 +23,7 @@ export const switchServers = (store, server_uuid) => {
 	store.dispatch(types.SWITCH_SERVERS, server_uuid)
 	switchChannelsPanel(store, 'channels')
 	fetchServer(store, server_uuid, true)
+	helpers.fireWindowResizeEvent()
 }
 
 export const switchChannels = (store, channel_uuid) => {
