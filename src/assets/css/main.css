@@ -68,11 +68,11 @@ button:focus {
 	outline: none;
 }
 a {
-	color: #1c96cf;
+	color: #738BD7;
 	text-decoration: none;
 }
 a:focus {
-	color: #1c96cf;	
+	color: #738BD7;	
 }
 a:hover {
 	text-decoration: underline;
@@ -110,10 +110,14 @@ a:hover {
 	display: flex;
     justify-content: center;
     flex-direction: column;
-    height: 500px;
+    height: 400px;
     width: 300px;
     margin-left: auto;
     margin-right: auto;
+}
+#login-or-register label {
+	font-size: 1.15em;
+	font-weight: bold;
 }
 #login-or-register h1 {
 	text-align: center;
@@ -122,11 +126,13 @@ a:hover {
 	width: 100%;
 	text-align: center;
 }
-
+#login-or-register input[type="checkbox"] {
+	width: auto;
+}
 
 #server-list-container {
 	float: left;
-	padding: 10px;
+	padding: 0px 10px 10px 10px;
 	background: #1e2124;
 	min-height: 100%;
 	width: 80px;
@@ -235,6 +241,11 @@ a:hover {
 	cursor: pointer;
 	background: #232629;
 }
+
+#server-channels-container > #channels-top.server-menu-open {
+	background: #232629;
+}
+
 #server-channels-container > #channels-top > h3 {
 	width: 180px;
 	padding: 15px;
@@ -253,12 +264,15 @@ a:hover {
 }
 
 #chat-server-menu {
-	display: none;
+	/*display: none;*/
 	position: fixed;
 	left: 80px;
 	top: 52px;
 	width: 240px;
 	z-index: 9;
+	-webkit-box-shadow: 0px 2px 1px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 2px 1px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 2px 1px 0px rgba(0,0,0,0.2);
 	/*-webkit-font-smoothing: antialiased;
 	transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);*/
 }
@@ -666,6 +680,9 @@ a:hover {
 .modal {
 	position: fixed;
 	border-radius: 5px;
+	-webkit-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.2);
+	box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.2);
 }
 .modal-overlay {
 	position: fixed;
@@ -678,29 +695,28 @@ a:hover {
 	opacity: 0.5;
 }
 
-.new-channel-or-server {
+.modal-common {
 	padding: 15px;
 	background: #2E3136;
 	left: 50%;
-	top: 50%;
+	top: 40%;
 	width: 400px;
 	margin-left: -200px;
 	/*margin-top: -119px;*/
 	z-index: 10;
 }
 
-.new-channel-or-server input {
+.modal-common input {
  	width: 100%;
 }
-.new-channel-or-server input[type=checkbox] {
+.modal-common input[type=checkbox] {
  	width: auto;
 }
-.new-channel-or-server select,
-.new-channel-or-server input[type=text]
- {
+.modal-common select,
+.modal-common input[type=text] {
  	margin-top: 5px;
 }
-.new-channel-or-server select {
+.modal-common select {
  	width: 100%;
 }
 

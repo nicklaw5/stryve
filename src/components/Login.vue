@@ -4,7 +4,14 @@
 	<br><br>
 	<input type="password" v-model="form.password" @keyup.enter="attemptLogin($event)" placeholder="Password">
 	<br><br>
+		<label>
+			<input type="checkbox" v-model="autoLogin" @click="setAutomaticLogin($event)">
+			Log me in automatically next time.
+		</label>
+	<br><br>
+
 	<auth-message :message="authMessage"></auth-message>
+	
 	<button class="btn-block" type="button" @click="attemptLogin($event)">Log in</button>
 	<br><br>
 	Haven't got an account? 
@@ -17,12 +24,14 @@ import {
 	toggleAuthForm,
 	attemptUserLogin
 } from '../vuex/auth/actions'
+import * as helpers from '../utils/helpers'
 import AuthMessage from './AuthMessage.vue'
 import { authMessage, getAccessToken } from '../vuex/auth/getters'
 
 export default {
 	data() {
 		return {
+			autoLogin: false,
 			form: {
 				email: 'nick@account.com',
 				password: 'test1234'
@@ -32,9 +41,14 @@ export default {
 	components: {
 		AuthMessage
 	},
+	created() {
+		this.autoLogin = (localStorage.automaticLogin === 'true')
+			? true
+			: false
+	},
 	ready() {
 		// if available, attempt to login using access token
-		if(typeof this.getAccessToken != 'undefined') {
+		if(!helpers.isNullOrUndefined(this.getAccessToken) && this.autoLogin) {
 			this.setAuthMessage('success', 'Logging in...')
 			this.attemptUserLogin(null, true)
 		}
@@ -51,6 +65,10 @@ export default {
 		}
 	},
 	methods: {
+		setAutomaticLogin(event) {
+			this.autoLogin = event.target.checked
+			localStorage.automaticLogin = this.autoLogin
+		},
 		attemptLogin (event) {
 			this.setAuthMessage('success', 'Logging in...')
 			this.attemptUserLogin(this.form)

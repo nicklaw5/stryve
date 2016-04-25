@@ -14,7 +14,7 @@
 						<div id="user-message-input">
 							<input id="channel_message" 
 									v-model="message" 
-									@keyup.enter="sendMessage(message)"
+									@keyup.enter="trySendMessage()"
 									type="text" 
 									placeholder="Chat in {{ channel.name }}..." 
 									autocomplete="off">
@@ -89,6 +89,13 @@ export default {
 			})
 		}
 	},
+	methods: {
+		trySendMessage() {
+			if(this.message.trim().length)
+				this.sendMessage(this.message)
+			this.message = ''
+		}
+	}
 }
 </script>
 

@@ -38,6 +38,7 @@ export const attemptUserRegistration = (store, payload) => {
 }
 
 export const attemptUserLogout = (store) => {
+	localStorage.automaticLogin = false
 	auth.postDestroyAuthSession(
 		cb 		=> { store.dispatch(types.LOGOUT_SUCCESS) },
 		errorCb => { store.dispatch(types.LOGOUT_FAILURE) }

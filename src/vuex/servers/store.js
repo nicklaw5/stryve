@@ -7,12 +7,23 @@ import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
 import { setUserSocketId } from '../users/actions'
-import { switchServers, disconnectToServer, getChannelEvents, pushEventToChannel, hideModal } from './actions'
+import { switchServers,
+	disconnectToServer,
+	getChannelEvents,
+	pushEventToChannel,
+	hideModal,
+	switchChannels,
+	toggleServerMenu
+} from './actions'
 
 // initial module state
 const state = {
+	serverInvitivationToken: '',
+	serverInvitivation: false,
 	modalOverlay: false,
+	serverMenu: false,
 	newServerModal: false,
+	newChannelModal: false,
 	currentChannel: null,
 	currentServer: null,
 	serverRegions: [],
@@ -22,13 +33,47 @@ const state = {
 // mutations
 const mutations = {
 
+	[types.GENERATE_NEW_SERVER_INVITATION_SUCCESS] (store, invitation) {
+		set(state, 'serverInvitivationToken', invitation.invitation_token)
+	},
+
+	[types.GENERATE_NEW_SERVER_INVITATION_FAILURE] (store, response) {
+		// TODO
+		console.log(response)
+	},
+
+	[types.RESET_SERVER_INVITATION_TOKEN] (state) {
+		set(state, 'serverInvitivationToken', '')
+	},
+
+	[types.TOGGLE_SERVER_MENU] (state, forceState) {
+		set(state, 'serverMenu', 
+			(!helpers.isNullOrUndefined(forceState))
+			? forceState
+			: !state.serverMenu
+		)
+	},
+
 	[types.CREATE_NEW_SERVER_SUCCESS] (state, server) {
+		server = addServerProperties(server)
 		set(state.servers, server.uuid, server)
 		hideModal(store, 'newServerModal')
 		switchServers(store, server.uuid)
 	},
 
 	[types.CREATE_NEW_SERVER_FAILURE] (store, response) {
+		// TODO
+		console.log(response)
+	},
+
+	[types.CREATE_NEW_CHANNEL_SUCCESS] (state, channel) {
+		channel = addChannelProperties(channel)
+		set(state.servers[state.currentServer].channels, channel.uuid, channel)
+		hideModal(store, 'newChannelModal')
+		switchChannels(store, channel.uuid)
+	},
+
+	[types.CREATE_NEW_CHANNEL_FAILURE] (store, response) {
 		// TODO
 		console.log(response)
 	},
@@ -45,6 +90,7 @@ const mutations = {
 	[types.SHOW_MODAL] (state, modal) {
 		helpers.showModalOverlay()
 		set(state, modal, true)
+		toggleServerMenu(store, false)
 	},
 
 	[types.HIDE_MODAL] (state, modal) {
@@ -86,11 +132,8 @@ const mutations = {
 		} else {
 			// add additional attribute to each channel
 			channels.forEach(channel => {
-				channel['active'] = false
-				channel['ready'] = false
-				channel['listening'] = false
-				channel['users'] = {}
-				channel['events'] = {}
+				// add additional channel properties
+				channel = addChannelProperties(channel)
 
 				// create channels
 				set(state.servers[server_uuid].channels, channel.uuid, channel)
@@ -109,9 +152,9 @@ const mutations = {
 		}
 	},
 
-	[types.FETCH_SERVER_SUCCESS] (state, response) {
-		// TODO
-		// console.log(response)
+	[types.FETCH_SERVER_SUCCESS] (state, server) {
+		// add owner to server
+		set(state.servers[state.currentServer], 'owned_by', server.owner)
 	},
 
 	[types.FETCH_SERVER_FAILURE] (state, response) {
@@ -126,8 +169,10 @@ const mutations = {
 
 		// create the servers
 		servers.forEach(server => {
-			server['active'] = false
-			server['channels'] = {}
+			// add additional server properties
+			server = addServerProperties(server)
+
+			// set all the server to the list
 			set(state.servers, server.uuid, server)
 		})
 	},
@@ -234,29 +279,27 @@ const mutations = {
 	},
 
 	[types.FETCH_CHANNEL_EVENTS_SUCCESS] (state, channel_events) {
-		// check we have events to work with
-		if(helpers.isEmptyObject(channel_events))
-			return
+		// check we have events to add to the channel
+		if(!helpers.isNullOrUndefined(channel_events)) {
+			// add the event to the channel
+			for(let i = channel_events.length - 1; i > -1; i--) {
+				// skip empty texts
+				if(channel_events[i].event_text == null)
+					continue
 
-		// add the event to the channel
-		for(let i = channel_events.length - 1; i > -1; i--) {
+				// add any emoticons
+				channel_events[i].event_text = emojify.replace(channel_events[i].event_text)
 
-			// skip empty texts
-			if(channel_events[i].event_text == null)
-				continue
+				// linkify http text
+				channel_events[i].event_text = helpers.linkify(channel_events[i].event_text)
 
-			// add any emoticons
-			channel_events[i].event_text = emojify.replace(channel_events[i].event_text)
-
-			// linkify http text
-			channel_events[i].event_text = helpers.linkify(channel_events[i].event_text)
-
-			// add event to channel
-			set(
-				state.servers[state.currentServer].channels[state.currentChannel].events,
-				channel_events[i].uuid,
-				channel_events[i]
-			)
+				// add event to channel
+				set(
+					state.servers[state.currentServer].channels[state.currentChannel].events,
+					channel_events[i].uuid,
+					channel_events[i]
+				)
+			}
 		}
 
 		// channel ready to receive new events
@@ -290,6 +333,22 @@ const mutations = {
 			}
 		}
 	}
+}
+
+function addServerProperties(server) {
+	server['owned_by'] = ''
+	server['active'] = false
+	server['channels'] = {}
+	return server
+}
+
+function addChannelProperties(channel) {
+	channel['active'] = false
+	channel['ready'] = false
+	channel['listening'] = false
+	channel['users'] = {}
+	channel['events'] = {}
+	return channel
 }
 
 function listenOnChannel(state, channel_uuid) {

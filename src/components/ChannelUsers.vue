@@ -1,6 +1,8 @@
 <template>
 	<div id="channel-users">
-		<ul>
+		<p>Online/Offline Contacts List</p>
+		<p>Coming Soon</p>
+		<!-- <ul>
 			<li>
 				<div class="avatar">
 					<span>{{ 'Jimbo' | capitalizeFirstLetter }}</span>
@@ -20,7 +22,7 @@
 				<div class="username">{{ 'Mary' }}</div>
 			</li>
 		</ul>
-	</div>
+	</div> -->
 </template>
 
 <script>
@@ -39,4 +41,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+	#channel-users p {
+    	padding: 14px 10px 8px 0px;
+    	text-align: center;
+    	font-size: 13px;
+    	font-weight: bold;
+	}
+
+</style>

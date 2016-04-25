@@ -6,7 +6,7 @@
 
 	<div id="channels-list">
 		<p>
-			Direct Chat - Coming Soon!
+			Direct Chat Coming Soon
 		</p>
 	</div>
 
@@ -35,7 +35,8 @@ export default {
 
 <style scoped>
 	#channels-list p {
-		padding: 14px 0px 8px 20px;
+		padding: 14px 10px 8px 0px;
+		text-align: center;
 		font-size: 13px;
 		font-weight: bold;
 	}

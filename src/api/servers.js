@@ -37,10 +37,29 @@ export function getServerRegions(cb, errorCb) {
 /**
  * Create a new server
  */
-export function postNewServer (payload, cb, errorCb) {
+export function postNewServer(payload, cb, errorCb) {
 	ajax.post('servers', payload, true, res => {
 		(res.code === codes.CREATED)
 			? cb(res.response)
 			: errorCb(res.response)
 	})
+}
+
+/**
+ * Create a new server channel
+ */
+export function postNewChannel(payload, cb, errorCb) {
+	ajax.post('servers/' + payload.server + '/channels', payload, true, res => {
+		(res.code === codes.CREATED)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}
+
+export function postNewInvitation(server_uuid, cb, errorCb) {
+	ajax.post('servers/' + server_uuid + '/invitations', null, true, res => {
+		(res.code === codes.CREATED)
+			? cb(res.response)
+			: errorCb(res.response)
+	})	
 }

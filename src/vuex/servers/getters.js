@@ -33,3 +33,19 @@ export function getServerRegions (state) {
 export function getNewServerModal (state) {
 	return state.servers.newServerModal
 }
+
+export function getNewChannelModal (state) {
+	return state.servers.newChannelModal
+}
+
+export function getServerMenu (state) {
+	return state.servers.serverMenu
+}
+
+export function getServerInvitivation (state) {
+	return state.servers.serverInvitivation
+}
+
+export function getServerInvitivationToken (state) {
+	return state.servers.serverInvitivationToken
+}

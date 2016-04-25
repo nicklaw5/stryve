@@ -4,6 +4,18 @@ import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
 
+export const generateServerInvitation = (store, server_uuid) => {
+	servers.postNewInvitation(
+		server_uuid,
+		cb 		=> { store.dispatch(types.GENERATE_NEW_SERVER_INVITATION_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.GENERATE_NEW_SERVER_INVITATION_FAILURE, errorCb) }
+	)
+}
+
+export const resetServerInvitivation = (store) => {
+	store.dispatch(types.RESET_SERVER_INVITATION_TOKEN)
+}
+
 export const createNewServer = (store, payload) => {
 	if(!payload.name.length || !payload.region.length) {
 		alert('Both a server name and region are required to create a new server.')
@@ -17,11 +29,28 @@ export const createNewServer = (store, payload) => {
 	)
 }
 
+export const createNewChannel = (store, payload) => {
+	if(!payload.name.length) {
+		alert('A channel name is required.')
+		return
+	}
+
+	servers.postNewChannel(
+		payload,
+		cb 		=> { store.dispatch(types.CREATE_NEW_CHANNEL_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.CREATE_NEW_CHANNEL_FAILURE, errorCb) }
+	)
+}
+
 export const fetchServerRegions = (store) => {
 	servers.getServerRegions(
 		cb 		=> { store.dispatch(types.FETCH_SERVER_REGIONS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_SERVER_REGIONS_FAILURE, errorCb) }
 	)
+}
+
+export const toggleServerMenu = (store, forceState) => {
+	store.dispatch(types.TOGGLE_SERVER_MENU, forceState)
 }
 
 export const showModal = (store, modal) => {
@@ -32,18 +61,11 @@ export const hideModal = (store, modal) => {
 	store.dispatch(types.HIDE_MODAL, modal)
 }
 
-// export const hideModalOverlay = (store) => {
-// 	helpers.removeClassElementFromDom('modal-overlay')
-// }
-
 export const updateMessageText = (store, text) => {
 	store.dispatch(types.UPDATE_MESSAGE_TEXT, text)
 }
 
 export const sendMessage = (store, text) => {
-	if(!text.trim().length)
-		return
-
 	store.dispatch(types.SEND_MESSAGE, text)
 }
 

@@ -1,6 +1,5 @@
 <template>
-	<!-- new server modal -->
-	<div id="new-server-modal" class="modal new-channel-or-server">
+	<div id="new-server-modal" class="modal modal-common">
 		<div class="form-element-wrapper">
 			<label>Server Name:</label>
 			<input v-model="form.name" type="text">
@@ -27,11 +26,10 @@
 			<button id="new-server-modal-cancel"
 					type="button"
 					@click="hideModal('newServerModal')">
-				Cancel
+				Close
 			</button>
 		</div>
 	</div>
-	<!-- /new server modal -->
 </template>
 
 <script>
