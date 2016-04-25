@@ -4,6 +4,14 @@ import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel } from '../app/actions'
 
+export const joinServer = (store, invite_token) => {
+	servers.getJoinServer (
+		invite_token,
+		cb 		=> { store.dispatch(types.JOIN_SERVER_WITH_INVITE_TOKEN_SUCCESS, cb) },
+		errorCb	=> { store.dispatch(types.JOIN_SERVER_WITH_INVITE_TOKEN_FAILURE, errorCb) }
+	)
+}
+
 export const generateServerInvitation = (store, server_uuid) => {
 	servers.postNewInvitation(
 		server_uuid,

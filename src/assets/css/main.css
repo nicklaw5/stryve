@@ -25,7 +25,7 @@ input {
 	outline: none;
 	color: #CFCFCF;
 	background: #424549;
-	padding: 10px;
+	padding: 8px;
 	border: 2px #686a6e solid;
 	border-radius: 3px;
 }
@@ -43,7 +43,7 @@ select {
 	outline: none;
 	color: #CFCFCF;
 	background: #424549;
-	padding: 10px;
+	padding: 8px;
 	border: 2px #686a6e solid;
 	border-radius: 3px;
 }
@@ -724,6 +724,17 @@ a:hover {
 #new-server-modal {
 	margin-top: -128px;
 }
+
+#new-server-options {
+	text-align: center;
+}
+#new-server-options a {
+	cursor: pointer;
+}
+#new-server-options > button {
+	width: 100%;
+}
+
 #new-channel-modal {
 	margin-top: -91px;
 }

@@ -33,6 +33,17 @@ const state = {
 // mutations
 const mutations = {
 
+	[types.JOIN_SERVER_WITH_INVITE_TOKEN_SUCCESS] (state, server) {
+		server = addServerProperties(server)
+		set(state.servers, server.uuid, server)
+		hideModal(store, 'newServerModal')
+		switchServers(store, server.uuid)
+	},	
+
+	[types.JOIN_SERVER_WITH_INVITE_TOKEN_FAILURE] (state, response) {
+		console.log(response)
+	},
+
 	[types.GENERATE_NEW_SERVER_INVITATION_SUCCESS] (store, invitation) {
 		set(state, 'serverInvitivationToken', invitation.invitation_token)
 	},
@@ -323,6 +334,9 @@ const mutations = {
 				if(payload.channel_uuid === state.servers[state.currentServer].channels[key].uuid)  {
 					// insert any found emoticons
 					payload.event_text = emojify.replace(payload.event_text)
+
+					// linkify http text
+					payload.event_text = helpers.linkify(payload.event_text)
 
 					// add the event to the current array of events
 					set(state.servers[state.currentServer].channels[key].events, payload.uuid, payload)

@@ -63,3 +63,11 @@ export function postNewInvitation(server_uuid, cb, errorCb) {
 			: errorCb(res.response)
 	})	
 }
+
+export function getJoinServer(invite_token, cb, errorCb) {
+	ajax.get('invitations/' + invite_token, null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}
