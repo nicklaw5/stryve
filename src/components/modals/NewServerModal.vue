@@ -25,6 +25,10 @@
 				<label>Enter Inivite Token:</label>
 				<input v-model="token" type="text">
 			</div>
+			<p v-if="notice.message.length"
+				class="text-center text-{{ notice.tone }}">
+				{{ notice.message }}
+			</p>
 			<div class="form-element-wrapper">
 				<button class="float-right"
 						type="button"
@@ -73,6 +77,8 @@
 
 <script>
 import randomName from 'sillyname'
+import { setNoticeMessage } from '../../vuex/app/actions'
+import { getNoticeMessage } from '../../vuex/app/getters'
 import { getServerRegions } from '../../vuex/servers/getters'
 import { fetchServerRegions, hideModal, createNewServer, joinServer } from '../../vuex/servers/actions'
 
@@ -96,19 +102,23 @@ export default {
 	},
 	vuex: {
 		getters: {
+			notice: getNoticeMessage,
 			regions: getServerRegions
 		},
 		actions: {
 			hideModal,
 			joinServer,
 			createNewServer,
+			setNoticeMessage,
 			fetchServerRegions
 		}
 	},
 	methods: {
 		tryJoinServer($event) {
-			if(this.token.trim().length)
-				this.joinServer(this.token)
+			(this.token.trim().length)
+				? this.joinServer(this.token)
+				: this.setNoticeMessage('danger', 'You must enter a token.')
+
 		},
 		switchForm($event, form) {
 			this.whichForm = form

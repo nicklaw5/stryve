@@ -149,7 +149,7 @@ module.exports = {
 	notification: (title, options) => {
 		let n = new Notification(title, {
 		  body: options.body,
-		  icon: './src/assets/img/logo-100x100.png'
+		  icon: './src/assets/img/logo-450x450.png'
 		})
 		
 		// close the notification after 5 secs

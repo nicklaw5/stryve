@@ -2,9 +2,10 @@ import * as types from '../mutation-types'
 import * as servers from '../../api/servers'
 import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
-import { switchChannelsPanel } from '../app/actions'
+import { switchChannelsPanel, setNoticeMessage } from '../app/actions'
 
 export const joinServer = (store, invite_token) => {
+	setNoticeMessage(store, '', '')
 	servers.getJoinServer (
 		invite_token,
 		cb 		=> { store.dispatch(types.JOIN_SERVER_WITH_INVITE_TOKEN_SUCCESS, cb) },
@@ -66,6 +67,7 @@ export const showModal = (store, modal) => {
 }
 
 export const hideModal = (store, modal) => {
+	setNoticeMessage(store, '', '')
 	store.dispatch(types.HIDE_MODAL, modal)
 }
 

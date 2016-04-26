@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { set } from 'vue'
 import store from '../store'
 import emojify from 'emojify.js'
@@ -6,6 +5,7 @@ import io from 'socket.io-client'
 import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
+import { setNoticeMessage } from '../app/actions'
 import { setUserSocketId } from '../users/actions'
 import { switchServers,
 	disconnectToServer,
@@ -34,13 +34,14 @@ const state = {
 const mutations = {
 
 	[types.JOIN_SERVER_WITH_INVITE_TOKEN_SUCCESS] (state, server) {
-		server = addServerProperties(server)
-		set(state.servers, server.uuid, server)
-		hideModal(store, 'newServerModal')
-		switchServers(store, server.uuid)
+			server = addServerProperties(server)
+			set(state.servers, server.uuid, server)
+			hideModal(store, 'newServerModal')
+			switchServers(store, server.uuid)
 	},	
 
 	[types.JOIN_SERVER_WITH_INVITE_TOKEN_FAILURE] (state, response) {
+		setNoticeMessage(store, 'danger', response.errorMessage)
 		console.log(response)
 	},
 

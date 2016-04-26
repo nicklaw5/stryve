@@ -1,6 +1,6 @@
 <template>
 	<h1>Register</h1>
-	<input type="text" v-model="form.username" @keyup.enter="attemptRegistration($event)" placeholder="Name">
+	<input type="text" v-model="form.username" @keyup.enter="attemptRegistration($event)" placeholder="Username">
 	<br><br>
 	<input type="email" v-model="form.email" @keyup.enter="attemptRegistration($event)" placeholder="Email">
 	<br><br>
