@@ -7,6 +7,7 @@
     "w-app": "webpack-dev-server --inline --hot",
     "d-app": "webpack --progress --hide-modules && nw .",
     "build": "webpack --progress --hide-modules",
+    "build-m": "SET PROD_ENV=1 & webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
   },
   "window": {

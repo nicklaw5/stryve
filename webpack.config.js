@@ -1,6 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
 
+var PROD = JSON.parse(process.env.PROD_ENV || '0');
+
+console.log(PROD)
+
 module.exports = {
   entry: './src/app.js',
   output: {
@@ -60,7 +64,8 @@ module.exports = {
   devtool: 'eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
+if (PROD) {
   module.exports.devtool = 'source-map'
   // http://vuejs.github.io/vue-loader/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
