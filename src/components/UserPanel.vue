@@ -8,7 +8,6 @@
 			<ul class="icons">
 				<li @click="attemptUserLogout()">
 					<i class="icon-move-left"
-						@click="attemptUserLogout()"
 						@mouseover="showLogOutTooltip($event)"
 						@mouseleave="hideTooltips()">
 					</i>

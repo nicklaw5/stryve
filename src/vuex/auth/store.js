@@ -57,6 +57,7 @@ function logoutSuccessOrFailure() {
 	token.destroy()
 	setAuthForm('login')
 	setIsAuthenticated(false)
+	localStorage.automaticLogin = false
 	setAuthMessage('success', 'Successfully logged out.')
 }
 

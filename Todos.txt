@@ -1,1 +1,61 @@
+/********************************************************/
+/*********************** BUGS/ISSUES ********************/
+/********************************************************/
+- sockets a applications data/state are not reset on loggout
+	- vm.$mount([elementOrSelector | string]) - http://vuejs.org/api/#vm-mount
+	- vm.$destroy([remove | boolean]) - http://vuejs.org/api/#vm-mount
+
+/********************************************************/
+/************ To Do For Pre-Alpa Release ****************/
+/********************************************************/
+- TEST, TEST, TEST...
+- make sure all users in a server are notified when a new channel is created, also update channel listing UI
+- add hover text to certain attributes (half complete)
+- add users to right-hand list of users in channel
+- add premission matrix (for servers and extend for channels)
+- add chat emiticons popup list (click to add to message)
+- add ability for users to select chat name color (add to user settings)
+- add click & drag ability to d-app header
 - change colour scheme to similar to https://beta.keeweb.info/
+- replace url regex with https://www.npmjs.com/package/url-regex
+- craete more aesthetic modals for prompt/notification popups
+  -- New Server (DONE)
+  -- New Channel (DONE)
+  -- Logout popup (DONE)
+  -- New Server Invitation (DONE)
+  -- Error Notifications
+  -- Channel Settings (incl. Permissions)
+  -- Channel Invites
+  -- User Settings
+  -- Server Settings (incl. Permissions)
+  -- Notification Settings
+
+/********************************************************/
+/************ Needs multi-tenant testing ****************/
+/********************************************************/
+- log server events (i thinks its complete)
+
+/********************************************************/
+/********************* Complteted ***********************/
+/********************************************************/
+- fix message scroll height after user join and leave event
+- add timestamp to messages
+- restrict channel creation to users with that permission
+- add the ability to create a new server
+- replace emojione with https://www.npmjs.com/package/emojify.js
+- load the last 25 messages when a user clicks on a channel
+- fix message scroll height
+- fix message scroll height after window resize
+
+/********************************************************/
+/*********** Things to add to Alpha Release *************/
+/********************************************************/
+- API documentation
+- ability for users to add custom emotes to a server
+- replace request package with request-promise - https://www.npmjs.com/package/request-promise
+- add @ for user mentions and # for channel mentions
+- add search feature to contacts section (to seacrh all servers for contacts)
+- block chat messages from certain users (in user serttings perhaps)
+- add ability to upload attachments
+- add direct p2p chat feature
+- add ability to edit chat messages (like Slack does it)
