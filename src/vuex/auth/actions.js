@@ -1,8 +1,6 @@
 import * as types from '../mutation-types'
 import * as auth from '../../api/auth'
 import { fetchUser } from '../users/actions'
-import App from '../../components/App.vue'
-import Vue from 'vue'
 
 export const setIsAuthenticated = (store, boolean) => {
 	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)
