@@ -79,8 +79,8 @@ export const sendMessage = (store, text) => {
 	store.dispatch(types.SEND_MESSAGE, text)
 }
 
-export const pushEventToChannel = (store, payload) => {
-	store.dispatch(types.PUSH_EVENT_TO_CHANNEL, payload)
+export const pushEventToChannel = (store, payload, isPreliminary) => {
+	store.dispatch(types.PUSH_EVENT_TO_CHANNEL, payload, isPreliminary)
 }
 
 export const switchServers = (store, server_uuid) => {

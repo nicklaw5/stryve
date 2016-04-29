@@ -329,7 +329,7 @@ const mutations = {
 		console.log(response)
 	},
 
-	[types.PUSH_EVENT_TO_CHANNEL] (state, payload) {
+	[types.PUSH_EVENT_TO_CHANNEL] (state, payload, isPreliminary) {
 		for(let key in state.servers[state.currentServer].channels) {
 			if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 				if(payload.channel_uuid === state.servers[state.currentServer].channels[key].uuid)  {
@@ -339,6 +339,14 @@ const mutations = {
 					// linkify http text
 					payload.event_text = helpers.linkify(payload.event_text)
 
+					// add temporary event properties for preliminary events
+					if(isPreliminary) {
+						let user = store._vm.users.user;
+						payload['owner_uuid'] 		= user.uuid
+						payload['owner_username'] 	= user.username
+						payload['editable'] 		= false
+					}
+
 					// add the event to the current array of events
 					set(state.servers[state.currentServer].channels[key].events, payload.uuid, payload)
 
@@ -347,7 +355,7 @@ const mutations = {
 				}
 			}
 		}
-	}
+	},
 }
 
 function addServerProperties(server) {
@@ -370,7 +378,7 @@ function listenOnChannel(state, channel_uuid) {
 	// ON USER JOINED CHANNEL
 	window.socket.on('user-subscribed-to::' + channel_uuid, payload => {
 		// add event to channel
-		pushEventToChannel(store, payload)
+		pushEventToChannel(store, payload, false)
 
 		// notify the user of new user subscription
 		helpers.notification(payload.event_text, {})
@@ -378,15 +386,20 @@ function listenOnChannel(state, channel_uuid) {
 
 	// ON USER LEFT CHANNEL
 	window.socket.on('user-unsubscribed-from::' + channel_uuid, payload => {
-		console.log(payload)
 		// add event to channel
-		pushEventToChannel(store, payload)
+		pushEventToChannel(store, payload, false)
+	})
+
+	// ON PRELIMINARY MESSAGE RECEIVED TO CHANNEL
+	window.socket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
+		// add event to channel
+		pushEventToChannel(store, payload, true)
 	})
 
 	// ON MESSAGE RECEIVED TO CHANNEL
 	window.socket.on('channel-message::' + channel_uuid, payload => {
 		// add event to channel
-		pushEventToChannel(store, payload)
+		pushEventToChannel(store, payload, false)
 	})
 }
 
