@@ -408,6 +408,7 @@ a:hover {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	cursor: default;
 }
 
 #user-settings-inner > .icons {
@@ -455,7 +456,8 @@ a:hover {
 }
 
 #channel-messages-header-left > h3 {
-		font-size: 18px;
+	font-size: 18px;
+	cursor: default;
 }
 
 #channel-messages-header-left .hashtag {
