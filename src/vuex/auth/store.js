@@ -59,6 +59,7 @@ function logoutSuccessOrFailure() {
 	setIsAuthenticated(false)
 	localStorage.automaticLogin = false
 	setAuthMessage('success', 'Successfully logged out.')
+	location.reload()
 }
 
 function loginOrRegistrationSuccess(response) {
