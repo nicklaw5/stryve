@@ -265,7 +265,6 @@ a:hover {
 }
 
 #chat-server-menu {
-	/*display: none;*/
 	position: fixed;
 	left: 80px;
 	top: 52px;

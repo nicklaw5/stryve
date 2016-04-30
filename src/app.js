@@ -15,13 +15,14 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import emojify from 'emojify.js'
 import App from './components/App.vue'
+import PageLoadingOverlay from './components/PageLoadingOverlay.vue'
 import './utils/filters'
 import './utils/sizer'
 
 // app configs
 Vue.config.debug = true
-emojify.setConfig({ mode: 'data-uri'})
-// emojify.setConfig({ mode: 'sprite'})
+// emojify.setConfig({ mode: 'data-uri'})
+emojify.setConfig({ mode: 'sprite'})
 emojify.run()
 
 // create global socket object
@@ -29,5 +30,8 @@ window.socket = {}
 
 new Vue({
 	el: 'body',
-	components: { App }
+	components: {
+		App,
+		PageLoadingOverlay
+	}
 })

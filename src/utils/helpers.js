@@ -264,8 +264,8 @@ module.exports = {
 	 * @param {string} $className
 	 * @return void
 	 */
-	removeClassElementFromDom: className => {
-		let el = document.getElementsByClassName(className)
+	removeClassElementFromDom: class_name => {
+		let el = document.getElementsByClassName(class_name)
     	while(el.length > 0)
         	el[0].parentNode.removeChild(el[0])
 	},
@@ -278,6 +278,7 @@ module.exports = {
 	showModalOverlay: () => {
 		let overlay = document.createElement('div')
 		overlay.className += ' modal-overlay'
+
 		document.body.appendChild(overlay)
 	},
 

@@ -1,7 +1,7 @@
 <template>	
 	<div v-if="isOwner" id="channels-top"
 		class="is-owner" 
-		:class="{ 'server-menu-open': showServerMenu, }"
+		:class="{ 'server-menu-open': showServerMenu }"
 		@click="toggleServerMenu()">
 		<h3>{{ server.name }}</h3>
 		<span v-if="showServerMenu"><i class="icon-x"></i></span>
