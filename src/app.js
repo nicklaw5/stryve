@@ -15,7 +15,6 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import emojify from 'emojify.js'
 import App from './components/App.vue'
-import PageLoadingOverlay from './components/PageLoadingOverlay.vue'
 import './utils/filters'
 import './utils/sizer'
 
@@ -31,7 +30,6 @@ window.socket = {}
 new Vue({
 	el: 'body',
 	components: {
-		App,
-		PageLoadingOverlay
+		App
 	}
 })
