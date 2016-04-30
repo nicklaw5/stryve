@@ -1,6 +1,13 @@
-import * as types from '../mutation-types'
 import * as auth from '../../api/auth'
-import { fetchUser } from '../users/actions'
+import * as types from '../mutation-types'
+import * as helpers from '../../utils/helpers'
+import { switchChannelsPanel } from '../app/actions'
+import { fetchUser, resetUser } from '../users/actions'
+import {
+	resetActiveServer,
+	unsubscribeFromAllChannels,
+	disconnectFromSocketServer,
+} from '../servers/actions'
 
 export const setIsAuthenticated = (store, boolean) => {
 	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)
@@ -38,9 +45,12 @@ export const attemptUserRegistration = (store, payload) => {
 }
 
 export const attemptUserLogout = (store) => {
-	auth.postDestroyAuthSession(
-		cb => { store.dispatch(types.LOGOUT_SUCCESS) },
-		errorCb => { store.dispatch(types.LOGOUT_FAILURE) }
-	)
+	auth.postDestroyAuthSession(cb 	=> {
+		store.dispatch(types.LOGOUT)
+		unsubscribeFromAllChannels(store)
+		resetUser(store)
+		resetActiveServer(store, true)
+		disconnectFromSocketServer(store)
+		switchChannelsPanel(store, 'contacts')
+	})
 }
-

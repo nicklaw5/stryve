@@ -1,5 +1,5 @@
-import * as types from '../mutation-types'
 import * as users from '../../api/users'
+import * as types from '../mutation-types'
 import { setIsAuthenticated, setAuthMessage } from '../auth/actions'
 
 export const fetchUser = (store) => {
@@ -14,6 +14,10 @@ export const fetchUser = (store) => {
 			setAuthMessage(store, 'danger', 'Unable to find user.')
 		}
 	)
+}
+
+export const resetUser = (store) => {
+	store.dispatch(types.RESET_USER)
 }
 
 export const setUserSocketId = (store, socketId) => {

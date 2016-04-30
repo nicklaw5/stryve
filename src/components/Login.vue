@@ -52,6 +52,9 @@ export default {
 			this.setAuthMessage('success', 'Logging in...')
 			this.attemptUserLogin(null, true)
 		}
+
+		// hide any existing tooltips (some gernally hang after logging out)
+		helpers.hideTooltips()
 	},
 	vuex: {
 		getters: {

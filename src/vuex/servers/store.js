@@ -90,7 +90,7 @@ const mutations = {
 		helpers.updateElementsValue('channel_message', '')
 	},
 
-	[types.RESET_ACTIVE_SERVER] (state) {
+	[types.RESET_ACTIVE_SERVER] (state, resetServerList) {
 		// mark all servers as 'inactive'
 		for(let key in state.servers) {
 			if(state.servers.hasOwnProperty(key)) {
@@ -98,9 +98,13 @@ const mutations = {
 			}
 		}
 
-		// delete all channel data for this server
-		set(state.servers[state.currentServer], 'channels', {})
-
+		// are we reseting the server list?
+		(typeof resetServerList == 'boolean' && resetServerList)
+			// empty out the server list
+			? set(state, 'servers', {})
+			// delete all channel data for this server
+			: set(state.servers[state.currentServer], 'channels', {})
+		
 		// disconnect from current server
 		disconnectFromSocketServer()
 
@@ -210,8 +214,6 @@ const mutations = {
 				   	set(state, 'currentServer', key)
 			}
 		}
-		
-		helpers.fireWindowResizeEvent()
 	},
 
 	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {
@@ -220,6 +222,27 @@ const mutations = {
 
 	[types.DISCONNECT_FROM_SOCKET_SERVER] (state) {
 		disconnectFromSocketServer()
+	},
+
+	[types.UNSUBSCRIBE_FROM_ALL_CHANNELS] (state) {
+
+		if(!helpers.isNullOrUndefined(state.currentServer)
+				&& state.servers[state.currentServer].hasOwnProperty('channels')) {
+
+			let user = store._vm.users.user;
+
+			// unscubscribe from any channels the user is listening on
+			for(let key in state.servers[state.currentServer].channels) {
+				if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
+					if(state.servers[state.currentServer].channels[key].listening) {
+						unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], user)
+					}
+				}
+			}
+
+			// delete all channel data for this server
+			set(state.servers[state.currentServer], 'channels', {})
+		}
 	},
 
 	[types.SWITCH_CHANNELS] (state, channel_uuid) {

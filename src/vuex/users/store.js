@@ -11,11 +11,15 @@ const state = {
 const mutations = {
 	
 	[types.FETCH_USER_SUCCESS] (state, response) {
-		state.user = response
+		set(state, 'user', response)
 	},
 
 	[types.FETCH_USER_FAILURE] (state, response) {
 		console.log(response)
+	},
+
+	[types.RESET_USER] (state) {
+		set(state, 'user', {})
 	},
 
 	[types.SET_USER_SOCKET_ID] (state, socket_id) {

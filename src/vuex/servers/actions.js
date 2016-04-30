@@ -67,9 +67,14 @@ export const pushEventToChannel = (store, payload, isPreliminary) => {
 }
 
 export const switchServers = (store, server_uuid) => {
+	let existing_server = store._vm.servers.currentServer === server_uuid
+	
 	store.dispatch(types.SWITCH_SERVERS, server_uuid)
 	switchChannelsPanel(store, 'channels')
-	fetchServer(store, server_uuid, true)
+	helpers.fireWindowResizeEvent()
+	
+	if(!existing_server)
+		fetchServer(store, server_uuid, true)
 }
 
 export const switchChannels = (store, channel_uuid) => {
@@ -84,11 +89,12 @@ export const getChannelEvents = (store, channel_uuid) => {
 	)
 }
 
-export const resetActiveServer = (store) => {
-	store.dispatch(types.RESET_ACTIVE_SERVER)
+export const resetActiveServer = (store, resetServerList) => {
+	store.dispatch(types.RESET_ACTIVE_SERVER, resetServerList)
 }
 
 export const fetchServer = (store, server_uuid, includeChannels) => {
+
 	servers.getServer(
 		server_uuid,
 		includeChannels,
@@ -118,4 +124,8 @@ export const disconnectFromSocketServer = (store) => {
 
 export const instantiateServerChannels = (store, server_uuid, channels) => {
 	store.dispatch(types.INSTANTIATE_CHANNELS, server_uuid, channels)
+}
+
+export const unsubscribeFromAllChannels = (store) => {
+	store.dispatch(types.UNSUBSCRIBE_FROM_ALL_CHANNELS)
 }

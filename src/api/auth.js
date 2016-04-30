@@ -26,11 +26,9 @@ export function postCreateRegisteredUser(payload, cb, errorCb) {
 /**
  * Destroy a user authenticated session.
  */
-export function postDestroyAuthSession(cb, errorCb) {
+export function postDestroyAuthSession(cb) {
 	ajax.post('auth/logout', null, true, res => {
-		(res.code === codes.OK)
-			? cb(res.response)
-			: errorCb(res.response)
+		cb(res)
 	})
 }
 

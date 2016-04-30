@@ -20,12 +20,12 @@ const mutations = {
 		setAuthMessage('danger', response.errorMessage)
 	},
 
-	[types.LOGOUT_SUCCESS] (state, response) {
-		logoutSuccessOrFailure()
-	},
-
-	[types.LOGOUT_FAILURE] (state, response) {
-		logoutSuccessOrFailure()
+	[types.LOGOUT] (state) {
+		token.destroy()
+		setAuthForm('login')
+		setIsAuthenticated(false)
+		localStorage.automaticLogin = false
+		setAuthMessage('success', 'Successfully logged out.')
 	},
 
 	[types.REGISTRATION_SUCCESS] (state, response) {
@@ -51,14 +51,6 @@ const mutations = {
 
 function setAuthForm(form) {
 	state.authForm = form
-}
-
-function logoutSuccessOrFailure() {
-	token.destroy()
-	setAuthForm('login')
-	setIsAuthenticated(false)
-	localStorage.automaticLogin = false
-	setAuthMessage('success', 'Successfully logged out.')
 }
 
 function loginOrRegistrationSuccess(response) {
