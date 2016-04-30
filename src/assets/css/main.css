@@ -236,8 +236,9 @@ a:hover {
 	background: #2e3136;
 	-webkit-transition: background 0.2s; /* Safari */
     transition: background 0.2s;
+    cursor: default;
 }
-#server-channels-container > #channels-top:hover {
+#server-channels-container > #channels-top.is-owner:hover {
 	cursor: pointer;
 	background: #232629;
 }
@@ -339,7 +340,7 @@ a:hover {
 }
 
 #channels-list > ul > li > .channel-name {
-	width: 172px;
+	width: 192px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -725,6 +726,9 @@ a:hover {
 
 #new-server-modal {
 	margin-top: -128px;
+}
+#new-server-modal #join-server input{
+	text-align: center;
 }
 
 #new-server-options {

@@ -58,23 +58,6 @@ export const fetchServerRegions = (store) => {
 	)
 }
 
-export const toggleServerMenu = (store, forceState) => {
-	store.dispatch(types.TOGGLE_SERVER_MENU, forceState)
-}
-
-export const showModal = (store, modal) => {
-	store.dispatch(types.SHOW_MODAL, modal)
-}
-
-export const hideModal = (store, modal) => {
-	setNoticeMessage(store, '', '')
-	store.dispatch(types.HIDE_MODAL, modal)
-}
-
-export const updateMessageText = (store, text) => {
-	store.dispatch(types.UPDATE_MESSAGE_TEXT, text)
-}
-
 export const sendMessage = (store, text) => {
 	store.dispatch(types.SEND_MESSAGE, text)
 }

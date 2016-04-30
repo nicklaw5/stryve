@@ -5,25 +5,19 @@ import io from 'socket.io-client'
 import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import { setNoticeMessage } from '../app/actions'
 import { setUserSocketId } from '../users/actions'
-import { switchServers,
-	disconnectToServer,
-	getChannelEvents,
-	pushEventToChannel,
-	hideModal,
+import { setNoticeMessage, hideModal } from '../app/actions'
+import { 
+	switchServers,
 	switchChannels,
-	toggleServerMenu
+	getChannelEvents,
+	disconnectToServer,
+	pushEventToChannel
 } from './actions'
 
 // initial module state
 const state = {
 	serverInvitivationToken: '',
-	serverInvitivation: false,
-	modalOverlay: false,
-	serverMenu: false,
-	newServerModal: false,
-	newChannelModal: false,
 	currentChannel: null,
 	currentServer: null,
 	serverRegions: [],
@@ -58,14 +52,6 @@ const mutations = {
 		set(state, 'serverInvitivationToken', '')
 	},
 
-	[types.TOGGLE_SERVER_MENU] (state, forceState) {
-		set(state, 'serverMenu', 
-			(!helpers.isNullOrUndefined(forceState))
-			? forceState
-			: !state.serverMenu
-		)
-	},
-
 	[types.CREATE_NEW_SERVER_SUCCESS] (state, server) {
 		server = addServerProperties(server)
 		set(state.servers, server.uuid, server)
@@ -97,17 +83,6 @@ const mutations = {
 	[types.FETCH_SERVER_REGIONS_FAILURE] (state, response) {
 		// TODO
 		console.log(response)
-	},
-
-	[types.SHOW_MODAL] (state, modal) {
-		helpers.showModalOverlay()
-		set(state, modal, true)
-		toggleServerMenu(store, false)
-	},
-
-	[types.HIDE_MODAL] (state, modal) {
-		helpers.removeClassElementFromDom('modal-overlay')
-		set(state, modal, false)
 	},
 	
 	[types.SEND_MESSAGE] (state, text) {

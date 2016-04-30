@@ -13,3 +13,16 @@ export const switchChannelsPanel = (store, panel) => {
 		disconnectFromSocketServer(store)
 	}
 }
+
+export const showModal = (store, modal) => {
+	store.dispatch(types.SHOW_MODAL, modal)
+}
+
+export const hideModal = (store, modal) => {
+	setNoticeMessage(store, '', '')
+	store.dispatch(types.HIDE_MODAL, modal)
+}
+
+export const toggleServerMenu = (store, forceState) => {
+	store.dispatch(types.TOGGLE_SERVER_MENU, forceState)
+}

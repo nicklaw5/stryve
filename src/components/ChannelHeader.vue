@@ -9,6 +9,7 @@
 		<div id="beta-tag">
 			<span>v0.3.0-beta</span>
 		</div>
+		
 		<!-- <div id="channel-messages-header-right">
 			<ul>
 				<li @click="minimize()"><i class="icon-minus3"></i></li>
@@ -39,5 +40,6 @@ export default {
 		padding: 5px;
 		color: #738bd7;
 		font-weight: bold;
+		font-size: .8em;
 	}
 </style>

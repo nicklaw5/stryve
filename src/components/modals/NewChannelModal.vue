@@ -29,8 +29,9 @@
 
 <script>
 import randomName from 'sillyname'
+import { hideModal } from '../../vuex/app/actions'
 import { getCurrentServer } from '../../vuex/servers/getters'
-import { hideModal, createNewChannel } from '../../vuex/servers/actions'
+import { createNewChannel } from '../../vuex/servers/actions'
 
 export default {
 	data() {

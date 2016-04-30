@@ -19,6 +19,14 @@
     	</div>
 	</div>
     <!-- /not authenticated -->
+
+    <!-- modals -->
+    <server-menu v-if="serverMenu"></server-menu>
+    <new-server-modal v-if="showNewServerModal"></new-server-modal>
+    <new-channel-modal v-if="showNewChannelModal"></new-channel-modal>
+    <server-invitation-modal v-if="showServerInvitivation"></server-invitation-modal>
+    <!-- /modals -->
+
 </template>
 
 <script>
@@ -34,18 +42,36 @@ import ContactsPanel from './ContactsPanel.vue'
 import ChannelsPanel from './ChannelsPanel.vue'
 import ChannelContainer from './ChannelContainer.vue'
 
+// modals
+import ServerMenu from './modals/ServerMenu.vue'
+import NewServerModal from './modals/NewServerModal.vue'
+import NewChannelModal from './modals/NewChannelModal.vue'
+import ServerInvitationModal from './modals/ServerInvitationModal.vue'
+
 // getters
-import { getChannelPanel } from '../vuex/app/getters'
 import { authForm, isAuthenticated } from '../vuex/auth/getters'
 import { setAuthMessage, attemptUserLogout } from '../vuex/auth/actions'
+import { 
+	getServerMenu,
+	getChannelPanel,
+	getNewServerModal,
+	getNewChannelModal,
+	getServerInvitivationModal
+} from '../vuex/app/getters'
 
 export default {
 	store,
 	vuex: {
 		getters: {
 			authForm: authForm,
+			contactsPanel: getChannelPanel,
 			isAuthenticated: isAuthenticated,
-			contactsPanel: getChannelPanel
+
+			// modals
+			serverMenu: getServerMenu,
+			showNewServerModal: getNewServerModal,
+			showNewChannelModal: getNewChannelModal,
+			showServerInvitivation: getServerInvitivationModal
 		},
 		actions: {
 			setAuthMessage,
@@ -57,9 +83,13 @@ export default {
 		Register,
 		UserPanel,
 		ServerList,
+		ServerMenu,
 		ChannelsPanel,
 		ContactsPanel,
-		ChannelContainer
+		NewServerModal,
+		NewChannelModal,
+		ChannelContainer,
+		ServerInvitationModal
 	}
 }
 </script>

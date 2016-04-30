@@ -21,20 +21,17 @@
 		<div id="new-server"
 			@click="showModal('newServerModal')">
 			<span><i class="icon-plus22"></i></span>
-		</div>		
+		</div>
 	</div>
-
-	<new-server-modal v-if="showNewServerModal"></new-server-modal>
 
 </template>
 
 <script>
+import { getServers } from '../vuex/servers/getters'
 import { getChannelPanel } from '../vuex/app/getters'
-import NewServerModal from './modals/NewServerModal.vue'
-import { switchChannelsPanel } from '../vuex/app/actions'
+import { switchChannelsPanel, showModal } from '../vuex/app/actions'
 import { fireWindowResizeEvent, hideTooltips } from '../utils/helpers'
-import { getServers, getNewServerModal } from '../vuex/servers/getters'
-import { switchServers, fetchServerList, showModal } from '../vuex/servers/actions'
+import { switchServers, fetchServerList } from '../vuex/servers/actions'
 
 export default {
 	created() {
@@ -43,14 +40,10 @@ export default {
 	ready() {
 		this.fireWindowResizeEvent()
 	},
-	components: {
-		NewServerModal
-	},
 	vuex: {
 		getters: {
 			servers: getServers,
-			channelPanel: getChannelPanel,
-			showNewServerModal: getNewServerModal
+			channelPanel: getChannelPanel
 		},
 		actions: {
 			showModal,

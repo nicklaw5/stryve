@@ -206,8 +206,8 @@ module.exports = {
 	 * @param {int} $height
 	 * @return void
 	 */
-	setCssProperty: (element, height) => {
-		let el = window.document.getElementById(element)
+	setCssProperty: (element_id, height) => {
+		let el = window.document.getElementById(element_id)
 
 		el.style.height = height + 'px'
 	},
@@ -215,13 +215,13 @@ module.exports = {
 	/**
 	 * Returns an elements height
 	 *	 
-	 * @param {string} $element
+	 * @param {string} $element_id
 	 * @param {string} $property
 	 * @param {mixed} $value
 	 * @return void
 	 */
-	setElementCssProperty: (element, property, value) => {
-		let el = window.document.getElementById(element)
+	setElementCssProperty: (element_id, property, value) => {
+		let el = window.document.getElementById(element_d)
 		if(el) el.style[property] = value
 	},
 
@@ -251,22 +251,21 @@ module.exports = {
 	 * @return void
 	 */
 	hideTooltips: () => {
-		let elements = ['tooltip', 'tooltip-pointer']
+		let classes = ['tooltip', 'tooltip-pointer']
 
-		for(let i = 0; i < elements.length; i++) {
-			let el = document.getElementsByClassName(elements[i])
-	    	while(el.length > 0)
-	        	el[0].parentNode.removeChild(el[0])
+		for(let i = 0; i < classes.length; i++) {
+			module.exports.removeClassElementFromDom(classes[i])
 		}
 	},
 
 	/**
 	 * Destroys a class element on the DOM
-	 *	 
+	 * 
+	 * @param {string} $className
 	 * @return void
 	 */
-	removeClassElementFromDom: element => {
-		let el = document.getElementsByClassName(element)
+	removeClassElementFromDom: className => {
+		let el = document.getElementsByClassName(className)
     	while(el.length > 0)
         	el[0].parentNode.removeChild(el[0])
 	},
@@ -274,11 +273,21 @@ module.exports = {
 	/**
 	 * Display's a modal overlay 
 	 * 
+	 * @return void
 	 */
 	showModalOverlay: () => {
 		let overlay = document.createElement('div')
 		overlay.className += ' modal-overlay'
 		document.body.appendChild(overlay)
+	},
+
+	/**
+	 * Destroys the modal overlay 
+	 *
+	 * @return void
+	 */
+	hideModalOverlay: () => {
+		module.exports.removeClassElementFromDom('modal-overlay')
 	}
 
 };
