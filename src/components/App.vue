@@ -7,7 +7,7 @@
 			<channels-panel v-else></channels-panel>
 			<user-panel></user-panel>
 		</div>
-		<channel-container></channel-container>
+		<main-container></main-container>
 	</div>
 	<!-- /if authenticated -->
 
@@ -40,7 +40,7 @@ import UserPanel from './UserPanel.vue'
 import ServerList from './ServerList.vue'
 import ContactsPanel from './ContactsPanel.vue'
 import ChannelsPanel from './ChannelsPanel.vue'
-import ChannelContainer from './ChannelContainer.vue'
+import MainContainer from './MainContainer.vue'
 
 // modals
 import ServerMenu from './modals/ServerMenu.vue'
@@ -88,7 +88,7 @@ export default {
 		ContactsPanel,
 		NewServerModal,
 		NewChannelModal,
-		ChannelContainer,
+		MainContainer,
 		ServerInvitationModal
 	}
 }

@@ -312,7 +312,6 @@ a:hover {
 	color: #5f6265;
 }
 #channels-list {
-	/*max-height: 300px;*/
   	overflow: auto;
 }
 #channels-list::-webkit-scrollbar {
@@ -327,6 +326,12 @@ a:hover {
     transition: background 0.2s, border 0.2s;
 }
 #channels-list > ul > li.listening {
+	border-left: 4px #2C9E6A solid;
+}
+#channels-list > ul > li.listening.active {
+	border-left: 4px #2C9E6A solid;
+}
+#channels-list > ul > li.listening:hover {
 	border-left: 4px #2C9E6A solid;
 }
 #channels-list > ul > li.active {

@@ -4,6 +4,7 @@ import app from './app/store'
 import auth from './auth/store'
 import users from './users/store'
 import servers from './servers/store'
+import contacts from './contacts/store'
 import createLogger from '../middleware/logger'
 
 Vue.use(Vuex)
@@ -17,7 +18,8 @@ export default new Vuex.Store({
 		app,
 		auth,
 		users,
-		servers
+		servers,
+		contacts
 	},
 	strict: debug,
 	middlewares: debug ? [createLogger()] : []
