@@ -5,21 +5,23 @@
 		<span v-else class="icon-search4"></span>
 	</div>
 
-	<div v-if="haveContacts" id="channels-list">
+	<div v-if="haveContacts" id="contacts-list">
 		<ul>
 			<li v-for="contact in contacts"
 				:class="{ 'listening': contact.listening, 'active': contact.active }">
-				<span class="channel-name" @click="">
+				<span class="contact-name" @click="">
 					<span class="hashtag">@</span>{{ contact.username }}
 				</span>
 				<span class="icons">
-					<i class="icon icon-cog7"></i>
+					<!-- <i class="icon-cog7"></i> -->
+					<i class="icon-circle-small online-status"
+						:class="{ 'offline': !contact.online }"></i>
 				</span>
 			</li>
 		</ul>
 	</div>
 
-	<div v-else id="channels-list">
+	<div v-else id="contacts-list">
 		<p>
 			No contacts found.
 		</p>
@@ -29,6 +31,7 @@
 
 <script>
 import { getContacts } from '../vuex/contacts/getters'
+import { searchContacts } from '../vuex/contacts/actions'
 
 export default {
 	data() {
@@ -41,7 +44,7 @@ export default {
 			contacts: getContacts
 		},
 		actions: {
-			
+			searchContacts
 		}
 	},
 	computed: {
@@ -55,7 +58,7 @@ export default {
 		},
 		searchKeyUpEvent(event) {
 			if(event.which === 13)
-				console.log('enter hit')
+				this.searchContacts(this.search)
 			else if(event.which === 27)
 				this.emptySearch()
 		}
@@ -68,7 +71,7 @@ export default {
 		cursor: pointer;
 	}
 
-	#channels-list p {
+	#contacts-list p {
 		padding: 14px 10px 8px 0px;
 		text-align: center;
 		font-size: 13px;

@@ -377,6 +377,89 @@ a:hover {
 	cursor: pointer;
 }
 
+/*******************/
+/** Contacts List **/
+/*******************/
+#contacts-list .hashtag {
+	color: #5f6265;
+}
+#contacts-list {
+  	overflow: auto;
+}
+#contacts-list::-webkit-scrollbar {
+	display: none;
+}
+
+#contacts-list > ul > li {
+	min-height: 40px;
+	letter-spacing: 1px;
+	border-left: 4px #2e3136 solid;
+	-webkit-transition: background 0.2s, border 0.2s; /* Safari */
+    transition: background 0.2s, border 0.2s;
+}
+#contacts-list > ul > li.listening {
+	border-left: 4px #2C9E6A solid;
+}
+#contacts-list > ul > li.listening.active {
+	border-left: 4px #2C9E6A solid;
+}
+#contacts-list > ul > li.listening:hover {
+	border-left: 4px #2C9E6A solid;
+}
+#contacts-list > ul > li.active {
+	background: #232629;
+	border-left: 4px #738bd7 solid;
+}
+#contacts-list > ul > li:hover {
+	background: #232629;
+	border-left: 4px #738bd7 solid;
+}
+
+#contacts-list > ul > li > .contact-name {
+	width: 172px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	float: left;
+	padding: 14px 0px 8px 16px;
+}
+#contacts-list > ul > li > .contact-name:hover {
+	cursor: pointer;
+}
+
+#contacts-list > ul > li > .icons {
+	/*display: none;*/
+	color: #5f6265;
+	float: right;
+	padding-right: 20px;
+  	margin-top: 13px;
+}
+
+#contacts-list > ul > li:hover .icons,
+#contacts-list > ul > li.active .icons, {
+	display: block;
+}
+
+#contacts-list > ul > li > .icons > .icon {
+	-webkit-transition: color 0.2s; /* Safari */
+    transition: color 0.2s;
+}
+
+#contacts-list > ul > li > .icons > .icon:hover {
+	color: #E8E8E8;
+	cursor: pointer;
+}
+
+#contacts-list > ul > li > .icons > .online-status {
+	color: #2C9E6A;
+}
+
+#contacts-list > ul > li > .icons > .online-status.offline {
+	color: #ed3838;
+}
+
+/**/
+
 #user-settings {
 	position: absolute;
 	height: 55px;

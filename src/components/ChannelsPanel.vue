@@ -28,7 +28,7 @@
 					<span class="hashtag">#</span>{{ channel.name }}
 				</span>
 				<span v-if="isOwner" class="icons">
-					<i class="icon icon-cog7"></i>
+					<i class="icon-cog7"></i>
 				</span>
 			</li>
 		</ul>

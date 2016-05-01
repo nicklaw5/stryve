@@ -29,7 +29,7 @@ const state = {
 			uuid: '32755f70-0e74-11e6-86c6-95d491d844d3',
 			username: 'jimbo3',
 			avatar: null,
-			online: true,
+			online: false,
 			verified: false,
 			created_at: '2016-04-30 01:38:10',
 			updated_at: '2016-05-01 01:28:42',
@@ -40,9 +40,14 @@ const state = {
 // mutations
 const mutations = {
 
-	// [types.SET_NOTICE_MESSAGE] (state, tone, message) {
-	// 	set(state, 'noticeMessage', { tone: tone, message: message })
-	// },
+	[types.SEARCH_CONTACTS_SUCCESS] (state, contacts) {
+		console.log(contacts)
+	},
+
+	[types.SEARCH_CONTACTS_FAILURE] (state, res) {
+		// TODO
+		console.log(res)
+	}
 }
 
 export default {

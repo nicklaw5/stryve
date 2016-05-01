@@ -11,3 +11,14 @@ export function getUserSelf(cb, errorCb) {
 			: errorCb(res.response)
 	})
 }
+
+/**
+ * Search for a user by username
+ */
+export function getSearchUsers(query, cb, errorCb) {
+	ajax.get('users?q=' + query, null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}
