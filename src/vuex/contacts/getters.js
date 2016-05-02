@@ -1,5 +1,5 @@
-export function getContacts (state) {
-	return state.contacts.contacts;
+export function getPinnedContacts (state) {
+	return state.contacts.pinnedContacts
 }
 
 export function getContact (state) {
@@ -13,5 +13,13 @@ export function getContact (state) {
 }
 
 export function getCurrentContact (state) {
-	return state.contacts.currentContact;
+	return state.contacts.currentContact
+}
+
+export function getSearchContacts (state) {
+	return state.contacts.searchContacts
+}
+
+export function getSearching (state) {
+	return state.contacts.searching
 }

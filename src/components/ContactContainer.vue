@@ -69,7 +69,7 @@ export default {
 		}
 	},
 	watch: {
-		'contact.events': function () {
+		'contact.events': () => {
 			this.$nextTick(() => {
 				const container = this.$els.container
 				if(container)

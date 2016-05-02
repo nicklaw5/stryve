@@ -450,8 +450,12 @@ a:hover {
 	cursor: pointer;
 }
 
-#contacts-list > ul > li > .icons > .online-status {
+#contacts-list > ul > li > .icons > .online-status.online {
 	color: #2C9E6A;
+}
+
+#contacts-list > ul > li > .icons > .online-status.away {
+	color: #f0ae34;
 }
 
 #contacts-list > ul > li > .icons > .online-status.offline {

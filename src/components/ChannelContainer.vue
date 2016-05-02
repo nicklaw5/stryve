@@ -72,7 +72,7 @@ export default {
 		}
 	},
 	watch: {
-		'channel.events': function () {
+		'channel.events': () => {
 			this.$nextTick(() => {
 				const container = this.$els.container
 				if(container)

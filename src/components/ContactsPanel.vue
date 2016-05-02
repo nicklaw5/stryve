@@ -5,33 +5,40 @@
 		<span v-else class="icon-search4"></span>
 	</div>
 
-	<div v-if="haveContacts" id="contacts-list">
+	<div v-if="!searching" id="contacts-list">
 		<ul>
-			<li v-for="contact in contacts"
+			<li v-for="contact in pinnedContacts"
 				:class="{ 'listening': contact.listening, 'active': contact.active }">
 				<span class="contact-name" @click="">
 					<span class="hashtag">@</span>{{ contact.username }}
 				</span>
 				<span class="icons">
 					<!-- <i class="icon-cog7"></i> -->
-					<i class="icon-circle-small online-status"
-						:class="{ 'offline': !contact.online }"></i>
+					<i class="icon-circle-small online-status {{ contact.status }}"></i>
 				</span>
 			</li>
 		</ul>
 	</div>
 
 	<div v-else id="contacts-list">
-		<p>
-			No contacts found.
-		</p>
+		<ul>
+			<li v-for="contact in getSearchContacts">
+				<span class="contact-name" @click="">
+					<span class="hashtag">@</span>{{ contact.username }}
+				</span>
+				<span class="icons">
+					<!-- <i class="icon-circle-small online-status {{ contact.status }}"></i> -->
+					<a><i class="icon-radio-checked"></i></a>
+					<a><i class="icon-radio-unchecked"></i></a>
+				</span>
+			</li>
+		</ul>
 	</div>
-
 </template>
 
 <script>
-import { getContacts } from '../vuex/contacts/getters'
-import { searchContacts } from '../vuex/contacts/actions'
+import { searchContacts, resetSearchContacts } from '../vuex/contacts/actions'
+import { getPinnedContacts, getSearching, getSearchContacts } from '../vuex/contacts/getters'
 
 export default {
 	data() {
@@ -41,25 +48,34 @@ export default {
 	},
 	vuex: {
 		getters: {
-			contacts: getContacts
+			searching: getSearching,
+			pinnedContacts: getPinnedContacts,
+			getSearchContacts: getSearchContacts
 		},
 		actions: {
-			searchContacts
+			searchContacts,
+			resetSearchContacts
 		}
 	},
 	computed: {
-		haveContacts() {
-			return Object.keys(this.contacts).length
-		}
+		// haveContacts() {
+		// 	return Object.keys(this.pinnedContacts).length
+		// }
+	},
+	'search': () => {
+		this.$nextTick(() => {
+			console.log('sdsd')
+		})
 	},
 	methods: {
 		emptySearch() {
 			this.search = ''
+			this.resetSearchContacts()
 		},
 		searchKeyUpEvent(event) {
-			if(event.which === 13)
+			if(event.which === 13 && this.search.length) 			// 'enter' key
 				this.searchContacts(this.search)
-			else if(event.which === 27)
+			else if(event.which === 27 || !this.search.length && event.which !== 13) 	// 'esc' key
 				this.emptySearch()
 		}
 	}
