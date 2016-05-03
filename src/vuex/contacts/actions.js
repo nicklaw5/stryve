@@ -10,6 +10,10 @@ export const searchContacts = (store, query) => {
 	)
 }
 
+export const setPinnedContacts = (store, contacts) => {
+	store.dispatch(types.SET_PINNED_CONTACTS, contacts)
+}
+
 export const resetSearchContacts = (store) => {
 	store.dispatch(types.RESET_SEARCH_CONTACTS)
 }

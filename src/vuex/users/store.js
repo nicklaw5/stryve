@@ -1,6 +1,8 @@
 import { set } from 'vue'
+import store from '../store'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
+import { setPinnedContacts } from '../contacts/actions'
 
 // initial module state
 const state = {
@@ -12,6 +14,8 @@ const mutations = {
 	
 	[types.FETCH_USER_SUCCESS] (state, response) {
 		set(state, 'user', response)
+		setPinnedContacts(store, response.contacts)
+		delete state.user.contacts;
 	},
 
 	[types.FETCH_USER_FAILURE] (state, response) {
