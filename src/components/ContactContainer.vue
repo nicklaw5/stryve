@@ -1,6 +1,6 @@
 <template>
 
-	<div v-if="contact.ready" id="channel-messages">
+	<div v-if="contactSet" id="channel-messages">
 
 		<div id="user-input">
 			<div id="user-input-inner">
@@ -9,11 +9,11 @@
 						<span><i class="icon-share"></i></span>
 					</div>
 					<div id="user-message-input">
-						<input id="channel_message" 
+						<input id="contact_message" 
 							v-model="message" 
 							@keyup.enter="trySendMessage()"
 							type="text" 
-							placeholder="Chat with {{ contact.name }}..." 
+							placeholder="Chat with {{ contact.username }}..." 
 							autocomplete="off">
 						<span class="icon-grid"></span>
 					</div>
@@ -26,19 +26,11 @@
 				<li v-for="event in contact.events">
 					<div v-if="event.event_type == 'user_message'">
 						<div class="message-username-container">
-							<span class="username">{{ event.owner_username }}</span>
+							<span class="username">{{ event.sender_username }}</span>
 							<span class="timestamp">{{ event.created_at | formatTimestamp 'h:mma' }}</span>
 						</div>
 						<div>
 							<span class="message">{{{ event.event_text }}}</span>
-						</div>
-					</div>
-					<div v-else>
-						<div class="channel-event">
-							<span class="subscriber"
-								:class="{ 'unsubscriber': event.event_type === 'user_unsubscribed' }">
-								{{ event.event_text }}
-							</span>
 						</div>
 					</div>
 				</li>
@@ -51,13 +43,17 @@
 
 <script>
 import * as helpers from '../utils/helpers'
+import { sendContactMessage } from '../vuex/contacts/actions'
 import { getContact } from '../vuex/contacts/getters'
-import { sendMessage } from '../vuex/contacts/actions'
-
 export default {
 	data() {
 		return {
 			message: ''
+		}
+	},
+	computed: {
+		contactSet() {
+			return !helpers.isEmptyObject(this.contact)
 		}
 	},
 	vuex: {
@@ -65,7 +61,7 @@ export default {
 			contact: getContact
 		},
 		actions: {
-			sendMessage
+			sendContactMessage
 		}
 	},
 	watch: {
@@ -80,7 +76,7 @@ export default {
 	methods: {
 		trySendMessage() {
 			if(this.message.trim().length)
-				this.sendMessage(this.message)
+				this.sendContactMessage(this.message)
 			this.message = ''
 		}
 	}

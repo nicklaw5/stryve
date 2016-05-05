@@ -3,12 +3,16 @@
 		<div id="channel-messages-header-left">
 			<h3>
 				<div v-if="channelPanel == 'contacts'">
-					<span v-if="contactSet" class="hashtag">@
-					</span><span class="channel">{{ 'user.username' }}</span>
+					<div v-if="contactSet">
+						<span class="hashtag">@
+						</span><span class="channel">{{ contact.username }}</span>
+					</div>
 				</div>
 				<div v-else>
-					<span v-if="channelSet" class="hashtag">#</span>
-					<span class="channel">{{ channel.name }}</span>
+					<div v-if="channelSet">
+						<span class="hashtag">#</span>
+						<span class="channel">{{ channel.name }}</span>
+					</div>
 				</div>
 			</h3>
 		</div>
@@ -30,13 +34,14 @@
 <script>
 import * as helpers from '../utils/helpers'
 import { getChannel } from '../vuex/servers/getters'
+import { getContact } from '../vuex/contacts/getters'
 import { getChannelPanel } from '../vuex/app/getters'
 
 export default {
 	props: ['channel'],
 	computed: {
 		contactSet() {
-			return true
+			return !helpers.isEmptyObject(this.contact)
 		},
 		channelSet() {
 			return !helpers.isEmptyObject(this.channel)
@@ -45,6 +50,7 @@ export default {
 	vuex: {
 		getters: {
 			channel: getChannel,
+			contact: getContact,
 			channelPanel: getChannelPanel
 		}
 	}

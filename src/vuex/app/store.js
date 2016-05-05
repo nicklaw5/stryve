@@ -23,6 +23,9 @@ const mutations = {
 	
 	[types.SWITCH_CHANNELS_PANEL] (state, panel) {
 		set(state, 'channelsPanel', panel)
+		
+		// fire resize window event 
+		helpers.fireWindowResizeEvent()
 	},
 
 	[types.SHOW_MODAL] (state, modal) {

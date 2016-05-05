@@ -22,3 +22,14 @@ export function getSearchUsers(query, cb, errorCb) {
 			: errorCb(res.response)
 	})
 }
+
+/**
+ * Get the events between the user and the contact
+ */
+export function getContactEvents(contact_uuid, cb, errorCb) {
+	ajax.get('users/events/' + contact_uuid + '?limit=25', null, true, res => {
+		(res.code === codes.OK)
+			? cb(res.response)
+			: errorCb(res.response)
+	})
+}

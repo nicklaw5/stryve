@@ -86,7 +86,7 @@ const mutations = {
 	},
 	
 	[types.SEND_MESSAGE] (state, text) {
-		sendChannelMessage(state, text, state.currentChannel, store._vm.users.user)
+		sendChannelMessage(text, state.currentChannel, store._vm.users.user)
 		helpers.updateElementsValue('channel_message', '')
 	},
 
@@ -261,9 +261,6 @@ const mutations = {
 		// loop over the server channels
 		for(let key in state.servers[state.currentServer].channels) {
 			if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
-				// set channel 'inactive'
-				set(state.servers[state.currentServer].channels[key], 'active', false)
-
 				// set active channel
 				if(state.servers[state.currentServer].channels[key].uuid === channel_uuid) {
 					set(state.servers[state.currentServer].channels[key], 'active', true)
@@ -272,6 +269,9 @@ const mutations = {
 					// set 'listening' state
 					if(!state.servers[state.currentServer].channels[key].listening)
 						set(state.servers[state.currentServer].channels[key], 'listening', true)
+				} else {
+					// set channel 'inactive'
+					set(state.servers[state.currentServer].channels[key], 'active', false)
 				}
 			}
 		}
@@ -374,7 +374,7 @@ function addChannelProperties(channel) {
 
 function listenOnChannel(state, channel_uuid) {
 	// ON USER JOINED CHANNEL
-	window.socket.on('user-subscribed-to::' + channel_uuid, payload => {
+	window.server_socket.on('user-subscribed-to::' + channel_uuid, payload => {
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 
@@ -383,26 +383,26 @@ function listenOnChannel(state, channel_uuid) {
 	})
 
 	// ON USER LEFT CHANNEL
-	window.socket.on('user-unsubscribed-from::' + channel_uuid, payload => {
+	window.server_socket.on('user-unsubscribed-from::' + channel_uuid, payload => {
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 	})
 
 	// ON PRELIMINARY MESSAGE RECEIVED TO CHANNEL
-	window.socket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
+	window.server_socket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
 		// add event to channel
 		pushEventToChannel(store, payload, true)
 	})
 
 	// ON MESSAGE RECEIVED TO CHANNEL
-	window.socket.on('channel-message::' + channel_uuid, payload => {
+	window.server_socket.on('channel-message::' + channel_uuid, payload => {
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 	})
 }
 
-function sendChannelMessage(state, text, channel_uuid, user) {
-	window.socket.emit('channel-message', {
+function sendChannelMessage(text, channel_uuid, user) {
+	window.server_socket.emit('channel-message', {
 		channel_uuid: 	channel_uuid,
 		owner_uuid:		user.uuid,
 		owner_username:	user.username,
@@ -413,7 +413,7 @@ function sendChannelMessage(state, text, channel_uuid, user) {
 
 function subscribeToChannel(channel, user) {
 	if(!helpers.isEmptyObject(channel)) {
-		window.socket.emit("subscribe-to-channel", {
+		window.server_socket.emit("subscribe-to-channel", {
 			channel_uuid: 	channel.uuid,
 			channel_name: 	channel.name,
 			owner_uuid: 	user.uuid,
@@ -424,7 +424,7 @@ function subscribeToChannel(channel, user) {
 
 function unsubscribeFromChatChannel(channel, user) {
 	if(!helpers.isEmptyObject(channel)) {
-		window.socket.emit("unsubscribe-from-channel", { 
+		window.server_socket.emit("unsubscribe-from-channel", { 
 			channel_uuid: 	channel.uuid,
 			channel_name: 	channel.name,
 			owner_uuid: 	user.uuid,
@@ -434,53 +434,53 @@ function unsubscribeFromChatChannel(channel, user) {
 }
 
 function disconnectFromSocketServer() {
-	if(!helpers.isEmptyObject(window.socket)) {
-		window.socket.disconnect()
-		window.socket = {}
+	if(!helpers.isEmptyObject(window.server_socket)) {
+		window.server_socket.disconnect()
+		window.server_socket = {}
 	}
 }
 
 function connectToSocketServer(server)  {
 	// connect to the socket if the user hasn't already
-	if(helpers.isEmptyObject(window.socket)) {
-		window.socket = io(server.server_uri)
+	if(helpers.isEmptyObject(window.server_socket)) {
+		window.server_socket = io(server.server_uri, {forceNew: true})
 
 		// ON CONNECTION TO SERVER
-		window.socket.on('connected', socket_id => {
+		window.server_socket.on('connected', socket_id => {
 			// set the users unique socket_id
-			setUserSocketId(store, window.socket.id)
+			setUserSocketId(store, window.server_socket.id)
 
 			// send user and socket data back to server for logging
 			submitUserConnectedEvent(state, store._vm.users.user)
 		})
 
 		// ON USER CONNECTED EVENT
-		window.socket.on('user-connected', payload => {
+		window.server_socket.on('user-connected', payload => {
 			// TODO
 			// console.log(payload)
 		})
 
 		// ON USER DISCONNECTED EVENT
-		window.socket.on('user-disconnected', payload => {
+		window.server_socket.on('user-disconnected', payload => {
 			// TODO
 			// console.log(payload)
 		})
 
 		// ON ROOMS RESPONSE
-		window.socket.on('server-channels', payload => {
+		window.server_socket.on('server-channels', payload => {
 			console.log(payload)
 		})
 
 	// else if, check that the server hasn't changed
 	// if it has we need to disconnect first
 	// then reconnect to the new uri
-	} else if(window.socket.io.uri != server.server_uri) {
+	} else if(window.server_socket.io.uri != server.server_uri) {
 
-		console.log('disconnecting from ' + window.socket.io.uri)
+		console.log('disconnecting from ' + window.server_socket.io.uri)
 		disconnectFromSocketServer()
 
 		// reset the socket
-		window.socket = {}
+		window.server_socket = {}
 
 		// connect to the new server
 		console.log('connecting to ' + server.server_uri)
@@ -500,7 +500,7 @@ function submitUserConnectedEvent(state, user) {
 		return
 
 	// send the message to all connected sockets
-	window.socket.emit('user-connected', {
+	window.server_socket.emit('user-connected', {
 		server_uuid: 		state.currentServer,
 		server_name: 		state.servers[state.currentServer].name,
 		owner_uuid:			user.uuid,

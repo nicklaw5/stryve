@@ -20,12 +20,13 @@ import './utils/sizer'
 
 // app configs
 Vue.config.debug = true
-// emojify.setConfig({ mode: 'data-uri'})
-emojify.setConfig({ mode: 'sprite'})
+emojify.setConfig({ mode: 'data-uri'})
+// emojify.setConfig({ mode: 'sprite'})
 emojify.run()
 
-// create global socket object
-window.socket = {}
+// create global socket objects
+window.user_socket = {}
+window.server_socket = {}
 
 new Vue({
 	el: 'body',

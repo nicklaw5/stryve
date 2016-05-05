@@ -1,15 +1,15 @@
+import * as helpers from '../../utils/helpers'
+
 export function getPinnedContacts (state) {
 	return state.contacts.pinnedContacts
 }
 
 export function getContact (state) {
-	// let server = getCurrentServer(state)
-	// let channel = getCurrentChannel(state)
+	let contact = getCurrentContact(state)
 
-	// if(!server || !channel)
-	// 	return {}
-
-	// return state.servers.servers[server].channels[channel]
+	return (helpers.isNullOrUndefined(contact))
+		? {}
+		: state.contacts.pinnedContacts[contact]
 }
 
 export function getCurrentContact (state) {

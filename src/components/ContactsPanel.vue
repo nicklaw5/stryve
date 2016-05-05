@@ -8,8 +8,8 @@
 	<div v-if="!searching" id="contacts-list">
 		<ul>
 			<li v-for="contact in pinnedContacts"
-				:class="{ 'listening': contact.listening, 'active': contact.active }">
-				<span class="contact-name" @click="">
+				:class="{ 'active': contact.active }">
+				<span class="contact-name" @click="switchContacts(contact.uuid)">
 					<span class="hashtag">@</span>{{ contact.username }}
 				</span>
 				<span class="icons">
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { searchContacts, resetSearchContacts } from '../vuex/contacts/actions'
+import { searchContacts, resetSearchContacts, switchContacts } from '../vuex/contacts/actions'
 import { getPinnedContacts, getSearching, getSearchContacts } from '../vuex/contacts/getters'
 
 export default {
@@ -53,6 +53,7 @@ export default {
 			getSearchContacts: getSearchContacts
 		},
 		actions: {
+			switchContacts,
 			searchContacts,
 			resetSearchContacts
 		}
@@ -62,10 +63,8 @@ export default {
 		// 	return Object.keys(this.pinnedContacts).length
 		// }
 	},
-	'search': () => {
-		this.$nextTick(() => {
-			console.log('sdsd')
-		})
+	watch: {
+		
 	},
 	methods: {
 		emptySearch() {

@@ -27,6 +27,7 @@ export const attemptUserLogin = (store, payload, tryAccessToken) => {
 		tryAccessToken,
 		cb 	=> { 
 			store.dispatch(types.LOGIN_SUCCESS, cb)
+			store.dispatch(types.CONNECT_USER_SOCKET)
 			fetchUser(store)
 		},
 		errorCb	=> { store.dispatch(types.LOGIN_FAILURE, errorCb) }
@@ -38,6 +39,7 @@ export const attemptUserRegistration = (store, payload) => {
 		payload, 
 		cb => { 
 			store.dispatch(types.REGISTRATION_SUCCESS, cb)
+			store.dispatch(types.CONNECT_USER_SOCKET)
 			fetchUser(store)
 		},
 		errorCb => { store.dispatch(types.REGISTRATION_FAILURE, errorCb) }

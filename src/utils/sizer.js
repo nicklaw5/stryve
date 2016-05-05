@@ -30,6 +30,7 @@ let resizeElements  = function() {
 		$('#channel-messages').css('width', screenW - channelsListWidth - serversListWidth);
 		$('#user-input').css('width', screenW - channelsListWidth - serversListWidth);
 		$('#channel_message').css('width', screenW - channelsListWidth - serversListWidth - userInputSpacing);
+		$('#contact_message').css('width', screenW - channelsListWidth - serversListWidth - userInputSpacing);
 
 		$('#channel-users').css('height', screenH - channelHeader);
 
@@ -49,6 +50,7 @@ let resizeElements  = function() {
 		$('#channel-messages').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
 		$('#user-input').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
 		$('#channel_message').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList - userInputSpacing);
+		$('#contact_message').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList - userInputSpacing);
 
 		$('#channel-users').css('height', screenH - channelHeader);
 

@@ -20,10 +20,10 @@ export function getChannel (state) {
 	let server = getCurrentServer(state)
 	let channel = getCurrentChannel(state)
 
-	if(!server || !channel)
-		return {}
-
-	return state.servers.servers[server].channels[channel]
+	return (helpers.isNullOrUndefined(server)
+		|| helpers.isNullOrUndefined(channel))
+			 ? {}
+			 : state.servers.servers[server].channels[channel]
 }
 
 export function getServerRegions (state) {
