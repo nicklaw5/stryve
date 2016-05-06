@@ -26,8 +26,8 @@ const mutations = {
 		set(state, 'user', {})
 	},
 
-	[types.SET_USER_SOCKET_ID] (state, socket_id) {
-		set(state.user, 'socket_id', socket_id);
+	[types.SET_SERVER_SOCKET_ID] (state, socket_id) {
+		set(state.user, 'server_socket_id', socket_id);
 	}
 }
 

@@ -20,6 +20,6 @@ export const resetUser = (store) => {
 	store.dispatch(types.RESET_USER)
 }
 
-export const setUserSocketId = (store, socketId) => {
-	store.dispatch(types.SET_USER_SOCKET_ID, socketId)
+export const setServerSocketId = (store, socketId) => {
+	store.dispatch(types.SET_SERVER_SOCKET_ID, socketId)
 }

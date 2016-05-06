@@ -1,27 +1,19 @@
 import { set } from 'vue'
 import store from '../store'
 import emojify from 'emojify.js'
-import io from 'socket.io-client'
-import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import { setUserSocketId } from '../users/actions'
+import * as server_socket from '../../server_socket'
 import { setNoticeMessage, hideModal } from '../app/actions'
-import { 
-	switchServers,
-	switchChannels,
-	getChannelEvents,
-	disconnectToServer,
-	pushEventToChannel
-} from './actions'
+import { switchServers, switchChannels, getChannelEvents } from './actions'
 
 // initial module state
 const state = {
-	serverInvitivationToken: '',
-	currentChannel: null,
-	currentServer: null,
+	servers: {},
 	serverRegions: [],
-	servers: {}
+	currentServer: null,
+	currentChannel: null,
+	serverInvitivationToken: ''
 }
 
 // mutations
@@ -86,7 +78,7 @@ const mutations = {
 	},
 	
 	[types.SEND_MESSAGE] (state, text) {
-		sendChannelMessage(text, state.currentChannel, store._vm.users.user)
+		server_socket.sendChannelMessage(text, state.currentChannel, store._vm.users.user)
 		helpers.updateElementsValue('channel_message', '')
 	},
 
@@ -106,7 +98,7 @@ const mutations = {
 			: set(state.servers[state.currentServer], 'channels', {})
 		
 		// disconnect from current server
-		disconnectFromSocketServer()
+		server_socket.disconnectFromSocketServer()
 
 		// reset curruent channel
 		set(state, 'currentChannel', null)
@@ -129,17 +121,6 @@ const mutations = {
 				// create channels
 				set(state.servers[server_uuid].channels, channel.uuid, channel)
 			})
-
-			// check that we have channels to subscribe to
-			// if(state.channels.length < 1) {
-			// 	// there are no channels, lets prompt the user to create one
-			// 	// this.showNewChannelModal();
-			// } else {
-			// 	// TODO:: join last known channel (add as a possible user setting)
-
-			// 	// join the first channel in the list
-			// 	// this.switchChatChannels(this.chat_channels[0]);
-			// }
 		}
 	},
 
@@ -185,7 +166,7 @@ const mutations = {
 			for(let key in state.servers[state.currentServer].channels) {
 				if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 					if(state.servers[state.currentServer].channels[key].listening) {
-						unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], store._vm.users.user)
+						server_socket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], store._vm.users.user)
 					}
 				}
 			}
@@ -194,7 +175,7 @@ const mutations = {
 			set(state.servers[state.currentServer], 'channels', {})
 
 			// disconnect from current server
-			disconnectFromSocketServer()
+			server_socket.disconnectFromSocketServer()
 
 			// reset curruent channel
 			set(state, 'currentChannel', null)
@@ -211,17 +192,18 @@ const mutations = {
 
 				// set the current active server
 				if(active)
-				   	set(state, 'currentServer', key)
+					set(state, 'currentServer', key)
 			}
 		}
 	},
 
-	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {
-		connectToSocketServer(server)
+	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {	
+		server_socket.connectToSocketServer(state, server)
+		// connectToSocketServer(server)
 	},
 
 	[types.DISCONNECT_FROM_SOCKET_SERVER] (state) {
-		disconnectFromSocketServer()
+		server_socket.disconnectFromSocketServer()
 	},
 
 	[types.UNSUBSCRIBE_FROM_ALL_CHANNELS] (state) {
@@ -235,7 +217,7 @@ const mutations = {
 			for(let key in state.servers[state.currentServer].channels) {
 				if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 					if(state.servers[state.currentServer].channels[key].listening) {
-						unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], user)
+						server_socket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], user)
 					}
 				}
 			}
@@ -254,8 +236,8 @@ const mutations = {
 		// check that the user is not already listening on this channel
 		if(!state.servers[state.currentServer].channels[channel_uuid].listening) {
 			// subscribe to and listen on this channel
-			subscribeToChannel(state.servers[state.currentServer].channels[channel_uuid], store._vm.users.user)
-			listenOnChannel(state, state.servers[state.currentServer].channels[channel_uuid].uuid)
+			server_socket.subscribeToChannel(state.servers[state.currentServer].channels[channel_uuid], store._vm.users.user)
+			server_socket.listenOnChannel(state, state.servers[state.currentServer].channels[channel_uuid].uuid)
 		}
 
 		// loop over the server channels
@@ -370,143 +352,6 @@ function addChannelProperties(channel) {
 	channel['users'] = {}
 	channel['events'] = {}
 	return channel
-}
-
-function listenOnChannel(state, channel_uuid) {
-	// ON USER JOINED CHANNEL
-	window.server_socket.on('user-subscribed-to::' + channel_uuid, payload => {
-		// add event to channel
-		pushEventToChannel(store, payload, false)
-
-		// notify the user of new user subscription
-		helpers.notification(payload.event_text, {})
-	})
-
-	// ON USER LEFT CHANNEL
-	window.server_socket.on('user-unsubscribed-from::' + channel_uuid, payload => {
-		// add event to channel
-		pushEventToChannel(store, payload, false)
-	})
-
-	// ON PRELIMINARY MESSAGE RECEIVED TO CHANNEL
-	window.server_socket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
-		// add event to channel
-		pushEventToChannel(store, payload, true)
-	})
-
-	// ON MESSAGE RECEIVED TO CHANNEL
-	window.server_socket.on('channel-message::' + channel_uuid, payload => {
-		// add event to channel
-		pushEventToChannel(store, payload, false)
-	})
-}
-
-function sendChannelMessage(text, channel_uuid, user) {
-	window.server_socket.emit('channel-message', {
-		channel_uuid: 	channel_uuid,
-		owner_uuid:		user.uuid,
-		owner_username:	user.username,
-		event_text:		text,
-		access_token: 	token.get()
-	})
-}
-
-function subscribeToChannel(channel, user) {
-	if(!helpers.isEmptyObject(channel)) {
-		window.server_socket.emit("subscribe-to-channel", {
-			channel_uuid: 	channel.uuid,
-			channel_name: 	channel.name,
-			owner_uuid: 	user.uuid,
-			owner_username: user.username,
-		})
-	}
-}
-
-function unsubscribeFromChatChannel(channel, user) {
-	if(!helpers.isEmptyObject(channel)) {
-		window.server_socket.emit("unsubscribe-from-channel", { 
-			channel_uuid: 	channel.uuid,
-			channel_name: 	channel.name,
-			owner_uuid: 	user.uuid,
-			owner_username: user.username,
-		})
-	}
-}
-
-function disconnectFromSocketServer() {
-	if(!helpers.isEmptyObject(window.server_socket)) {
-		window.server_socket.disconnect()
-		window.server_socket = {}
-	}
-}
-
-function connectToSocketServer(server)  {
-	// connect to the socket if the user hasn't already
-	if(helpers.isEmptyObject(window.server_socket)) {
-		window.server_socket = io(server.server_uri, {forceNew: true})
-
-		// ON CONNECTION TO SERVER
-		window.server_socket.on('connected', socket_id => {
-			// set the users unique socket_id
-			setUserSocketId(store, window.server_socket.id)
-
-			// send user and socket data back to server for logging
-			submitUserConnectedEvent(state, store._vm.users.user)
-		})
-
-		// ON USER CONNECTED EVENT
-		window.server_socket.on('user-connected', payload => {
-			// TODO
-			// console.log(payload)
-		})
-
-		// ON USER DISCONNECTED EVENT
-		window.server_socket.on('user-disconnected', payload => {
-			// TODO
-			// console.log(payload)
-		})
-
-		// ON ROOMS RESPONSE
-		window.server_socket.on('server-channels', payload => {
-			console.log(payload)
-		})
-
-	// else if, check that the server hasn't changed
-	// if it has we need to disconnect first
-	// then reconnect to the new uri
-	} else if(window.server_socket.io.uri != server.server_uri) {
-
-		console.log('disconnecting from ' + window.server_socket.io.uri)
-		disconnectFromSocketServer()
-
-		// reset the socket
-		window.server_socket = {}
-
-		// connect to the new server
-		console.log('connecting to ' + server.server_uri)
-		connectToSocketServer(store, server)
-
-	// else, use current socket connection
-	} else {
-		// do nothing, we're already connected to the correct server
-		console.log('already connected to this server')
-	}
-}
-
-function submitUserConnectedEvent(state, user) {
-
-	// check we have a server set
-	if(helpers.isNullOrUndefined(state.servers[state.currentServer]))
-		return
-
-	// send the message to all connected sockets
-	window.server_socket.emit('user-connected', {
-		server_uuid: 		state.currentServer,
-		server_name: 		state.servers[state.currentServer].name,
-		owner_uuid:			user.uuid,
-		owner_username:		user.username,
-		access_token: 		token.get()
-	})
 }
 
 export default {
