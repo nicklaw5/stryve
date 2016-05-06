@@ -4,6 +4,7 @@ import emojify from 'emojify.js'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
+import * as user_socket from '../../user_socket'
 import { setSearching, fetchContactEvents } from './actions'
 
 // initial module state
@@ -129,16 +130,6 @@ const mutations = {
 		console.log(res)
 	},
 
-}
-
-function sendChannelMessage(text, contact_uuid, user) {
-	window.user_socket.emit('contact-message', {
-		contact_uuid:		channel_uuid,
-		sender_uuid:		user.uuid,
-		sender_username: 	user.username,
-		event_text:			text,
-		access_token: 		token.get()
-	})
 }
 
 function addContactProperties(contact) {

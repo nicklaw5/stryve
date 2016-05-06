@@ -21,7 +21,7 @@ export const connectToSocketServer = (state, server) =>  {
 
 		// ON USER CONNECTED EVENT
 		window.server_socket.on('user-connected', payload => {
-			// TODO
+			// TODO - set online status maybe??
 			// console.log(payload)
 		})
 
