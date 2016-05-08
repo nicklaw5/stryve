@@ -130,6 +130,10 @@ const mutations = {
 		console.log(res)
 	},
 
+	[types.SEND_CONTACT_MESSAGE] (state, text) {
+		user_socket.sendContactMessage(text, state.currentContact, store._vm.users.user)
+	}
+
 }
 
 function addContactProperties(contact) {

@@ -14,7 +14,7 @@ export const fetchContactEvents = (store, contact_uuid) => {
 }
 
 export const sendContactMessage = (store, text) => {
-	console.log(text)
+	store.dispatch(types.SEND_CONTACT_MESSAGE, text)
 }
 
 export const searchContacts = (store, query) => {

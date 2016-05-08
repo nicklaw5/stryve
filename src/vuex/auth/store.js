@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
+import * as user_socket from '../../user_socket'
 
 // initial module state
 const state = {
@@ -13,10 +14,6 @@ const state = {
 
 // mutations
 const mutations = {
-	
-	[types.CONNECT_USER_SOCKET] (state) {
-		connectToUserSockect(store._vm.users.user.uuid)
-	},
 
 	[types.LOGIN_SUCCESS] (state, response) {
 		loginOrRegistrationSuccess(response)
@@ -72,49 +69,6 @@ function setAuthMessage(tone, message) {
 	state.authMessage = {
 		tone: tone,
 		message: message
-	}
-}
-
-function listenOnUserSocket(state, user_uuid) {
-
-	// ON PRELIMINARY MESSAGE RECEIVED BY CONTACT
-	window.user_socket.on('contact-message::' + user_uuid + '::preliminary', payload => {
-		// add event to contact
-		// pushEventToChannel(store, payload, true)
-	})
-
-	// ON MESSAGE RECEIVED TO CHANNEL
-	window.user_socket.on('contact-message::' + user_uuid, payload => {
-		// add event to contact
-		// pushEventToChannel(store, payload, false)
-	})
-}
-
-function connectToUserSockect(user_uuid)  {
-	// connect to the socket if the user hasn't already
-	if(helpers.isEmptyObject(window.user_socket)) {
-		window.user_socket = io('http://stryve.io:3000', {forceNew: true})
-
-		// // ON CONNECTION TO SERVER
-		// window.user_socket.on('connected', socket_id => {
-		// 	// set the users unique socket_id
-		// 	setUserSocketId(store, window.user_socket.id)
-
-		// 	// send user and socket data back to server for logging
-		// 	submitUserConnectedEvent(state, store._vm.users.user)
-		// })
-
-		// // ON USER CONNECTED EVENT
-		// window.user_socket.on('user-connected', payload => {
-		// 	// TODO
-		// 	// console.log(payload)
-		// })
-
-		// // ON USER DISCONNECTED EVENT
-		// window.user_socket.on('user-disconnected', payload => {
-		// 	// TODO
-		// 	// console.log(payload)
-		// })
 	}
 }
 

@@ -1,6 +1,7 @@
 import * as users from '../../api/users'
 import * as types from '../mutation-types'
-import { setIsAuthenticated, setAuthMessage } from '../auth/actions'
+import { setIsAuthenticated, setAuthMessage, } from '../auth/actions'
+
 
 export const fetchUser = (store) => {
 	users.getUserSelf(
@@ -16,10 +17,18 @@ export const fetchUser = (store) => {
 	)
 }
 
+export const connectToUserSocket = (store) => {
+	store.dispatch(types.CONNECT_TO_USER_SOCKET)
+}
+
 export const resetUser = (store) => {
 	store.dispatch(types.RESET_USER)
 }
 
-export const setServerSocketId = (store, socketId) => {
-	store.dispatch(types.SET_SERVER_SOCKET_ID, socketId)
+export const setServerSocketId = (store, socket_id) => {
+	store.dispatch(types.SET_SERVER_SOCKET_ID, socket_id)
+}
+
+export const setUserSocketId = (store, socket_id) => {
+	store.dispatch(types.SET_USER_SOCKET_ID, socket_id)
 }

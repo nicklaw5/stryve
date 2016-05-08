@@ -4,7 +4,6 @@ import './assets/css/main.css'
 import './assets/css/iconmoon.css'
 import '../node_modules/emojify.js/dist/css/basic/emojify.min.css'
 
-
 // import '../node_modules/emojify.js/dist/css/sprites/emojify.css'
 // import '../node_modules/emojify.js/dist/css/sprites/emojify-emoticons.css'
 

@@ -8,7 +8,7 @@ import { pushEventToChannel } from './vuex/servers/actions'
 export const connectToSocketServer = (state, server) =>  {
 	// connect to the socket if the user hasn't already
 	if(helpers.isEmptyObject(window.server_socket)) {
-		window.server_socket = io(server.server_uri, {forceNew: true})
+		window.server_socket = io(server.server_uri + '/servers', {forceNew: true})
 
 		// ON CONNECTION TO SERVER
 		window.server_socket.on('connected', socket_id => {
@@ -136,6 +136,7 @@ export const listenOnChannel = (state, channel_uuid) => {
 
 	// ON MESSAGE RECEIVED TO CHANNEL
 	window.server_socket.on('channel-message::' + channel_uuid, payload => {
+		console.log(payload)
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 	})
