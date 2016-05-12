@@ -5,7 +5,7 @@ import * as helpers from './utils/helpers'
 import { setServerSocketId } from './vuex/users/actions'
 import { pushEventToChannel } from './vuex/servers/actions'
 
-export const connectToSocketServer = (state, server) =>  {
+export const connectToServerSocket = (state, server) =>  {
 	// connect to the socket if the user hasn't already
 	if(helpers.isEmptyObject(window.server_socket)) {
 		window.server_socket = io(server.server_uri + '/servers', {forceNew: true})
@@ -42,7 +42,7 @@ export const connectToSocketServer = (state, server) =>  {
 	} else if(window.server_socket.io.uri != server.server_uri) {
 
 		console.log('disconnecting from ' + window.server_socket.io.uri)
-		disconnectFromSocketServer()
+		disconnectFromServerSocket()
 
 		// reset the socket
 		window.server_socket = {}
@@ -58,7 +58,7 @@ export const connectToSocketServer = (state, server) =>  {
 	}
 }
 
-export const disconnectFromSocketServer = () => {
+export const disconnectFromServerSocket = () => {
 	if(!helpers.isEmptyObject(window.server_socket)) {
 		window.server_socket.disconnect()
 		window.server_socket = {}

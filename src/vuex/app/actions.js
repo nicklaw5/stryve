@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { resetActiveServer, disconnectFromSocketServer } from '../servers/actions'
+import { resetActiveServer, disconnectFromServerSocket } from '../servers/actions'
 
 export const setNoticeMessage = (store, tone, message) => {
 	store.dispatch(types.SET_NOTICE_MESSAGE, tone, message)

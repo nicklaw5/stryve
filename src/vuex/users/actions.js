@@ -21,6 +21,10 @@ export const connectToUserSocket = (store) => {
 	store.dispatch(types.CONNECT_TO_USER_SOCKET)
 }
 
+export const disconnectFromUserSocket = (store) => {
+	store.dispatch(types.DISCONNECT_FROM_USER_SOCKET)
+}
+
 export const resetUser = (store) => {
 	store.dispatch(types.RESET_USER)
 }

@@ -15,13 +15,16 @@ const state = {
 // mutations
 const mutations = {
 
-	[types.LOGIN_SUCCESS] (state, response) {
-		loginOrRegistrationSuccess(response)
+	[types.LOGIN_SUCCESS] (state, res) {
+		loginOrRegistrationSuccess(res.response)
 	},
 
-	[types.LOGIN_FAILURE] (state, response) {
+	[types.LOGIN_FAILURE] (state, res) {
 		token.destroy()
-		setAuthMessage('danger', response.errorMessage)
+		if(typeof res.code == 'undefined')
+			setAuthMessage('danger', 'An unknown error occured.')
+		else
+			setAuthMessage('danger', res.response.errorMessage)
 	},
 
 	[types.LOGOUT] (state) {
@@ -32,12 +35,12 @@ const mutations = {
 		setAuthMessage('success', 'Successfully logged out.')
 	},
 
-	[types.REGISTRATION_SUCCESS] (state, response) {
-		loginOrRegistrationSuccess(response)
+	[types.REGISTRATION_SUCCESS] (state, res) {
+		loginOrRegistrationSuccess(res.response)
 	},
 	
-	[types.REGISTRATION_FAILURE] (state, response) {
-		setAuthMessage('danger', response.errorMessage)
+	[types.REGISTRATION_FAILURE] (state, res) {
+		setAuthMessage('danger', res.response.errorMessage)
 	},
 
 	[types.SET_AUTH_MESSAGE] (state, tone, message) {
@@ -57,8 +60,8 @@ function setAuthForm(form) {
 	state.authForm = form
 }
 
-function loginOrRegistrationSuccess(response) {
-	token.set(response.token)
+function loginOrRegistrationSuccess(res) {
+	token.set(res.token)
 }
 
 function setIsAuthenticated(boolean) {

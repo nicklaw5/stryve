@@ -98,7 +98,7 @@ const mutations = {
 			: set(state.servers[state.currentServer], 'channels', {})
 		
 		// disconnect from current server
-		server_socket.disconnectFromSocketServer()
+		server_socket.disconnectFromServerSocket()
 
 		// reset curruent channel
 		set(state, 'currentChannel', null)
@@ -175,7 +175,7 @@ const mutations = {
 			set(state.servers[state.currentServer], 'channels', {})
 
 			// disconnect from current server
-			server_socket.disconnectFromSocketServer()
+			server_socket.disconnectFromServerSocket()
 
 			// reset curruent channel
 			set(state, 'currentChannel', null)
@@ -197,13 +197,12 @@ const mutations = {
 		}
 	},
 
-	[types.CONNECT_TO_SOCKET_SERVER] (state, server) {	
-		server_socket.connectToSocketServer(state, server)
-		// connectToSocketServer(server)
+	[types.CONNECT_TO_SERVER_SOCKET] (state, server) {	
+		server_socket.connectToServerSocket(state, server)
 	},
 
-	[types.DISCONNECT_FROM_SOCKET_SERVER] (state) {
-		server_socket.disconnectFromSocketServer()
+	[types.DISCONNECT_FROM_SERVER_SOCKET] (state) {
+		server_socket.disconnectFromServerSocket()
 	},
 
 	[types.UNSUBSCRIBE_FROM_ALL_CHANNELS] (state) {

@@ -1,8 +1,12 @@
 import * as types from '../mutation-types'
-import * as servers from '../../api/servers'
+// import * as servers from '../../api/servers'
+import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
 import * as channels from '../../api/channels'
 import { switchChannelsPanel, setNoticeMessage } from '../app/actions'
+
+/** TESTING **/
+import { servers } from '../../../../stryve-api-client/lib/index'
 
 export const joinServer = (store, invite_token) => {
 	setNoticeMessage(store, '', '')
@@ -100,7 +104,7 @@ export const fetchServer = (store, server_uuid, includeChannels) => {
 		includeChannels,
 		cb => {
 			store.dispatch(types.FETCH_SERVER_SUCCESS, cb)
-			connectToSocketServer(store, cb)
+			connectToServerSocket(store, cb)
 			instantiateServerChannels(store, server_uuid, cb.channels)
 		},
 		errorCb	=> { store.dispatch(types.FETCH_SERVER_FAILURE, errorCb) }
@@ -109,17 +113,19 @@ export const fetchServer = (store, server_uuid, includeChannels) => {
 
 export const fetchServerList = (store) => {
 	servers.getServersSelf(
-		cb 		=> { store.dispatch(types.FETCH_SERVERS_SUCCESS, cb) },
+		null,
+		token.get(),
+		cb 		=> { store.dispatch(types.FETCH_SERVERS_SUCCESS, cb.response) },
 		errorCb	=> { store.dispatch(types.FETCH_SERVERS_FAILURE, errorCb) }
 	)
 }
 
-export const connectToSocketServer = (store, server) => {
-	store.dispatch(types.CONNECT_TO_SOCKET_SERVER, server)
+export const connectToServerSocket = (store, server) => {
+	store.dispatch(types.CONNECT_TO_SERVER_SOCKET, server)
 }
 
-export const disconnectFromSocketServer = (store) => {
-	store.dispatch(types.DISCONNECT_FROM_SOCKET_SERVER)
+export const disconnectFromServerSocket = (store) => {
+	store.dispatch(types.DISCONNECT_FROM_SERVER_SOCKET)
 }
 
 export const instantiateServerChannels = (store, server_uuid, channels) => {

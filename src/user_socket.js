@@ -20,6 +20,13 @@ export const connectToUserSockect = user_uuid =>  {
 	}
 }
 
+export const disconnectFromUserSocket = () => {
+	if(!helpers.isEmptyObject(window.user_socket)) {
+		window.user_socket.disconnect()
+		window.user_socket = {}
+	}
+}
+
 export const sendContactMessage = (text, contact_uuid, user) => {
 	window.user_socket.emit('contact-message', {
 		recipient_uuid:		contact_uuid,

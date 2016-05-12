@@ -1,13 +1,18 @@
-import * as auth from '../../api/auth'
+import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
 import { switchChannelsPanel } from '../app/actions'
-import { fetchUser, resetUser } from '../users/actions'
+import {
+	fetchUser,
+	resetUser,
+	disconnectFromUserSocket } from '../users/actions'
 import {
 	resetActiveServer,
 	unsubscribeFromAllChannels,
-	disconnectFromSocketServer,
-} from '../servers/actions'
+	disconnectFromServerSocket } from '../servers/actions'
+
+/** TESTING **/
+import { auth } from '../../../../stryve-api-client/lib/index'
 
 export const setIsAuthenticated = (store, boolean) => {
 	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)
@@ -22,21 +27,38 @@ export const setAuthMessage = (store, tone, message) => {
 }
 
 export const attemptUserLogin = (store, payload, tryAccessToken) => {
-	auth.postCreateAuthSession(
+	auth.postLogin(
 		payload,
 		tryAccessToken,
-		cb 	=> { 
+		cb 	=> {
 			store.dispatch(types.LOGIN_SUCCESS, cb)
 			fetchUser(store)
 		},
-		errorCb	=> { store.dispatch(types.LOGIN_FAILURE, errorCb) }
+		errorCb	=> {
+			store.dispatch(types.LOGIN_FAILURE, errorCb)
+		}
+	)
+}
+
+export const attemptUserLogout = (store) => {
+	auth.postLogout(
+		token.get(),
+		cb 	=> {
+			store.dispatch(types.LOGOUT)
+			unsubscribeFromAllChannels(store)
+			resetUser(store)
+			disconnectFromUserSocket(store)
+			resetActiveServer(store, true)
+			disconnectFromServerSocket(store)
+			switchChannelsPanel(store, 'contacts')
+		}
 	)
 }
 
 export const attemptUserRegistration = (store, payload) => {
-	auth.postCreateRegisteredUser(
+	auth.postRegister(
 		payload, 
-		cb => { 
+		cb => {
 			store.dispatch(types.REGISTRATION_SUCCESS, cb)
 			fetchUser(store)
 		},
@@ -44,13 +66,3 @@ export const attemptUserRegistration = (store, payload) => {
 	)
 }
 
-export const attemptUserLogout = (store) => {
-	auth.postDestroyAuthSession(cb 	=> {
-		store.dispatch(types.LOGOUT)
-		unsubscribeFromAllChannels(store)
-		resetUser(store)
-		resetActiveServer(store, true)
-		disconnectFromSocketServer(store)
-		switchChannelsPanel(store, 'contacts')
-	})
-}

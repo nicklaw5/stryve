@@ -33,6 +33,10 @@ const mutations = {
 		user_socket.connectToUserSockect(store._vm.users.user.uuid)
 	},
 
+	[types.DISCONNECT_FROM_USER_SOCKET] (state) {
+		user_socket.disconnectFromUserSocket()
+	},
+
 	[types.SET_SERVER_SOCKET_ID] (state, socket_id) {
 		set(state.user, 'server_socket_id', socket_id);
 	},
