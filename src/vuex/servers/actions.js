@@ -1,25 +1,25 @@
 import * as types from '../mutation-types'
-// import * as servers from '../../api/servers'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
-import * as channels from '../../api/channels'
 import { switchChannelsPanel, setNoticeMessage } from '../app/actions'
 
 /** TESTING **/
-import { servers } from '../../../../stryve-api-client/lib/index'
+import { servers, regions, channels } from '../../../../stryve-api-client/lib/index'
 
 export const joinServer = (store, invite_token) => {
 	setNoticeMessage(store, '', '')
-	servers.getJoinServer (
+	servers.getJoinServer(
 		invite_token,
+		token.get(),
 		cb 		=> { store.dispatch(types.JOIN_SERVER_WITH_INVITE_TOKEN_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.JOIN_SERVER_WITH_INVITE_TOKEN_FAILURE, errorCb) }
 	)
 }
 
 export const generateServerInvitation = (store, server_uuid) => {
-	servers.postNewInvitation(
+	servers.postCreateServerInvitation(
 		server_uuid,
+		token.get(),
 		cb 		=> { store.dispatch(types.GENERATE_NEW_SERVER_INVITATION_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.GENERATE_NEW_SERVER_INVITATION_FAILURE, errorCb) }
 	)
@@ -35,8 +35,9 @@ export const createNewServer = (store, payload) => {
 		return
 	}
 
-	servers.postNewServer(
+	servers.postCreateServer(
 		payload,
+		token.get(),
 		cb 		=> { store.dispatch(types.CREATE_NEW_SERVER_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.CREATE_NEW_SERVER_FAILURE, errorCb) }
 	)
@@ -48,15 +49,17 @@ export const createNewChannel = (store, payload) => {
 		return
 	}
 
-	servers.postNewChannel(
+	servers.postCreateServerChannel(
 		payload,
+		token.get(),
 		cb 		=> { store.dispatch(types.CREATE_NEW_CHANNEL_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.CREATE_NEW_CHANNEL_FAILURE, errorCb) }
 	)
 }
 
 export const fetchServerRegions = (store) => {
-	servers.getServerRegions(
+	regions.getRegions(
+		token.get(),
 		cb 		=> { store.dispatch(types.FETCH_SERVER_REGIONS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_SERVER_REGIONS_FAILURE, errorCb) }
 	)
@@ -86,8 +89,10 @@ export const switchChannels = (store, channel_uuid) => {
 }
 
 export const getChannelEvents = (store, channel_uuid) => {
-	channels.fetchChannelEvents(
+	channels.getChannelEvents(
 		channel_uuid,
+		15,
+		token.get(),
 		cb 		=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_CHANNEL_EVENTS_FAILURE, errorCb) }
 	)
@@ -98,10 +103,10 @@ export const resetActiveServer = (store, resetServerList) => {
 }
 
 export const fetchServer = (store, server_uuid, includeChannels) => {
-
 	servers.getServer(
 		server_uuid,
 		includeChannels,
+		token.get(),
 		cb => {
 			store.dispatch(types.FETCH_SERVER_SUCCESS, cb)
 			connectToServerSocket(store, cb)
@@ -115,7 +120,7 @@ export const fetchServerList = (store) => {
 	servers.getServersSelf(
 		null,
 		token.get(),
-		cb 		=> { store.dispatch(types.FETCH_SERVERS_SUCCESS, cb.response) },
+		cb 		=> { store.dispatch(types.FETCH_SERVERS_SUCCESS, cb) },
 		errorCb	=> { store.dispatch(types.FETCH_SERVERS_FAILURE, errorCb) }
 	)
 }

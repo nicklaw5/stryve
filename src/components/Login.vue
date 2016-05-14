@@ -50,7 +50,7 @@ export default {
 		// if available, attempt to login using access token
 		if(!helpers.isNullOrUndefined(this.getAccessToken) && this.autoLogin) {
 			this.setAuthMessage('success', 'Logging in...')
-			this.attemptUserLogin(null, true)
+			this.attemptUserLogin(null)
 		}
 
 		// hide any existing tooltips (some gernally hang after logging out)

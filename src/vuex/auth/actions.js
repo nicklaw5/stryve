@@ -26,10 +26,10 @@ export const setAuthMessage = (store, tone, message) => {
 	store.dispatch(types.SET_AUTH_MESSAGE, tone, message)
 }
 
-export const attemptUserLogin = (store, payload, tryAccessToken) => {
+export const attemptUserLogin = (store, payload) => {
 	auth.postLogin(
 		payload,
-		tryAccessToken,
+		token.get(),
 		cb 	=> {
 			store.dispatch(types.LOGIN_SUCCESS, cb)
 			fetchUser(store)

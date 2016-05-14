@@ -1,10 +1,13 @@
-import * as users from '../../api/users'
 import * as types from '../mutation-types'
+import * as token from '../../utils/token'
 import { setIsAuthenticated, setAuthMessage, } from '../auth/actions'
 
+/** TESTING **/
+import { users } from '../../../../stryve-api-client/lib/index'
 
 export const fetchUser = (store) => {
 	users.getUserSelf(
+		token.get(),
 		cb 		=> { 
 			store.dispatch(types.FETCH_USER_SUCCESS, cb)
 			setIsAuthenticated(store, true)

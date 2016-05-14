@@ -1,13 +1,17 @@
 import * as types from '../mutation-types'
-import * as users from '../../api/users'
+import * as token from '../../utils/token'
+
+/** TESTING **/
+import { contacts } from '../../../../stryve-api-client/lib/index'
 
 export const switchContacts = (store, contact_uuid) => {
 	store.dispatch(types.SWITCH_CONTACTS, contact_uuid)
 }
 
 export const fetchContactEvents = (store, contact_uuid) => {
-	users.getContactEvents(
+	contacts.getContactEvents(
 		contact_uuid,
+		token.get(),
 		cb 		=> { store.dispatch(types.FETCH_CONTACT_EVENTS_SUCCESS, cb) },
 		errorCb => { store.dispatch(types.FETCH_CONTACT_EVENTS_FAILURE, res) }
 	)
@@ -19,8 +23,10 @@ export const sendContactMessage = (store, text) => {
 
 export const searchContacts = (store, query) => {
 	setSearching(store, true)
-	users.getSearchUsers(
+	contacts.getSearchContacts(
 		query,
+		10,
+		token.get(),
 		cb 		=> { store.dispatch(types.SEARCH_CONTACTS_SUCCESS, cb) },
 		errorCb => { store.dispatch(types.SEARCH_CONTACTS_FAILURE, res) }
 	)

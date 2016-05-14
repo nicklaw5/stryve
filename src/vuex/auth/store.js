@@ -16,15 +16,12 @@ const state = {
 const mutations = {
 
 	[types.LOGIN_SUCCESS] (state, res) {
-		loginOrRegistrationSuccess(res.response)
+		loginOrRegistrationSuccess(res)
 	},
 
 	[types.LOGIN_FAILURE] (state, res) {
 		token.destroy()
-		if(typeof res.code == 'undefined')
-			setAuthMessage('danger', 'An unknown error occured.')
-		else
-			setAuthMessage('danger', res.response.errorMessage)
+		setAuthMessage('danger', res.errorMessage)
 	},
 
 	[types.LOGOUT] (state) {
@@ -36,11 +33,11 @@ const mutations = {
 	},
 
 	[types.REGISTRATION_SUCCESS] (state, res) {
-		loginOrRegistrationSuccess(res.response)
+		loginOrRegistrationSuccess(res)
 	},
 	
 	[types.REGISTRATION_FAILURE] (state, res) {
-		setAuthMessage('danger', res.response.errorMessage)
+		setAuthMessage('danger', res.errorMessage)
 	},
 
 	[types.SET_AUTH_MESSAGE] (state, tone, message) {
