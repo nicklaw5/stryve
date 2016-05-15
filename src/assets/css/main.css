@@ -434,6 +434,9 @@ a:hover {
 	padding-right: 20px;
   	margin-top: 13px;
 }
+#contacts-list > ul > li:hover .icons > a {
+	cursor: pointer;
+}
 
 #contacts-list > ul > li:hover .icons,
 #contacts-list > ul > li.active .icons, {

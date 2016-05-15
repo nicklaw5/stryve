@@ -1,6 +1,7 @@
 import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
+import { resetContacts } from '../contacts/actions'
 import { switchChannelsPanel } from '../app/actions'
 import {
 	fetchUser,
@@ -45,6 +46,7 @@ export const attemptUserLogout = (store) => {
 		token.get(),
 		cb 	=> {
 			store.dispatch(types.LOGOUT)
+			resetContacts(store)
 			unsubscribeFromAllChannels(store)
 			resetUser(store)
 			disconnectFromUserSocket(store)

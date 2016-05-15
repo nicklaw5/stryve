@@ -1,4 +1,5 @@
 import moment from 'moment'
+import emojify from 'emojify.js'
 
 module.exports = {
 
@@ -289,7 +290,22 @@ module.exports = {
 	 */
 	hideModalOverlay: () => {
 		module.exports.removeClassElementFromDom('modal-overlay')
-	}
+	},
 
+	/**
+	 * Parse the event text for display purposes
+	 *
+	 * @param {string} $event_text
+	 * @return string
+	 */
+	 parseText: event_text => {
+	 	// insert any found emoticons
+		event_text = emojify.replace(event_text)
+
+		// linkify http text
+		event_text = module.exports.linkify(event_text)
+
+		return event_text;
+	 }
 };
 

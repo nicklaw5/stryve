@@ -1,6 +1,6 @@
 <template>
 
-	<div v-if="contactSet" id="channel-messages">
+	<div v-if="contactSet && contact.ready" id="channel-messages">
 
 		<div id="user-input">
 			<div id="user-input-inner">

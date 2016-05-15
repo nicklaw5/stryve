@@ -15,9 +15,10 @@ const state = {
 const mutations = {
 	
 	[types.FETCH_USER_SUCCESS] (state, response) {
+		const contacts = response.contacts
+		delete response.contacts
 		set(state, 'user', response)
-		setPinnedContacts(store, response.contacts)
-		delete state.user.contacts;
+		setPinnedContacts(store, contacts)
 		connectToUserSocket(store)
 	},
 

@@ -136,7 +136,6 @@ export const listenOnChannel = (state, channel_uuid) => {
 
 	// ON MESSAGE RECEIVED TO CHANNEL
 	window.server_socket.on('channel-message::' + channel_uuid, payload => {
-		console.log(payload)
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 	})

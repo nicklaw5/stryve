@@ -27,9 +27,10 @@
 					<span class="hashtag">@</span>{{ contact.username }}
 				</span>
 				<span class="icons">
-					<!-- <i class="icon-circle-small online-status {{ contact.status }}"></i> -->
-					<a><i class="icon-radio-checked"></i></a>
-					<a><i class="icon-radio-unchecked"></i></a>
+					<i class="icon-circle-small online-status {{ contact.status }}"></i>
+					<a @click="pinContact(contact.uuid)">
+						<i class="icon-radio-{{ (contact.is_contact)? 'checked' : 'unchecked' }}"></i>
+					</a>
 				</span>
 			</li>
 		</ul>
@@ -37,8 +38,8 @@
 </template>
 
 <script>
-import { searchContacts, resetSearchContacts, switchContacts } from '../vuex/contacts/actions'
 import { getPinnedContacts, getSearching, getSearchContacts } from '../vuex/contacts/getters'
+import { searchContacts, resetSearchContacts, switchContacts, togglePinnedContact } from '../vuex/contacts/actions'
 
 export default {
 	data() {
@@ -55,7 +56,8 @@ export default {
 		actions: {
 			switchContacts,
 			searchContacts,
-			resetSearchContacts
+			resetSearchContacts,
+			togglePinnedContact
 		}
 	},
 	computed: {
@@ -71,12 +73,15 @@ export default {
 			this.search = ''
 			this.resetSearchContacts()
 		},
+		pinContact(contact_uuid) {
+			this.togglePinnedContact(contact_uuid)
+		},
 		searchKeyUpEvent(event) {
 			if(event.which === 13 && this.search.length) 			// 'enter' key
 				this.searchContacts(this.search)
 			else if(event.which === 27 || !this.search.length && event.which !== 13) 	// 'esc' key
 				this.emptySearch()
-		}
+		},
 	}
 }
 </script>

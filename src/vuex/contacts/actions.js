@@ -4,6 +4,23 @@ import * as token from '../../utils/token'
 /** TESTING **/
 import { contacts } from '../../../../stryve-api-client/lib/index'
 
+export const resetContacts = (store) => {
+	store.dispatch(types.RESET_CONTACTS)
+}
+
+export const pushEventToContact = (store, payload, isPreliminary) => {
+	store.dispatch(types.PUSH_EVENT_TO_CONTACT, payload, isPreliminary)
+}
+
+export const togglePinnedContact = (store, contact_uuid) => {
+	contacts.postPinContact(
+		contact_uuid,
+		token.get(),
+		cb 		=> { store.dispatch(types.PIN_CONTACT_SUCCESS, cb) },
+		errorCb => { store.dispatch(types.PIN_CONTACT_FAILURE, errorCb) }
+	)
+}
+
 export const switchContacts = (store, contact_uuid) => {
 	store.dispatch(types.SWITCH_CONTACTS, contact_uuid)
 }
@@ -11,9 +28,10 @@ export const switchContacts = (store, contact_uuid) => {
 export const fetchContactEvents = (store, contact_uuid) => {
 	contacts.getContactEvents(
 		contact_uuid,
+		25,
 		token.get(),
 		cb 		=> { store.dispatch(types.FETCH_CONTACT_EVENTS_SUCCESS, cb) },
-		errorCb => { store.dispatch(types.FETCH_CONTACT_EVENTS_FAILURE, res) }
+		errorCb => { store.dispatch(types.FETCH_CONTACT_EVENTS_FAILURE, errorCb) }
 	)
 }
 
@@ -28,7 +46,7 @@ export const searchContacts = (store, query) => {
 		10,
 		token.get(),
 		cb 		=> { store.dispatch(types.SEARCH_CONTACTS_SUCCESS, cb) },
-		errorCb => { store.dispatch(types.SEARCH_CONTACTS_FAILURE, res) }
+		errorCb => { store.dispatch(types.SEARCH_CONTACTS_FAILURE, errorCb) }
 	)
 }
 

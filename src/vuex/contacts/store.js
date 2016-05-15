@@ -17,6 +17,26 @@ const state = {
 
 // mutations
 const mutations = {
+	[types.RESET_CONTACTS] (state) {
+		set(state, 'searching', false)
+		set(state, 'currentContact', null)
+		set(state, 'pinnedContacts', {})
+		set(state, 'searchContacts', {})
+	},
+
+	[types.PIN_CONTACT_SUCCESS] (state, contact) {
+		set(state.searchContacts[contact.uuid], 'is_contact', contact.is_contact)
+
+		if(contact.is_contact)
+			set(state.pinnedContacts, contact.uuid, addContactProperties(contact))
+		else
+			delete state.pinnedContacts[contact.uuid]
+	},
+
+	[types.PIN_CONTACT_FAILURE] (state, res) {
+		// TODO
+		console.log(res)
+	},
 
 	[types.SEND_CONTACT_MESSAGE] (state, text) {
 		sendContactMessage(text, state.currentContact, store._vm.users.user)
@@ -32,16 +52,12 @@ const mutations = {
 				if(contact_events[i].event_text == null)
 					continue
 
-				// add any emoticons
-				contact_events[i].event_text = emojify.replace(contact_events[i].event_text)
-
-				// linkify http text
-				contact_events[i].event_text = helpers.linkify(contact_events[i].event_text)
+				contact_events[i].event_text = helpers.parseText(contact_events[i].event_text)
 
 				// add event to contact
 				set(
 					state.pinnedContacts[state.currentContact].events,
-					contact_events[i].uuid,
+					contact_events[i].event_uuid,
 					contact_events[i]
 				)
 			}
@@ -63,7 +79,7 @@ const mutations = {
 	},
 
 	[types.SWITCH_CONTACTS] (state, contact_uuid) {
-		// no need to do anything if we're already here
+		// no need to do anything if we're looking at the contact
 		if(state.currentContact === contact_uuid)
 			return
 
@@ -100,11 +116,12 @@ const mutations = {
 	},
 
 	[types.SET_PINNED_CONTACTS] (state, contacts) {
-		if(!helpers.isNullOrUndefined(contacts))
+		if(!helpers.isNullOrUndefined(contacts)) {
 			contacts.forEach(contact => {
 				contact = addContactProperties(contact)
 				set(state.pinnedContacts, contact.uuid, contact)
 			})
+		}
 	},
 
 	[types.RESET_SEARCH_CONTACTS] (state) {
@@ -117,11 +134,11 @@ const mutations = {
 	},
 
 	[types.SEARCH_CONTACTS_SUCCESS] (state, contacts) {
-		
-		if(!helpers.isNullOrUndefined(contacts))
+		if(!helpers.isNullOrUndefined(contacts)) {
 			contacts.forEach(contact => {
 				set(state.searchContacts, contact.uuid, contact)
 			})
+		}
 	},
 
 	[types.SEARCH_CONTACTS_FAILURE] (state, res) {
@@ -132,11 +149,38 @@ const mutations = {
 
 	[types.SEND_CONTACT_MESSAGE] (state, text) {
 		user_socket.sendContactMessage(text, state.currentContact, store._vm.users.user)
-	}
+	},
+
+	[types.PUSH_EVENT_TO_CONTACT] (state, payload, isPreliminary) {
+		for(let key in state.pinnedContacts) {
+			if(state.pinnedContacts.hasOwnProperty(key)) {
+				if(payload.recipient_uuid === key || payload.sender_uuid === key) {
+
+					// parse the text for display purposes
+					payload.event_text = helpers.parseText(payload.event_text)
+
+					// add temporary event properties for preliminary events
+					if(isPreliminary) {
+						const user = store._vm.users.user
+						payload['sender_uuid'] 		= user.uuid
+						payload['sender_username'] 	= user.username
+						payload['editable'] 		= false
+					}
+
+					// add/update the event to the current array of events
+					set(state.pinnedContacts[key].events, payload.event_uuid, payload)
+
+					// break out of the for loop once found
+					break
+				}
+			}
+		}
+	},
 
 }
 
 function addContactProperties(contact) {
+	// console.log(contact)
 	contact['active'] = false
 	contact['ready'] = false
 	contact['listening'] = false

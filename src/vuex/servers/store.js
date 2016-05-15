@@ -278,11 +278,8 @@ const mutations = {
 				if(channel_events[i].event_text == null)
 					continue
 
-				// add any emoticons
-				channel_events[i].event_text = emojify.replace(channel_events[i].event_text)
-
-				// linkify http text
-				channel_events[i].event_text = helpers.linkify(channel_events[i].event_text)
+				// parse the text for display purposes
+				channel_events[i].event_text = helpers.parseText(channel_events[i].event_text)
 
 				// add event to channel
 				set(
@@ -312,11 +309,9 @@ const mutations = {
 		for(let key in state.servers[state.currentServer].channels) {
 			if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 				if(payload.channel_uuid === state.servers[state.currentServer].channels[key].uuid)  {
-					// insert any found emoticons
-					payload.event_text = emojify.replace(payload.event_text)
-
-					// linkify http text
-					payload.event_text = helpers.linkify(payload.event_text)
+					
+					// parse the text for display purposes
+					payload.event_text = helpers.parseText(payload.event_text)
 
 					// add temporary event properties for preliminary events
 					if(isPreliminary) {
