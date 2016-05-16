@@ -10,6 +10,9 @@ export const connectToServerSocket = (state, server) =>  {
 	if(helpers.isEmptyObject(window.server_socket)) {
 		window.server_socket = io(server.server_uri + '/servers', {forceNew: true})
 
+		// update title
+		helpers.updateTitleText(server.name)
+
 		// ON CONNECTION TO SERVER
 		window.server_socket.on('connected', socket_id => {
 			// set the users unique socket_id

@@ -160,8 +160,10 @@ const mutations = {
 		// deal with current server connection
 		if(!helpers.isNullOrUndefined(state.currentServer)) {
 			// don't connect if we're already connected to this server
-			if(state.currentServer === server_uuid)
+			if(state.currentServer === server_uuid) {
+				helpers.updateTitleText(state.servers[state.currentServer].name)
 				return
+			}
 
 			// unscubscribe from any channels the user is listening on
 			for(let key in state.servers[state.currentServer].channels) {
@@ -264,7 +266,7 @@ const mutations = {
 		}
 
 		// update title with channel name
-		helpers.updateTitleText('Stryve App - #' + state.servers[state.currentServer].channels[state.currentChannel].name)
+		helpers.updateTitleText('#' + state.servers[state.currentServer].channels[state.currentChannel].name)
 
 		// focus on chat message input field
 		helpers.focusOnElement('channel_message')

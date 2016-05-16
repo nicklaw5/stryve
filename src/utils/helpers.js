@@ -100,7 +100,7 @@ module.exports = {
 	 * @return void
 	 */
 	updateTitleText: text => {
-		window.document.title = text
+		window.document.title = 'Stryve - ' + text
 	},
 
 	/**

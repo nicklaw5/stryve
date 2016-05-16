@@ -106,7 +106,7 @@ const mutations = {
 		}
 
 		// update title with contact username
-		helpers.updateTitleText('Stryve App - @' + state.pinnedContacts[state.currentContact].username)
+		helpers.updateTitleText('@' + state.pinnedContacts[state.currentContact].username)
 
 		// fire resize window event 
 		helpers.fireWindowResizeEvent()

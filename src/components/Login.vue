@@ -42,6 +42,7 @@ export default {
 		AuthMessage
 	},
 	created() {
+		helpers.updateTitleText('Login')
 		this.autoLogin = (localStorage.automaticLogin === 'true')
 			? true
 			: false

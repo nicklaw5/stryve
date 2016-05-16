@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import * as helpers from '../utils/helpers'
 import { getPinnedContacts, getSearching, getSearchContacts } from '../vuex/contacts/getters'
 import { searchContacts, resetSearchContacts, switchContacts, togglePinnedContact } from '../vuex/contacts/actions'
 
@@ -46,6 +47,9 @@ export default {
 		return {
 			search: ''
 		}
+	},
+	created() {
+		helpers.updateTitleText('Contacts')
 	},
 	vuex: {
 		getters: {

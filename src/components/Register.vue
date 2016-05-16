@@ -20,6 +20,7 @@ import {
 	attemptUserRegistration
 } from '../vuex/auth/actions'
 import AuthMessage from './AuthMessage.vue'
+import * as helpers from '../utils/helpers'
 import { authMessage } from '../vuex/auth/getters'
 
 export default {
@@ -36,6 +37,7 @@ export default {
 		AuthMessage
 	},
 	created() {
+		helpers.updateTitleText('Register')
 		this.setAuthMessage('', '')
 	},
 	vuex: {
