@@ -57,6 +57,7 @@ const mutations = {
 	},
 
 	[types.CREATE_NEW_CHANNEL_SUCCESS] (state, channel) {
+		server_socket.sendChannelCreated(channel)
 		channel = addChannelProperties(channel)
 		set(state.servers[state.currentServer].channels, channel.uuid, channel)
 		hideModal(store, 'newChannelModal')
