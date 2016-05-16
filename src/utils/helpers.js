@@ -16,7 +16,7 @@ module.exports = {
 			format = 'D MMM YYYY'
 
 		let localTime = moment.utc(value).toDate();
-    	return moment(localTime).format(format);
+    	return moment(localTime).calendar();
 	},
 
 	/**
