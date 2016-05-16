@@ -20,7 +20,7 @@ emojify.setConfig({
 	img_dir: '../node_modules/emojify.js/dist/images/basic'
 })
 emojify.run()
-moment.locale('en', {
+moment.updateLocale('en', {
 	calendar : {
 		lastDay : '[Yesterday at] LT',
 		sameDay : 'LT',
