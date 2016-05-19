@@ -32,8 +32,8 @@ moment.updateLocale('en', {
 });
 
 // create global socket objects
-window.user_socket = {}
-window.server_socket = {}
+window.userSocket = {}
+window.serverSocket = {}
 
 new Vue({
 	el: 'body',

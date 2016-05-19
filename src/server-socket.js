@@ -7,35 +7,35 @@ import { pushEventToChannel, instantiateServerChannels } from './vuex/servers/ac
 
 export const connectToServerSocket = (state, server) =>  {
 	// connect to the socket if the user hasn't already
-	if(helpers.isEmptyObject(window.server_socket)) {
-		window.server_socket = io(server.server_uri + '/servers', {forceNew: true})
+	if(helpers.isEmptyObject(window.serverSocket)) {
+		window.serverSocket = io(server.server_uri + '/servers', {forceNew: true})
 
 		// update title
 		helpers.updateTitleText(server.name)
 
 		// ON CONNECTION TO SERVER
-		window.server_socket.on('connected', socket_id => {
+		window.serverSocket.on('connected', socket_id => {
 			// set the users unique socket_id
-			setServerSocketId(store, window.server_socket.id)
+			setServerSocketId(store, window.serverSocket.id)
 
 			// send user and socket data back to server for logging
 			submitUserConnectedEvent(state, store._vm.users.user)
 		})
 
 		// ON USER CONNECTED EVENT
-		window.server_socket.on('user-connected', payload => {
+		window.serverSocket.on('user-connected', payload => {
 			// TODO - set online status maybe??
 			// console.log(payload)
 		})
 
 		// ON USER DISCONNECTED EVENT
-		window.server_socket.on('user-disconnected', payload => {
+		window.serverSocket.on('user-disconnected', payload => {
 			// TODO
 			// console.log(payload)
 		})
 
 		// ON CHANNEL CREATION
-		window.server_socket.on('channel-created', channel => {
+		window.serverSocket.on('channel-created', channel => {
 			instantiateServerChannels(store, store._vm.servers.currentServer, [channel])
 			helpers.notification('New Channel Created', { body: channel.name + ' has been created.' })
 		})
@@ -43,13 +43,13 @@ export const connectToServerSocket = (state, server) =>  {
 	// else if, check that the server hasn't changed
 	// if it has we need to disconnect first
 	// then reconnect to the new uri
-	} else if(window.server_socket.io.uri != server.server_uri) {
+	} else if(window.serverSocket.io.uri != server.server_uri) {
 
-		console.log('disconnecting from ' + window.server_socket.io.uri)
+		console.log('disconnecting from ' + window.serverSocket.io.uri)
 		disconnectFromServerSocket()
 
 		// reset the socket
-		window.server_socket = {}
+		window.serverSocket = {}
 
 		// connect to the new server
 		console.log('connecting to ' + server.server_uri)
@@ -65,7 +65,7 @@ export const connectToServerSocket = (state, server) =>  {
 export const listenOnChannel = (state, channel_uuid) => {
 	
 	// ON USER JOINED CHANNEL
-	window.server_socket.on('user-subscribed-to::' + channel_uuid, payload => {
+	window.serverSocket.on('user-subscribed-to::' + channel_uuid, payload => {
 		// add event to channel
 		pushEventToChannel(store, payload, false)
 
@@ -74,25 +74,25 @@ export const listenOnChannel = (state, channel_uuid) => {
 	})
 
 	// ON USER LEFT CHANNEL
-	window.server_socket.on('user-unsubscribed-from::' + channel_uuid, payload => {
+	window.serverSocket.on('user-unsubscribed-from::' + channel_uuid, payload => {
 		pushEventToChannel(store, payload, false)
 	})
 
 	// ON PRELIMINARY MESSAGE RECEIVED TO CHANNEL
-	window.server_socket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
+	window.serverSocket.on('channel-message::' + channel_uuid + '::preliminary', payload => {
 		pushEventToChannel(store, payload, true)
 	})
 
 	// ON MESSAGE RECEIVED TO CHANNEL
-	window.server_socket.on('channel-message::' + channel_uuid, payload => {
+	window.serverSocket.on('channel-message::' + channel_uuid, payload => {
 		pushEventToChannel(store, payload, false)
 	})
 }
 
 export const disconnectFromServerSocket = () => {
-	if(!helpers.isEmptyObject(window.server_socket)) {
-		window.server_socket.disconnect()
-		window.server_socket = {}
+	if(!helpers.isEmptyObject(window.serverSocket)) {
+		window.serverSocket.disconnect()
+		window.serverSocket = {}
 	}
 }
 
@@ -102,7 +102,7 @@ export const submitUserConnectedEvent = (state, user) => {
 		return
 
 	// send the message to all connected sockets
-	window.server_socket.emit('user-connected', {
+	window.serverSocket.emit('user-connected', {
 		server_uuid: 		state.currentServer,
 		server_name: 		state.servers[state.currentServer].name,
 		owner_uuid:			user.uuid,
@@ -113,7 +113,7 @@ export const submitUserConnectedEvent = (state, user) => {
 
 export const subscribeToChannel = (channel, user) => {
 	if(!helpers.isEmptyObject(channel)) {
-		window.server_socket.emit("subscribe-to-channel", {
+		window.serverSocket.emit("subscribe-to-channel", {
 			channel_uuid: 	channel.uuid,
 			channel_name: 	channel.name,
 			owner_uuid: 	user.uuid,
@@ -124,7 +124,7 @@ export const subscribeToChannel = (channel, user) => {
 
 export const unsubscribeFromChatChannel = (channel, user) => {
 	if(!helpers.isEmptyObject(channel)) {
-		window.server_socket.emit("unsubscribe-from-channel", { 
+		window.serverSocket.emit("unsubscribe-from-channel", { 
 			channel_uuid: 	channel.uuid,
 			channel_name: 	channel.name,
 			owner_uuid: 	user.uuid,
@@ -134,7 +134,7 @@ export const unsubscribeFromChatChannel = (channel, user) => {
 }
 
 export const sendChannelMessage = (text, channel_uuid, user) => {
-	window.server_socket.emit('channel-message', {
+	window.serverSocket.emit('channel-message', {
 		channel_uuid: 	channel_uuid,
 		owner_uuid:		user.uuid,
 		owner_username:	user.username,
@@ -144,5 +144,5 @@ export const sendChannelMessage = (text, channel_uuid, user) => {
 }
 
 export const sendChannelCreated = (channel) => {
-	window.server_socket.emit('channel-created', channel)
+	window.serverSocket.emit('channel-created', channel)
 }

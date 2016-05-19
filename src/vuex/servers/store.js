@@ -3,7 +3,7 @@ import store from '../store'
 import emojify from 'emojify.js'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import * as server_socket from '../../server_socket'
+import * as serverSocket from '../../server-socket'
 import { setNoticeMessage, hideModal } from '../app/actions'
 import { switchServers, switchChannels, getChannelEvents } from './actions'
 
@@ -57,7 +57,7 @@ const mutations = {
 	},
 
 	[types.CREATE_NEW_CHANNEL_SUCCESS] (state, channel) {
-		server_socket.sendChannelCreated(channel)
+		serverSocket.sendChannelCreated(channel)
 		channel = addChannelProperties(channel)
 		set(state.servers[state.currentServer].channels, channel.uuid, channel)
 		hideModal(store, 'newChannelModal')
@@ -79,7 +79,7 @@ const mutations = {
 	},
 	
 	[types.SEND_MESSAGE] (state, text) {
-		server_socket.sendChannelMessage(text, state.currentChannel, store._vm.users.user)
+		serverSocket.sendChannelMessage(text, state.currentChannel, store._vm.users.user)
 		helpers.updateElementsValue('channel_message', '')
 	},
 
@@ -99,7 +99,7 @@ const mutations = {
 			: set(state.servers[state.currentServer], 'channels', {})
 		
 		// disconnect from current server
-		server_socket.disconnectFromServerSocket()
+		serverSocket.disconnectFromServerSocket()
 
 		// reset curruent channel
 		set(state, 'currentChannel', null)
@@ -169,7 +169,7 @@ const mutations = {
 			for(let key in state.servers[state.currentServer].channels) {
 				if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 					if(state.servers[state.currentServer].channels[key].listening) {
-						server_socket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], store._vm.users.user)
+						serverSocket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], store._vm.users.user)
 					}
 				}
 			}
@@ -178,7 +178,7 @@ const mutations = {
 			set(state.servers[state.currentServer], 'channels', {})
 
 			// disconnect from current server
-			server_socket.disconnectFromServerSocket()
+			serverSocket.disconnectFromServerSocket()
 
 			// reset curruent channel
 			set(state, 'currentChannel', null)
@@ -201,11 +201,11 @@ const mutations = {
 	},
 
 	[types.CONNECT_TO_SERVER_SOCKET] (state, server) {	
-		server_socket.connectToServerSocket(state, server)
+		serverSocket.connectToServerSocket(state, server)
 	},
 
 	[types.DISCONNECT_FROM_SERVER_SOCKET] (state) {
-		server_socket.disconnectFromServerSocket()
+		serverSocket.disconnectFromServerSocket()
 	},
 
 	[types.UNSUBSCRIBE_FROM_ALL_CHANNELS] (state) {
@@ -219,7 +219,7 @@ const mutations = {
 			for(let key in state.servers[state.currentServer].channels) {
 				if(state.servers[state.currentServer].channels.hasOwnProperty(key)) {
 					if(state.servers[state.currentServer].channels[key].listening) {
-						server_socket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], user)
+						serverSocket.unsubscribeFromChatChannel(state.servers[state.currentServer].channels[key], user)
 					}
 				}
 			}
@@ -238,8 +238,8 @@ const mutations = {
 		// check that the user is not already listening on this channel
 		if(!state.servers[state.currentServer].channels[channel_uuid].listening) {
 			// subscribe to and listen on this channel
-			server_socket.subscribeToChannel(state.servers[state.currentServer].channels[channel_uuid], store._vm.users.user)
-			server_socket.listenOnChannel(state, state.servers[state.currentServer].channels[channel_uuid].uuid)
+			serverSocket.subscribeToChannel(state.servers[state.currentServer].channels[channel_uuid], store._vm.users.user)
+			serverSocket.listenOnChannel(state, state.servers[state.currentServer].channels[channel_uuid].uuid)
 		}
 
 		// loop over the server channels

@@ -13,7 +13,11 @@
 
 	<!-- not authenticated -->
 	<div v-else id="login-or-register">
+		<div id="release-tag" class="release-front">
+			<span>v0.3.0-alpha</span>
+		</div>
 		<div id="login-or-register-inner">
+			<p style="text-align: center"><img width="80px" src="../assets/img/logo-100x100.png"></p>
 			<login v-if="authForm == 'login'"></login>
 			<register v-else></register>    		
     	</div>

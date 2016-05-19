@@ -15,7 +15,7 @@
 							type="text" 
 							placeholder="Chat with {{ contact.username }}..." 
 							autocomplete="off">
-						<span class="icon-grid"></span>
+						<!-- <span class="icon-grid"></span> -->
 					</div>
 				</div>
 			</div>

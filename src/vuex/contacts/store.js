@@ -4,7 +4,7 @@ import emojify from 'emojify.js'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
-import * as user_socket from '../../user_socket'
+import * as userSocket from '../../user-socket'
 import { setSearching, fetchContactEvents } from './actions'
 
 // initial module state
@@ -148,7 +148,7 @@ const mutations = {
 	},
 
 	[types.SEND_CONTACT_MESSAGE] (state, text) {
-		user_socket.sendContactMessage(text, state.currentContact, store._vm.users.user)
+		userSocket.sendContactMessage(text, state.currentContact, store._vm.users.user)
 	},
 
 	[types.PUSH_EVENT_TO_CONTACT] (state, payload, isPreliminary) {

@@ -2,7 +2,7 @@ import { set } from 'vue'
 import store from '../store'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
-import * as user_socket from '../../user_socket'
+import * as userSocket from '../../user-socket'
 import { setPinnedContacts } from '../contacts/actions'
 import { connectToUserSocket } from '../users/actions'
 
@@ -31,11 +31,11 @@ const mutations = {
 	},
 
 	[types.CONNECT_TO_USER_SOCKET] (state) {
-		user_socket.connectToUserSockect(store._vm.users.user.uuid)
+		userSocket.connectToUserSockect(store._vm.users.user.uuid)
 	},
 
 	[types.DISCONNECT_FROM_USER_SOCKET] (state) {
-		user_socket.disconnectFromUserSocket()
+		userSocket.disconnectFromUserSocket()
 	},
 
 	[types.SET_SERVER_SOCKET_ID] (state, socket_id) {
@@ -46,22 +46,6 @@ const mutations = {
 		set(state.user, 'user_socket_id', socket_id);
 	}
 }
-
-function listenOnUserSocket(state, user_uuid) {
-
-	// ON PRELIMINARY MESSAGE RECEIVED BY CONTACT
-	window.user_socket.on('contact-message::' + user_uuid + '::preliminary', payload => {
-		// add event to contact
-		// pushEventToChannel(store, payload, true)
-	})
-
-	// ON MESSAGE RECEIVED TO CHANNEL
-	window.user_socket.on('contact-message::' + user_uuid, payload => {
-		// add event to contact
-		// pushEventToChannel(store, payload, false)
-	})
-}
-
 
 export default {
   state,

@@ -6,7 +6,7 @@
 	</div>
 
 	<div v-if="!searching" id="contacts-list">
-		<ul>
+		<ul v-if="haveContacts">
 			<li v-for="contact in pinnedContacts"
 				:class="{ 'active': contact.active }">
 				<span class="contact-name" @click="switchContacts(contact.uuid)">
@@ -18,6 +18,7 @@
 				</span>
 			</li>
 		</ul>
+		<p v-else>You don't have any contacts.</p>
 	</div>
 
 	<div v-else id="contacts-list">
@@ -48,6 +49,11 @@ export default {
 			search: ''
 		}
 	},
+	computed: {
+		haveContacts() {
+			return Object.keys(this.pinnedContacts).length
+		}
+	},
 	created() {
 		helpers.updateTitleText('Contacts')
 	},
@@ -63,11 +69,6 @@ export default {
 			resetSearchContacts,
 			togglePinnedContact
 		}
-	},
-	computed: {
-		// haveContacts() {
-		// 	return Object.keys(this.pinnedContacts).length
-		// }
 	},
 	watch: {
 		

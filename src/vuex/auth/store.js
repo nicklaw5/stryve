@@ -3,7 +3,6 @@ import io from 'socket.io-client'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
-import * as user_socket from '../../user_socket'
 
 // initial module state
 const state = {

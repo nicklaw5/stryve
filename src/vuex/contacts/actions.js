@@ -1,8 +1,6 @@
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
-
-/** TESTING **/
-import { contacts } from '../../../../stryve-api-client/lib/index'
+import { contacts } from 'stryve-api-client'
 
 export const resetContacts = (store) => {
 	store.dispatch(types.RESET_CONTACTS)

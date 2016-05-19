@@ -1,3 +1,4 @@
+import { auth } from 'stryve-api-client'
 import * as token from '../../utils/token'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
@@ -11,9 +12,6 @@ import {
 	resetActiveServer,
 	unsubscribeFromAllChannels,
 	disconnectFromServerSocket } from '../servers/actions'
-
-/** TESTING **/
-import { auth } from '../../../../stryve-api-client/lib/index'
 
 export const setIsAuthenticated = (store, boolean) => {
 	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)

@@ -33,8 +33,8 @@ export default {
 		return {
 			autoLogin: false,
 			form: {
-				email: 'nick@account.com',
-				password: 'test1234'
+				email: '',
+				password: ''
 			}
 		}
 	},

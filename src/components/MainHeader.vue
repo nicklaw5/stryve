@@ -17,8 +17,8 @@
 			</h3>
 		</div>
 
-		<div id="beta-tag">
-			<span>v0.3.0-beta</span>
+		<div id="release-tag">
+			<span>v0.3.0-alpha</span>
 		</div>
 		
 		<!-- <div id="channel-messages-header-right">
@@ -56,14 +56,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-	#beta-tag {
-		cursor:	default;
-		float: right;
-		padding: 5px;
-		color: #738bd7;
-		font-weight: bold;
-		font-size: .8em;
-	}
-</style>

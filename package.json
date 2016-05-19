@@ -1,6 +1,7 @@
 {
   "main": "index.html",
-  "name": "stryve-app",
+  "name": "stryve",
+  "version": "v0.3.0-alpha",
   "description": "A socket.io-driven chat application.",
   "author": "https://github.com/nicklaw5",
   "scripts": {
@@ -21,7 +22,8 @@
     "min_height": 400
   },
   "webkit": {
-    "plugin": true
+    "plugin": true,
+    "java": false
   },
   "devDependencies": {
     "babel-core": "^6.2.1",

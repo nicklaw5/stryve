@@ -1,10 +1,8 @@
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
+import { servers, regions, channels } from 'stryve-api-client'
 import { switchChannelsPanel, setNoticeMessage } from '../app/actions'
-
-/** TESTING **/
-import { servers, regions, channels } from '../../../../stryve-api-client/lib/index'
 
 export const joinServer = (store, invite_token) => {
 	setNoticeMessage(store, '', '')

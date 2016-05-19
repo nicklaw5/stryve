@@ -1,7 +1,10 @@
 <template>
 	<div id="channel-users">
-		<p>Online/Offline Contacts List</p>
-		<p>Coming Soon</p>
+		<p>
+			Online/Offline Contacts List
+			<br>
+			(coming soon)
+		</p>
 		<!-- <ul>
 			<li>
 				<div class="avatar">

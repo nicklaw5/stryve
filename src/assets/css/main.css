@@ -106,6 +106,20 @@ a:hover {
   background: #A6BEFF;
 }
 
+#release-tag {
+	cursor:	default;
+	float: right;
+	padding: 5px;
+	color: #738bd7;
+	font-weight: bold;
+	font-size: .8em;
+}
+#release-tag.release-front {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 #login-or-register {
 	display: flex;
     justify-content: center;
