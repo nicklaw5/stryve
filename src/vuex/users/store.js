@@ -18,6 +18,7 @@ const mutations = {
 		const contacts = response.contacts
 		delete response.contacts
 		set(state, 'user', response)
+		localStorage.userEmail = state.user.email
 		setPinnedContacts(store, contacts)
 		connectToUserSocket(store)
 	},

@@ -24,7 +24,7 @@
 	<div v-else id="contacts-list">
 		<ul>
 			<li v-for="contact in getSearchContacts">
-				<span class="contact-name" @click="">
+				<span class="contact-name" @click="pinContact(contact.uuid)">
 					<span class="hashtag">@</span>{{ contact.username }}
 				</span>
 				<span class="icons">

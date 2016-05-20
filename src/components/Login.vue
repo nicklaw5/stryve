@@ -43,6 +43,8 @@ export default {
 	},
 	created() {
 		helpers.updateTitleText('Login')
+		if(typeof localStorage.userEmail == 'string')
+			this.form.email = localStorage.userEmail
 		this.autoLogin = (localStorage.automaticLogin === 'true')
 			? true
 			: false

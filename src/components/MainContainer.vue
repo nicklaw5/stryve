@@ -1,11 +1,10 @@
 <template>
+
+	<main-header></main-header>
+
 	<div id="channel-messages-container">
-
-		<main-header></main-header>
-
 		<channel-container v-if="channelPanel == 'channels'"></channel-container>
 		<contact-container v-else></contact-container>
-
 		<channel-users v-if="channelPanel == 'channels'"></channel-users>
 	</div>
 </template>
@@ -30,9 +29,7 @@ export default {
 			channelPanel: getChannelPanel,
 			contact: getCurrentContact
 		},
-		actions: {}
-	},
-	methods: {}
+	}
 }
 </script>
 

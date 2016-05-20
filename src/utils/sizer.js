@@ -15,47 +15,39 @@ let resizeElements  = function() {
 
 	// console.log(screenW + ' - ' + screenH)
 
+	$('#messages-container').css('height', screenH - userImputContainer - channelHeader);
+	$('#messages-container').css('width', screenW - channelsListWidth - serversListWidth);
+	$('#messages-container.channels').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
+
+	$('#contact_message').css('width', screenW - channelsListWidth - serversListWidth - userInputSpacing);
+	$('#channel-users').css('height', screenH - channelHeader);
+
+	$('#channels-list').css('height', (screenH - channelHeader - channelsListHeader - userSettingsPanel));
+	$('#contacts-list').css('height', (screenH - channelHeader - userSettingsPanel));
+
+	$('#server-list-container').css('height', screenH);
+	$('#server-channels-container').css('height', screenH);
+	$('#channel-messages-container').css('height', screenH);
+	$('#channel-messages-container').css('width', (screenW - channelsListWidth - serversListWidth));
+
 	// hide user list
 	if(screenW < 1000) {
 		$('#channel-users').hide();
 
-		$('#server-list-container').css('height', screenH);
-		$('#server-channels-container').css('height', screenH);
-		$('#channel-messages-container').css('height', screenH);
-		$('#channel-messages-container').css('width', (screenW - channelsListWidth - serversListWidth));
-
-		$('#messages-container').css('height', screenH - userImputContainer - channelHeader);
-		$('#messages-container').css('width', screenW - channelsListWidth - serversListWidth);
-
 		$('#channel-messages').css('width', screenW - channelsListWidth - serversListWidth);
 		$('#user-input').css('width', screenW - channelsListWidth - serversListWidth);
 		$('#channel_message').css('width', screenW - channelsListWidth - serversListWidth - userInputSpacing);
-		$('#contact_message').css('width', screenW - channelsListWidth - serversListWidth - userInputSpacing);
+		$('#messages-container.channels').css('width', '100%');
 
-		$('#channel-users').css('height', screenH - channelHeader);
-
-		// resize chat channel list
-		$('#channels-list').css('height', (screenH - channelHeader - channelsListHeader - userSettingsPanel));
 	} else {
 		$('#channel-users').show();
 
-		$('#server-list-container').css('height', screenH);
-		$('#server-channels-container').css('height', screenH);
-		$('#channel-messages-container').css('height', screenH);
-		$('#channel-messages-container').css('width', (screenW - channelsListWidth - serversListWidth));
-
-		$('#messages-container').css('height', screenH - userImputContainer - channelHeader);
-		$('#messages-container').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
-
 		$('#channel-messages').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
 		$('#user-input').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList);
+		$('#user-input.contacts').css('width', screenW - channelsListWidth - serversListWidth);
 		$('#channel_message').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList - userInputSpacing);
-		$('#contact_message').css('width', screenW - channelsListWidth - serversListWidth - channelUsersList - userInputSpacing);
 
-		$('#channel-users').css('height', screenH - channelHeader);
 
-		// resize chat channel list
-		$('#channels-list').css('height', (screenH - channelHeader - channelsListHeader - userSettingsPanel));
 	}
 }
 

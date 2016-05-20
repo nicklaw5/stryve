@@ -8,10 +8,10 @@
 			<input v-model="form.name" type="text">
 		</div>
 		<div class="form-element-wrapper">
-			<label>
+			<!-- <label>
 				<input type="checkbox" v-model="form.private" />
 				This is a private channel.
-			</label>
+			</label> -->
 		</div>
 		<div class="form-element-wrapper">
 			<button class="float-right"

@@ -6,7 +6,7 @@ import { setIsAuthenticated, setAuthMessage, } from '../auth/actions'
 export const fetchUser = (store) => {
 	users.getUserSelf(
 		token.get(),
-		cb 		=> { 
+		cb => { 
 			store.dispatch(types.FETCH_USER_SUCCESS, cb)
 			setIsAuthenticated(store, true)
 		},

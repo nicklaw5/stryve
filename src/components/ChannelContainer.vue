@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<div v-el:container id="messages-container">
+		<div v-el:container id="messages-container" class="channels">
 			<ul>
 				<li v-for="event in channel.events">
 					<div v-if="event.event_type == 'user_message'">

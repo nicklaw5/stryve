@@ -2,7 +2,7 @@
 
 	<div v-if="contactSet && contact.ready" id="channel-messages">
 
-		<div id="user-input">
+		<div id="user-input" class='contacts'>
 			<div id="user-input-inner">
 				<div id="user-input-container">
 					<div id="user-upload">
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<div v-el:container id="messages-container">
+		<div v-el:container id="messages-container" class="contacts">
 			<ul>
 				<li v-for="event in contact.events">
 					<div v-if="event.event_type == 'user_message'">
