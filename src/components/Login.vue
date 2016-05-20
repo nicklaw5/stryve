@@ -33,8 +33,8 @@ export default {
 		return {
 			autoLogin: false,
 			form: {
-				email: 'nick@account.com',
-				password: 'test1234'
+				email: '',
+				password: ''
 			}
 		}
 	},
@@ -42,6 +42,9 @@ export default {
 		AuthMessage
 	},
 	created() {
+		helpers.updateTitleText('Login')
+		if(typeof localStorage.userEmail == 'string')
+			this.form.email = localStorage.userEmail
 		this.autoLogin = (localStorage.automaticLogin === 'true')
 			? true
 			: false
@@ -50,8 +53,11 @@ export default {
 		// if available, attempt to login using access token
 		if(!helpers.isNullOrUndefined(this.getAccessToken) && this.autoLogin) {
 			this.setAuthMessage('success', 'Logging in...')
-			this.attemptUserLogin(null, true)
+			this.attemptUserLogin(null)
 		}
+
+		// hide any existing tooltips (some gernally hang after logging out)
+		helpers.hideTooltips()
 	},
 	vuex: {
 		getters: {

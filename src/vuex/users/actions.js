@@ -1,10 +1,12 @@
+import { users } from 'stryve-api-client'
 import * as types from '../mutation-types'
-import * as users from '../../api/users'
-import { setIsAuthenticated, setAuthMessage } from '../auth/actions'
+import * as token from '../../utils/token'
+import { setIsAuthenticated, setAuthMessage, } from '../auth/actions'
 
 export const fetchUser = (store) => {
 	users.getUserSelf(
-		cb 		=> { 
+		token.get(),
+		cb => { 
 			store.dispatch(types.FETCH_USER_SUCCESS, cb)
 			setIsAuthenticated(store, true)
 		},
@@ -16,6 +18,22 @@ export const fetchUser = (store) => {
 	)
 }
 
-export const setUserSocketId = (store, socketId) => {
-	store.dispatch(types.SET_USER_SOCKET_ID, socketId)
+export const connectToUserSocket = (store) => {
+	store.dispatch(types.CONNECT_TO_USER_SOCKET)
+}
+
+export const disconnectFromUserSocket = (store) => {
+	store.dispatch(types.DISCONNECT_FROM_USER_SOCKET)
+}
+
+export const resetUser = (store) => {
+	store.dispatch(types.RESET_USER)
+}
+
+export const setServerSocketId = (store, socket_id) => {
+	store.dispatch(types.SET_SERVER_SOCKET_ID, socket_id)
+}
+
+export const setUserSocketId = (store, socket_id) => {
+	store.dispatch(types.SET_USER_SOCKET_ID, socket_id)
 }

@@ -12,12 +12,12 @@
 						@mouseleave="hideTooltips()">
 					</i>
 				</li>
-				<li>
+				<!-- <li>
 					<i class="icon-cog7"
 						@mouseover="showSettingsTooltip($event)"
 						@mouseleave="hideTooltips()">
 					</i>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>
@@ -46,7 +46,7 @@ export default {
 							+ event.target.parentElement.parentElement.parentElement.offsetTop
 							+ (event.target.parentElement.parentElement.parentElement.parentElement.offsetTop - 60);
 
-			var offsetLeft = 80 + 163;
+			var offsetLeft = 80 + 190;
 
 			// create the tooltip
 			var tooltip = document.createElement('span');

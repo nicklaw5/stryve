@@ -14,6 +14,7 @@ module.exports = {
     root: path.join(__dirname, 'node_modules'),
   },
   module: {
+    noParse: /node_modules\/json-schema\/lib\/validate\.js/,
     loaders: [
       {
         test: /\.vue$/,
@@ -51,6 +52,7 @@ module.exports = {
     ]
   },
   node: {
+    console: false,
     fs: 'empty',
     net: 'empty',
     tls: 'empty'

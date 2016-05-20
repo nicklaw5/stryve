@@ -1,4 +1,5 @@
 import moment from 'moment'
+import emojify from 'emojify.js'
 
 module.exports = {
 
@@ -15,7 +16,7 @@ module.exports = {
 			format = 'D MMM YYYY'
 
 		let localTime = moment.utc(value).toDate();
-    	return moment(localTime).format(format);
+    	return moment(localTime).calendar();
 	},
 
 	/**
@@ -99,7 +100,7 @@ module.exports = {
 	 * @return void
 	 */
 	updateTitleText: text => {
-		window.document.title = text
+		window.document.title = 'Stryve - ' + text
 	},
 
 	/**
@@ -149,7 +150,7 @@ module.exports = {
 	notification: (title, options) => {
 		let n = new Notification(title, {
 		  body: options.body,
-		  icon: './src/assets/img/logo-450x450.png'
+		  icon: './src/assets/img/logo-100x100.png'
 		})
 		
 		// close the notification after 5 secs
@@ -206,8 +207,8 @@ module.exports = {
 	 * @param {int} $height
 	 * @return void
 	 */
-	setCssProperty: (element, height) => {
-		let el = window.document.getElementById(element)
+	setCssProperty: (element_id, height) => {
+		let el = window.document.getElementById(element_id)
 
 		el.style.height = height + 'px'
 	},
@@ -215,13 +216,13 @@ module.exports = {
 	/**
 	 * Returns an elements height
 	 *	 
-	 * @param {string} $element
+	 * @param {string} $element_id
 	 * @param {string} $property
 	 * @param {mixed} $value
 	 * @return void
 	 */
-	setElementCssProperty: (element, property, value) => {
-		let el = window.document.getElementById(element)
+	setElementCssProperty: (element_id, property, value) => {
+		let el = window.document.getElementById(element_d)
 		if(el) el.style[property] = value
 	},
 
@@ -251,22 +252,21 @@ module.exports = {
 	 * @return void
 	 */
 	hideTooltips: () => {
-		let elements = ['tooltip', 'tooltip-pointer']
+		let classes = ['tooltip', 'tooltip-pointer']
 
-		for(let i = 0; i < elements.length; i++) {
-			let el = document.getElementsByClassName(elements[i])
-	    	while(el.length > 0)
-	        	el[0].parentNode.removeChild(el[0])
+		for(let i = 0; i < classes.length; i++) {
+			module.exports.removeClassElementFromDom(classes[i])
 		}
 	},
 
 	/**
 	 * Destroys a class element on the DOM
-	 *	 
+	 * 
+	 * @param {string} $className
 	 * @return void
 	 */
-	removeClassElementFromDom: element => {
-		let el = document.getElementsByClassName(element)
+	removeClassElementFromDom: class_name => {
+		let el = document.getElementsByClassName(class_name)
     	while(el.length > 0)
         	el[0].parentNode.removeChild(el[0])
 	},
@@ -274,12 +274,38 @@ module.exports = {
 	/**
 	 * Display's a modal overlay 
 	 * 
+	 * @return void
 	 */
 	showModalOverlay: () => {
 		let overlay = document.createElement('div')
 		overlay.className += ' modal-overlay'
-		document.body.appendChild(overlay)
-	}
 
+		document.body.appendChild(overlay)
+	},
+
+	/**
+	 * Destroys the modal overlay 
+	 *
+	 * @return void
+	 */
+	hideModalOverlay: () => {
+		module.exports.removeClassElementFromDom('modal-overlay')
+	},
+
+	/**
+	 * Parse the event text for display purposes
+	 *
+	 * @param {string} $event_text
+	 * @return string
+	 */
+	 parseText: event_text => {
+	 	// insert any found emoticons
+		event_text = emojify.replace(event_text)
+
+		// linkify http text
+		event_text = module.exports.linkify(event_text)
+
+		return event_text;
+	 }
 };
 

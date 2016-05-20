@@ -1,5 +1,8 @@
+import store from '../store'
+import io from 'socket.io-client'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
+import * as helpers from '../../utils/helpers'
 
 // initial module state
 const state = {
@@ -10,30 +13,30 @@ const state = {
 
 // mutations
 const mutations = {
-	
-	[types.LOGIN_SUCCESS] (state, response) {
-		loginOrRegistrationSuccess(response)
+
+	[types.LOGIN_SUCCESS] (state, res) {
+		loginOrRegistrationSuccess(res)
 	},
 
-	[types.LOGIN_FAILURE] (state, response) {
+	[types.LOGIN_FAILURE] (state, res) {
 		token.destroy()
-		setAuthMessage('danger', response.errorMessage)
+		setAuthMessage('danger', res.errorMessage)
 	},
 
-	[types.LOGOUT_SUCCESS] (state, response) {
-		logoutSuccessOrFailure()
+	[types.LOGOUT] (state) {
+		token.destroy()
+		setAuthForm('login')
+		setIsAuthenticated(false)
+		localStorage.automaticLogin = false
+		setAuthMessage('success', 'Successfully logged out.')
 	},
 
-	[types.LOGOUT_FAILURE] (state, response) {
-		logoutSuccessOrFailure()
-	},
-
-	[types.REGISTRATION_SUCCESS] (state, response) {
-		loginOrRegistrationSuccess(response)
+	[types.REGISTRATION_SUCCESS] (state, res) {
+		loginOrRegistrationSuccess(res)
 	},
 	
-	[types.REGISTRATION_FAILURE] (state, response) {
-		setAuthMessage('danger', response.errorMessage)
+	[types.REGISTRATION_FAILURE] (state, res) {
+		setAuthMessage('danger', res.errorMessage)
 	},
 
 	[types.SET_AUTH_MESSAGE] (state, tone, message) {
@@ -53,16 +56,8 @@ function setAuthForm(form) {
 	state.authForm = form
 }
 
-function logoutSuccessOrFailure() {
-	token.destroy()
-	setAuthForm('login')
-	setIsAuthenticated(false)
-	localStorage.automaticLogin = false
-	setAuthMessage('success', 'Successfully logged out.')
-}
-
-function loginOrRegistrationSuccess(response) {
-	token.set(response.token)
+function loginOrRegistrationSuccess(res) {
+	token.set(res.token)
 }
 
 function setIsAuthenticated(boolean) {

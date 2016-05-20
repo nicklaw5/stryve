@@ -1,6 +1,17 @@
+import { auth } from 'stryve-api-client'
+import * as token from '../../utils/token'
 import * as types from '../mutation-types'
-import * as auth from '../../api/auth'
-import { fetchUser } from '../users/actions'
+import * as helpers from '../../utils/helpers'
+import { resetContacts } from '../contacts/actions'
+import { switchChannelsPanel } from '../app/actions'
+import {
+	fetchUser,
+	resetUser,
+	disconnectFromUserSocket } from '../users/actions'
+import {
+	resetActiveServer,
+	unsubscribeFromAllChannels,
+	disconnectFromServerSocket } from '../servers/actions'
 
 export const setIsAuthenticated = (store, boolean) => {
 	store.dispatch(types.SET_IS_AUTHENTICATED, boolean)
@@ -14,33 +25,44 @@ export const setAuthMessage = (store, tone, message) => {
 	store.dispatch(types.SET_AUTH_MESSAGE, tone, message)
 }
 
-export const attemptUserLogin = (store, payload, tryAccessToken) => {
-	auth.postCreateAuthSession(
+export const attemptUserLogin = (store, payload) => {
+	auth.postLogin(
 		payload,
-		tryAccessToken,
-		cb 	=> { 
+		token.get(),
+		cb 	=> {
 			store.dispatch(types.LOGIN_SUCCESS, cb)
 			fetchUser(store)
 		},
-		errorCb	=> { store.dispatch(types.LOGIN_FAILURE, errorCb) }
-	)
-}
-
-export const attemptUserRegistration = (store, payload) => {
-	auth.postCreateRegisteredUser(
-		payload, 
-		cb => { 
-			store.dispatch(types.REGISTRATION_SUCCESS, cb)
-			fetchUser(store)
-		},
-		errorCb => { store.dispatch(types.REGISTRATION_FAILURE, errorCb) }
+		errorCb	=> {
+			store.dispatch(types.LOGIN_FAILURE, errorCb)
+		}
 	)
 }
 
 export const attemptUserLogout = (store) => {
-	auth.postDestroyAuthSession(
-		cb => { store.dispatch(types.LOGOUT_SUCCESS) },
-		errorCb => { store.dispatch(types.LOGOUT_FAILURE) }
+	auth.postLogout(
+		token.get(),
+		cb 	=> {
+			store.dispatch(types.LOGOUT)
+			resetContacts(store)
+			unsubscribeFromAllChannels(store)
+			resetUser(store)
+			disconnectFromUserSocket(store)
+			resetActiveServer(store, true)
+			disconnectFromServerSocket(store)
+			switchChannelsPanel(store, 'contacts')
+		}
+	)
+}
+
+export const attemptUserRegistration = (store, payload) => {
+	auth.postRegister(
+		payload, 
+		cb => {
+			store.dispatch(types.REGISTRATION_SUCCESS, cb)
+			fetchUser(store)
+		},
+		errorCb => { store.dispatch(types.REGISTRATION_FAILURE, errorCb) }
 	)
 }
 

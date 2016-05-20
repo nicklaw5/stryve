@@ -20,7 +20,7 @@
 			</button>
 		</div>
 
-		<div v-if="whichForm == 'join'">
+		<div id="join-server" v-if="whichForm == 'join'">
 			<div class="form-element-wrapper">
 				<label>Enter Inivite Token:</label>
 				<input v-model="token" type="text">
@@ -42,12 +42,12 @@
 			</div>
 		</div>
 
-		<div v-if="whichForm == 'new'">
+		<div id="create-server" v-if="whichForm == 'new'">
 			<div class="form-element-wrapper">
 				<label>Server Name:</label>
 				<input v-model="form.name" type="text">
 			</div>
-			<div class="form-element-wrapper">
+			<!-- <div class="form-element-wrapper">
 				<label>Server Region:</label>
 				<select v-model="form.region">
 					<option v-for="region in regions" value="{{ region.name }}">{{ region.location }}</option>
@@ -58,7 +58,7 @@
 					<input type="checkbox" v-model="form.private">
 					This is a private server.
 				</label>
-			</div>
+			</div> -->
 			<div class="form-element-wrapper">
 				<button class="float-right"
 						type="button"
@@ -77,10 +77,10 @@
 
 <script>
 import randomName from 'sillyname'
-import { setNoticeMessage } from '../../vuex/app/actions'
 import { getNoticeMessage } from '../../vuex/app/getters'
 import { getServerRegions } from '../../vuex/servers/getters'
-import { fetchServerRegions, hideModal, createNewServer, joinServer } from '../../vuex/servers/actions'
+import { setNoticeMessage, hideModal } from '../../vuex/app/actions'
+import { fetchServerRegions, createNewServer, joinServer } from '../../vuex/servers/actions'
 
 export default {
 	data() {
@@ -89,7 +89,7 @@ export default {
 			whichForm: null,
 			form: {
 				name: '',
-				region: '',
+				region: 'melb-01',
 				private: false
 			}
 		}
