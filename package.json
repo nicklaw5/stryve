@@ -44,7 +44,6 @@
     "lodash": "^4.7.0",
     "moment": "^2.12.0",
     "offline-js": "^0.7.15",
-    "request": "^2.65.0",
     "sillyname": "^0.1.0",
     "socket.io-client": "^1.4.5",
     "striptags": "^2.1.1",
@@ -60,8 +59,5 @@
     "vuex": "^0.6.2",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
-  },
-  "dependencies": {
-    "request": "^2.65.0"
   }
 }
