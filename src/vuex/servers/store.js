@@ -3,7 +3,7 @@ import store from '../store'
 import emojify from 'emojify.js'
 import * as types from '../mutation-types'
 import * as helpers from '../../utils/helpers'
-import * as serverSocket from '../../server-socket'
+import * as serverSocket from '../../utils/server-socket'
 import { setNoticeMessage, hideModal } from '../app/actions'
 import { switchServers, switchChannels, getChannelEvents } from './actions'
 

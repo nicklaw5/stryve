@@ -4,7 +4,7 @@ import emojify from 'emojify.js'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
-import * as userSocket from '../../user-socket'
+import * as userSocket from '../../utils/user-socket'
 import { setSearching, fetchContactEvents } from './actions'
 
 // initial module state

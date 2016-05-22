@@ -1,9 +1,9 @@
-import store from './vuex/store'
+import store from '../vuex/store'
 import io from 'socket.io-client'
-import * as token from './utils/token'
-import * as helpers from './utils/helpers'
-import { setServerSocketId } from './vuex/users/actions'
-import { pushEventToChannel, instantiateServerChannels } from './vuex/servers/actions'
+import * as token from './token'
+import * as helpers from './helpers'
+import { setServerSocketId } from '../vuex/users/actions'
+import { pushEventToChannel, instantiateServerChannels } from '../vuex/servers/actions'
 
 export const connectToServerSocket = (state, server) =>  {
 	// connect to the socket if the user hasn't already

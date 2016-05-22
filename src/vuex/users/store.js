@@ -2,7 +2,7 @@ import { set } from 'vue'
 import store from '../store'
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
-import * as userSocket from '../../user-socket'
+import * as userSocket from '../../utils/user-socket'
 import { setPinnedContacts } from '../contacts/actions'
 import { connectToUserSocket } from '../users/actions'
 

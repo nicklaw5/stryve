@@ -1,14 +1,15 @@
-import store from './vuex/store'
+import store from '../vuex/store'
 import io from 'socket.io-client'
-import * as token from './utils/token'
-import * as helpers from './utils/helpers'
-import { setUserSocketId } from './vuex/users/actions'
-import { pushEventToContact } from './vuex/contacts/actions'
+import * as token from './token'
+import * as helpers from './helpers'
+import * as config from '../config'
+import { setUserSocketId } from '../vuex/users/actions'
+import { pushEventToContact } from '../vuex/contacts/actions'
 
 export const connectToUserSockect = user_uuid =>  {
 	// connect to the socket if the user hasn't already
 	if(helpers.isEmptyObject(window.userSocket)) {
-		window.userSocket = io('http://stryve.io:3000/users', {forceNew: true})
+		window.userSocket = io(config.default_socket + '/users', {forceNew: true})
 
 		// ON CONNECTION TO SERVER
 		window.userSocket.on('connected', socket_id => {
