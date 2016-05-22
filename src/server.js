@@ -9,7 +9,6 @@ var dev 		= (JSON.parse(process.env.PROD_ENV || '0') == '0')? true: false
 	, app		= express()
 	, server	= http.Server(app)
 	, io 		= socketio(server)
-	, api_base	= 'http://api.stryve.io/api/'
 	, port		= 3333
 
 // start the server

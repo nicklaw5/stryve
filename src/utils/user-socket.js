@@ -9,7 +9,7 @@ import { pushEventToContact } from '../vuex/contacts/actions'
 export const connectToUserSockect = user_uuid =>  {
 	// connect to the socket if the user hasn't already
 	if(helpers.isEmptyObject(window.userSocket)) {
-		window.userSocket = io(config.default_socket + '/users', {forceNew: true})
+		window.userSocket = io(config.default_socket + 'users', {forceNew: true})
 
 		// ON CONNECTION TO SERVER
 		window.userSocket.on('connected', socket_id => {
