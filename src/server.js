@@ -5,7 +5,7 @@ var socketio = require('socket.io')
 var striptags = require('striptags');
 var client = require('stryve-api-client')
 
-var dev 		= process.env.NODE_ENV !== 'production'
+var dev 		= (JSON.parse(process.env.PROD_ENV || '0') == '0')? true: false
 	, app		= express()
 	, server	= http.Server(app)
 	, io 		= socketio(server)
