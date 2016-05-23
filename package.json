@@ -8,7 +8,7 @@
     "server": "SET PROD_ENV=1 & node src/server.js",
     "server-dev": "SET PROD_ENV=0 & node src/server.js",
     "w-app": "webpack-dev-server --inline --hot",
-    "d-app": "webpack --progress --hide-modules && nw .",
+    "d-app": "webpack --progress --hide-modules && ./node_modules/.bin/nw .",
     "build": "webpack --progress --hide-modules",
     "build-production": "SET PROD_ENV=1 & webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
@@ -53,6 +53,7 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",
     "moment": "^2.12.0",
+    "nw": "^0.15.0-rc2",
     "offline-js": "^0.7.15",
     "sillyname": "^0.1.0",
     "socket.io-client": "^1.4.5",
