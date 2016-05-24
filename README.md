@@ -9,6 +9,7 @@ $ npm install                                           # intsall dependencies
 $ npm run server-dev                                    # start the socket.io server in debug mode
 $ npm run w-app                                         # starts the web client on http://localhost:8080/
 $ npm install nw -g                                     # (destkop app only) install node-webkit globally
+$ npm run build                                         # (destkop app only) build the desktop app asset file
 $ npm run d-app                                         # (destkop app only) starts the desktop app
 ```
 

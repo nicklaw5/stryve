@@ -8,7 +8,7 @@
     "server": "SET PROD_ENV=1 & node src/server.js",
     "server-dev": "SET PROD_ENV=0 & node src/server.js",
     "w-app": "webpack-dev-server --inline --hot",
-    "d-app": "webpack --progress --hide-modules && ./node_modules/.bin/nw .",
+    "d-app": "nw .",
     "build": "webpack --progress --hide-modules",
     "build-production": "SET PROD_ENV=1 & webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
