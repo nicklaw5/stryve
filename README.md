@@ -2,13 +2,14 @@
 A self-hosted chat/messaging application, heavily inspired by [Discord](https://discordapp.com/) and [Slack](https://slack.com/). Stryve comes as both a browser-based and desktop (Windows, MacOS & Linux) application.
 
 ## Usage
-Please see the [Gettting Started](https://github.com/nicklaw5/stryve/wiki/Getting-Started) tutorial for full installation instructions.
+Please see the [Gettting Started](https://github.com/nicklaw5/stryve/wiki/Getting-Started) tutorial for a full installation guide.
 ```bash
 $ git clone https://github.com/nicklaw5/stryve.git      # clone the repo
 $ npm install                                           # intsall dependencies
 $ npm run server-dev                                    # start the socket.io server in debug mode
 $ npm run w-app                                         # starts the web client on http://localhost:8080/
-$ npm run d-app                                         # starts the desktop app
+$ npm install nw -g                                     # (destkop app only) install node-webkit globally
+$ npm run d-app                                         # (destkop app only) starts the desktop app
 ```
 
 ## Getting Started

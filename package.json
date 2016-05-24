@@ -14,7 +14,7 @@
     "build-watch": "webpack --watch --progress --hide-modules"
   },
   "window": {
-    "title": "Stryve App",
+    "title": "Stryve",
     "icon": "./src/assets/img/logo-100x100.png",
     "frame": true,
     "width": 1000,
@@ -53,7 +53,6 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",
     "moment": "^2.12.0",
-    "nw": "^0.15.0-rc2",
     "offline-js": "^0.7.15",
     "sillyname": "^0.1.0",
     "socket.io-client": "^1.4.5",
