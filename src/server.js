@@ -56,7 +56,7 @@ users_io.on('connection', function(socket) {
 		// (we will update it when we get it back from the server)
 		socket.emit('contact-message::' + payload.sender_uuid + '::preliminary', apiPayload)
 
-		// send ajax here
+		// send api request
 		client.contacts.postContactEvent(
 			apiPayload,
 			payload.access_token,
