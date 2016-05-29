@@ -2,10 +2,10 @@
 import './assets/css/normalize.css'
 import './assets/css/main.css'
 import './assets/css/iconmoon.css'
-import '../node_modules/emojify.js/dist/css/basic/emojify.min.css'
+import './assets/css/emojify.css'
 
 // js
-import 'babel-polyfill'
+// import 'babel-polyfill'
 import Vue from 'vue'
 import emojify from 'emojify.js'
 import moment from 'moment'
@@ -17,7 +17,7 @@ import './utils/sizer'
 Vue.config.debug = true
 emojify.setConfig({
 	mode: 'img',
-	img_dir: '../node_modules/emojify.js/dist/images/basic'
+	img_dir: 'src/assets/img/emoticons'
 })
 emojify.run()
 moment.updateLocale('en', {

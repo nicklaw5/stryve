@@ -1,6 +1,7 @@
 .DS_Store
+npm-debug.log
 node_modules/
 dist/
 build/
 builds/
-npm-debug.log
+src/assets/img/emoticons/*
