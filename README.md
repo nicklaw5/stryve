@@ -1,6 +1,13 @@
 # Stryve
 A self-hosted chat/messaging application, heavily inspired by [Discord](https://discordapp.com/) and [Slack](https://slack.com/). Stryve comes as both a browser-based and desktop (Windows, MacOS & Linux) application.
 
+![stryve-screenshot](http://i.imgur.com/wUCQEjq.png)
+
+## Demo
+You can tinker with the latest release yourself by following the below link:
+
+**[Demo](http://alpha.stryve.io/)**
+
 ## Usage
 Please see the [Gettting Started](https://github.com/nicklaw5/stryve/wiki/Getting-Started) tutorial for a full installation guide.
 ```bash
