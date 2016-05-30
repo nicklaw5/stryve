@@ -4,7 +4,7 @@ const nwVersion = '0.15.0'
 const distPath = 'dist'
 const sorcePath = '.build'
 const buildPath = 'builds'
-const platforms = 'win32,win64' // win32,win64,osx32,osx64,linux32,linux64
+const platforms = 'win32,win64,osx32,osx64,linux32,linux64' // options: win32,win64,osx32,osx64,linux32,linux64
 
 echo("\nStarting build process. Hold on to your butt!\n")
 
