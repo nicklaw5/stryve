@@ -1,9 +1,9 @@
 {
-  "main": "index.html",
   "name": "stryve",
-  "version": "v0.3.0-alpha",
+  "version": "0.3.0-alpha",
   "description": "A socket.io-driven chat application.",
   "author": "https://github.com/nicklaw5",
+  "main": "index.html",
   "scripts": {
     "server": "SET PROD_ENV=1 & node src/server.js",
     "server-dev": "SET PROD_ENV=0 & node src/server.js",
@@ -15,12 +15,12 @@
   },
   "nwjsBuilder": {
     "productName": "Stryve",
-    "productVersion": "0.3.0",
+    "productVersion": "0.3.0-alpha",
     "fileDescription": "Stryve"
   },
   "window": {
     "title": "Stryve",
-    "icon": "./src/assets/img/logo-100x100.png",
+    "icon": "src/assets/img/logo-100x100.png",
     "frame": true,
     "width": 1000,
     "height": 500,
@@ -58,6 +58,7 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",
     "moment": "^2.12.0",
+    "nwjs-builder": "^1.10.5",
     "offline-js": "^0.7.15",
     "shelljs": "^0.7.0",
     "sillyname": "^0.1.0",
