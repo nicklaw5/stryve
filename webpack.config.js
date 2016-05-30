@@ -38,12 +38,11 @@ module.exports = {
         loader: "style-loader!css-loader"
       },
       {
-        test: /\.png|\.jpe?g|\.gif/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: '[name].[ext]?[hash]'
-        }
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
       },
       {
         test: /\.woff|\.woff2|\.svg|\.eot|\.ttf/,

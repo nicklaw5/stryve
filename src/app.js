@@ -5,7 +5,6 @@ import './assets/css/iconmoon.css'
 import './assets/css/emojify.css'
 
 // js
-// import 'babel-polyfill'
 import Vue from 'vue'
 import emojify from 'emojify.js'
 import moment from 'moment'

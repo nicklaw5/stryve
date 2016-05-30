@@ -2,6 +2,6 @@
 npm-debug.log
 node_modules/
 dist/
-build/
 builds/
+.build/
 src/assets/img/emoticons/*
