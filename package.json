@@ -13,6 +13,10 @@
     "build-production": "cp ./node_modules/emojify.js/dist/css/basic/emojify.css ./src/assets/css/emojify.css && cp ./node_modules/emojify.js/dist/images/basic/* ./src/assets/img/emoticons && SET PROD_ENV=1 & webpack --progress --hide-modules",
     "build-watch": "webpack --watch --progress --hide-modules"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nicklaw5/stryve.git"
+  },
   "nwjsBuilder": {
     "productName": "Stryve",
     "productVersion": "0.3.0-alpha",
