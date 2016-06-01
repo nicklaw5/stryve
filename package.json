@@ -3,6 +3,7 @@
   "version": "0.3.0-alpha",
   "description": "A socket.io-driven chat application.",
   "author": "https://github.com/nicklaw5",
+  "license": "MIT",
   "main": "index.html",
   "scripts": {
     "server": "SET PROD_ENV=1 & node src/server.js",
