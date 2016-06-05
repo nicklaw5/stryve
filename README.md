@@ -13,12 +13,13 @@ Please see the [Gettting Started](https://github.com/nicklaw5/stryve/wiki/Gettin
 ```bash
 $ git clone https://github.com/nicklaw5/stryve.git      # clone the repo
 $ npm install                                           # intsall dependencies
-$ npm run server-dev                                    # start the socket.io server in debug mode
+$ npm run dev-server                                    # start the socket.io server in debug mode
 $ npm run w-app                                         # starts the web client on http://localhost:8080/
-$ npm install nw -g                                     # (destkop app only) install node-webkit globally
-$ npm run build                                         # (destkop app only) build the desktop app asset file
-$ npm run d-app                                         # (destkop app only) starts the desktop app
+$ npm install nw -g                                     # (optional - destkop app only) install node-webkit globally
+$ npm run d-app                                         # (optional - destkop app only) starts the desktop app
 ```
+
+To build the desktop applications, open `build.js`, adjust the `platforms` variable to include/exclude any platforms you do/don't want and execute `npm run build`. The platform builds will be placed in the `builds` folder.
 
 ## Getting Started
 The getting started tutorial can be here - https://github.com/nicklaw5/stryve/wiki/Getting-Started
