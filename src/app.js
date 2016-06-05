@@ -10,7 +10,7 @@ import emojify from 'emojify.js'
 import moment from 'moment'
 import App from './components/App.vue'
 import './utils/filters'
-import './utils/sizer'
+import './utils/resize'
 
 // app configs
 Vue.config.debug = true

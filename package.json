@@ -1,18 +1,16 @@
 {
   "name": "stryve",
   "version": "0.3.0-alpha",
-  "description": "A socket.io-driven chat application.",
+  "description": "A socket.io-driven messaging application, heavily inspired by Discord and Slack.",
   "author": "https://github.com/nicklaw5",
   "license": "MIT",
   "main": "index.html",
   "scripts": {
-    "server": "SET PROD_ENV=1 & node src/server.js",
-    "server-dev": "SET PROD_ENV=0 & node src/server.js",
     "w-app": "webpack-dev-server --inline --hot",
-    "d-app": "nw .",
-    "build": "cp ./node_modules/emojify.js/dist/css/basic/emojify.css ./src/assets/css/emojify.css && cp ./node_modules/emojify.js/dist/images/basic/* ./src/assets/img/emoticons && webpack --progress --hide-modules",
-    "build-production": "cp ./node_modules/emojify.js/dist/css/basic/emojify.css ./src/assets/css/emojify.css && cp ./node_modules/emojify.js/dist/images/basic/* ./src/assets/img/emoticons && SET PROD_ENV=1 & webpack --progress --hide-modules",
-    "build-watch": "webpack --watch --progress --hide-modules"
+    "d-app": "webpack --progress --hide-modules && nw .",
+    "build": "node_modules/.bin/shjs build",
+    "dev-server": "node src/server.js",
+    "prod-server": "SET PROD_ENV=1 & node src/server.js"
   },
   "repository": {
     "type": "git",
