@@ -1,6 +1,6 @@
 {
   "name": "stryve",
-  "version": "0.3.0-alpha",
+  "version": "0.4.0-alpha",
   "description": "A socket.io-driven messaging application, heavily inspired by Discord and Slack.",
   "author": "https://github.com/nicklaw5",
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "nwjsBuilder": {
     "productName": "Stryve",
-    "productVersion": "0.3.0-alpha",
+    "productVersion": "0.4.0-alpha",
     "fileDescription": "Stryve"
   },
   "window": {
@@ -56,7 +56,6 @@
     "file-loader": "^0.8.4",
     "font-awesome-webpack": "0.0.4",
     "image-webpack-loader": "^1.8.0",
-    "jquery": "^2.2.3",
     "json": "^9.0.3",
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",

@@ -18,16 +18,8 @@
 		</div>
 
 		<div id="release-tag">
-			<span>v0.3.0-alpha</span>
+			<span>v0.4.0-alpha</span>
 		</div>
-		
-		<!-- <div id="channel-messages-header-right">
-			<ul>
-				<li @click="minimize()"><i class="icon-minus3"></i></li>
-				<li @click="toggleMaximize()"><i class="icon-square-up-right" :class="{ 'icon-square-down-left': isMaximized }"></i></li>
-				<li @click="logOutAndClose()"><i class="icon-cross2"></i></li>
-			</ul>	
-		</div> -->
 	</div>
 </template>
 

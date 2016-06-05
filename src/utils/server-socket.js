@@ -9,7 +9,7 @@ export const connectToServerSocket = (state, server) =>  {
 	// connect to the socket if the user hasn't already
 	if(helpers.isEmptyObject(window.serverSocket)) {
 		window.serverSocket = io(server.server_uri + 'servers', {forceNew: true})
-		console.log(window.serverSocket);
+		// console.log(window.serverSocket);
 
 		// update title
 		helpers.updateTitleText(server.name)
