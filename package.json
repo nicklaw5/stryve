@@ -56,7 +56,6 @@
     "emojify.js": "^1.1.0",
     "file-loader": "^0.8.4",
     "font-awesome-webpack": "0.0.4",
-    "image-webpack-loader": "^1.8.0",
     "json": "^9.0.3",
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",
