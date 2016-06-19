@@ -6,11 +6,12 @@
   "license": "MIT",
   "main": "index.html",
   "scripts": {
+    "build": "node_modules/.bin/shjs scripts/build",
+    "postinstall": "node_modules/.bin/shjs scripts/post-install",
     "w-app": "webpack-dev-server --inline --hot",
     "d-app": "webpack --progress --hide-modules && nw .",
-    "build": "node_modules/.bin/shjs build",
-    "dev-server": "node src/server.js",
-    "prod-server": "SET PROD_ENV=1 & node src/server.js"
+    "dev-server": "node src/server",
+    "prod-server": "SET PROD_ENV=1 & node src/server"
   },
   "repository": {
     "type": "git",
@@ -60,7 +61,7 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.7.0",
     "moment": "^2.12.0",
-    "nwjs-builder": "^1.10.5",
+    "nwjs-builder": "^1.11.2",
     "offline-js": "^0.7.15",
     "shelljs": "^0.7.0",
     "sillyname": "^0.1.0",

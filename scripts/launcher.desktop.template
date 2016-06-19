@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version={version}
+Name={name}
+Comment=A desktop messaging application
+Exec=bash -c '_PWD="$PWD"; cd "`echo $0 | sed s/launcher.desktop$//`"; ./stryve run; cd "_PWD"' %k
+Icon=/home/nick/Code/stryve/builds/stryve/logo-100x100.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;
