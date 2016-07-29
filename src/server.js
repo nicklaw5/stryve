@@ -4,7 +4,6 @@ var express = require('express')
 var socketio = require('socket.io')
 var striptags = require('striptags')
 var client = require('stryve-api-client')
-var helpers = require('./utils/helpers')
 
 var dev 		= (JSON.parse(process.env.PROD_ENV || '0') == '0')? true: false
 	, app		= express()
@@ -248,8 +247,41 @@ parseEventText = function(text) {
 	text = text.replace(/<3|&lt;3/g, ":heart:")
 	text = text.replace(/<\/3|&lt;&#x2F;3/g, ":broken_heart:")
     text = striptags(text)
-	text = helpers.parseTextForMarkdownProperties(text)
+	text = parseTextForMarkdownProperties(text)
 
 	// strip any html tags from the text for security
 	return text
+}
+
+/**
+ * Parses the provided string for markdown properties and
+ * replaces them with the corresponding html tags.
+ *
+ * @param {string} text
+ * @return string
+ */
+parseTextForMarkdownProperties = function(text) {
+    var boldRegex = /\*.\w*\*/g
+    var boldInstances = []
+    var strikethroughRegex = /\~.\w*\~/g
+    var strikethroughInstances = []
+  
+    boldInstances = text.match(boldRegex)
+    strikethroughInstances = text.match(strikethroughRegex)
+    
+    if(strikethroughInstances != null) {
+        strikethroughInstances.forEach(function(value) {
+            value = "<strike>"+value.substring(1,value.length - 1)+"</strike>"
+            text = text.replace(strikethroughRegex, value)
+        })
+    }
+  
+  if(boldInstances != null) {
+        boldInstances.forEach(function(value) {
+            value = "<strong>"+value.substring(1,value.length - 1)+"</strong>"
+            text = text.replace(boldRegex, value)
+        })
+    }
+
+    return text
 }
