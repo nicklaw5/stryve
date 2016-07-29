@@ -2,7 +2,7 @@ var uuid = require('uuid')
 var http = require('http')
 var express = require('express')
 var socketio = require('socket.io')
-var striptags = require('striptags');
+var striptags = require('striptags')
 var client = require('stryve-api-client')
 
 var dev 		= (JSON.parse(process.env.PROD_ENV || '0') == '0')? true: false
@@ -230,7 +230,7 @@ servers_io.on('connection', function(socket) {
 	/*** ON NEW CHANNEL CREATED ***/
 	/******************************/
 	socket.on('channel-created', function(channel) {
-		socket.broadcast.emit('channel-created', channel);
+		socket.broadcast.emit('channel-created', channel)
 	})
 
 })
@@ -246,7 +246,42 @@ parseEventText = function(text) {
 	// replace certain emojis
 	text = text.replace(/<3|&lt;3/g, ":heart:")
 	text = text.replace(/<\/3|&lt;&#x2F;3/g, ":broken_heart:")
+    text = striptags(text)
+	text = parseTextForMarkdownProperties(text)
 
 	// strip any html tags from the text for security
-	return striptags(text)
+	return text
+}
+
+/**
+ * Parses the provided string for markdown properties and
+ * replaces them with the corresponding html tags.
+ *
+ * @param {string} text
+ * @return string
+ */
+parseTextForMarkdownProperties = function(text) {
+    var boldRegex = /\*.\w*\*/g
+    var boldInstances = []
+    var strikethroughRegex = /\~.\w*\~/g
+    var strikethroughInstances = []
+  
+    boldInstances = text.match(boldRegex)
+    strikethroughInstances = text.match(strikethroughRegex)
+    
+    if(strikethroughInstances != null) {
+        strikethroughInstances.forEach(function(value) {
+            value = "<strike>"+value.substring(1,value.length - 1)+"</strike>"
+            text = text.replace(strikethroughRegex, value)
+        })
+    }
+  
+  if(boldInstances != null) {
+        boldInstances.forEach(function(value) {
+            value = "<strong>"+value.substring(1,value.length - 1)+"</strong>"
+            text = text.replace(boldRegex, value)
+        })
+    }
+
+    return text
 }
