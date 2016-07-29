@@ -1,5 +1,5 @@
-import moment from 'moment'
-import emojify from 'emojify.js'
+var moment = require('moment')
+var emojify = require('emojify.js')
 
 module.exports = {
 
