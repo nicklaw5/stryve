@@ -189,6 +189,7 @@ servers_io.on('connection', function(socket) {
 	/*** ON CHANNEL MESSAGE RECEIVED ***/
 	/***********************************/
 	socket.on('channel-message', function(payload) {
+
 		// parse the text
 		payload.event_text = parseEventText(payload.event_text)
 
@@ -262,8 +263,8 @@ parseEventText = function(text) {
  */
 parseTextForMarkdownProperties = function(text) {
     var boldRegex = /\*.\w*\*/g
-    var boldInstances = []
     var strikethroughRegex = /\~.\w*\~/g
+    var boldInstances = []
     var strikethroughInstances = []
   
     boldInstances = text.match(boldRegex)
@@ -276,7 +277,7 @@ parseTextForMarkdownProperties = function(text) {
         })
     }
   
-  if(boldInstances != null) {
+  	if(boldInstances != null) {
         boldInstances.forEach(function(value) {
             value = "<strong>"+value.substring(1,value.length - 1)+"</strong>"
             text = text.replace(boldRegex, value)

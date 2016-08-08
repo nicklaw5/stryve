@@ -8,7 +8,7 @@ let resizeElements = function () {
     , channelsListHeader = 55
     , channelUsersList = 240
     , channelHeader = 52
-    , userInputSpacing = 80
+    , userInputSpacing = 20
     , userImputContainer = 80
     , userSettingsPanel = 55
 

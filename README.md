@@ -54,3 +54,6 @@ The getting started tutorial can be here - https://github.com/nicklaw5/stryve/wi
 
 ## Issues and PR's
 Stryve is under development. Issues and pull requets are vey welcome. Please [report any issues here](https://github.com/nicklaw5/stryve//issues).
+
+## License
+[MIT](https://github.com/nicklaw5/stryve/blob/master/LICENSE)

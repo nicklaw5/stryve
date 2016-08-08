@@ -600,22 +600,23 @@ a:hover {
 }
 
 #channel-messages > #user-input {
-	/*min-width: inherit;*/
+    background: #36393E;
     min-height: 60px;
 	position: absolute;
     bottom: 0;
-    width: 456px;
-    padding: 20px;
+    width: 456px;    
+    padding: 10px 10px 20px 10px;
 	border-top: 1px solid #424549;
 }
 
 #channel-messages > #user-input > #user-input-inner > #user-input-container > #user-upload {
+    position: absolute;
 	padding: 7px;
 	float: left;
 	color: #5f6265;
 	background: #424549;
 	border: 2px #686a6e solid;
-	border-radius: 3px 0 0 3px;
+	border-radius: 3px;
 	-webkit-transition: background 0.2s, color 0.2s; /* Safari */
     transition: background 0.2s, color 0.2s;
 }
@@ -629,20 +630,21 @@ a:hover {
 #channel-messages > #user-input > #user-input-inner > #user-input-container > #user-upload > span > i {
 	font-size: 21px;
 }
-#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > input {
+#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > textarea {
+    min-height: 39px;
+    line-height: 1.2em;
 	background: #424549;
-	padding: 10px 40px 10px 10px;
+	padding: 10px 40px 10px 45px;
 	border: 2px #686a6e solid;
-	border-left: none;
 	border-radius: 0 3px 3px 0;
-	/*width: 377px;*/
+    resize: none;
 }
 
-#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > input:focus {
+#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > textarea:focus {
 	outline: none;
 }
 
-#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > input::-webkit-input-placeholder {
+#channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > textarea::-webkit-input-placeholder {
 	color: #5f6265;
 	font-weight: bold;
 }
@@ -650,7 +652,7 @@ a:hover {
 #channel-messages > #user-input > #user-input-inner > #user-input-container > #user-message-input > span {
     float: right;
   	margin-right: 11px;
-  	margin-top: -28px;
+  	margin-top: -31px;
   	position: relative;
   	z-index: 2;
   	color: #5f6265;
@@ -682,8 +684,9 @@ a:hover {
 }
 #channel-messages > #messages-container > ul > li {
 	padding: 5px 0;
-	color: #CFCFCF;
 	font-size: 16px;
+    color: #CFCFCF;
+    word-wrap: break-word;
 } 
 #channel-messages > #messages-container > ul > li > div > .message-username-container {
 	padding-bottom: 5px;

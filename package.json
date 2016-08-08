@@ -44,6 +44,7 @@
     "socket.io": "^1.4.4",
     "striptags": "^2.1.1",
     "stryve-api-client": "^0.1.0",
+    "textarea-autogrow": "^1.0.0",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
