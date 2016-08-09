@@ -1,6 +1,6 @@
 {
   "name": "stryve",
-  "version": "0.4.0-alpha",
+  "version": "1.0.0-alpha",
   "description": "A socket.io-driven messaging application, heavily inspired by Discord and Slack.",
   "author": "https://github.com/nicklaw5",
   "license": "MIT",

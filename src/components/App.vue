@@ -14,7 +14,7 @@
 	<!-- not authenticated -->
 	<div v-else id="login-or-register">
 		<div id="release-tag" class="release-front">
-			<span>v0.4.0-alpha</span>
+			<span>{{ pkg.version }}</span>
 		</div>
 		<div id="login-or-register-inner">
 			<p style="text-align: center"><img width="80px" src="../assets/img/logo-100x100.png"></p>
@@ -34,6 +34,9 @@
 </template>
 
 <script>
+// package.json
+import pkg from '../../package.json'
+
 // base store
 import store from '../vuex/store'
 
@@ -80,6 +83,11 @@ export default {
 		actions: {
 			setAuthMessage,
 			attemptUserLogout
+		}
+	},
+	data() {
+		return {
+			pkg: pkg
 		}
 	},
 	components: {

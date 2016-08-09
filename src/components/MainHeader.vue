@@ -18,18 +18,24 @@
 		</div>
 
 		<div id="release-tag">
-			<span>v0.4.0-alpha</span>
+			<span>{{ pkg.version }}</span>
 		</div>
 	</div>
 </template>
 
 <script>
+import pkg from '../../package.json'
 import * as helpers from '../utils/helpers'
 import { getChannel } from '../vuex/servers/getters'
 import { getContact } from '../vuex/contacts/getters'
 import { getChannelPanel } from '../vuex/app/getters'
 
 export default {
+	data() {
+		return {
+			pkg: pkg
+		}
+	},
 	props: ['channel'],
 	computed: {
 		contactSet() {

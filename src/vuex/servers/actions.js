@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import * as token from '../../utils/token'
 import * as helpers from '../../utils/helpers'
+import { hideModal } from '../../vuex/app/actions'
 import { servers, regions, channels } from 'stryve-api-client'
 import { switchChannelsPanel, setNoticeMessage } from '../app/actions'
 
@@ -73,13 +74,15 @@ export const pushEventToChannel = (store, payload, isPreliminary) => {
 
 export const switchServers = (store, server_uuid) => {
 	let existing_server = store._vm.servers.currentServer === server_uuid
-	
+
+	hideModal(store, 'serverMenu')
 	store.dispatch(types.SWITCH_SERVERS, server_uuid)
 	switchChannelsPanel(store, 'channels')
 	helpers.fireWindowResizeEvent()
 	
 	if(!existing_server)
 		fetchServer(store, server_uuid, true)
+
 }
 
 export const switchChannels = (store, channel_uuid) => {

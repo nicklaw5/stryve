@@ -1,6 +1,5 @@
 require('shelljs/global')
-
-var pkg = require('../package.json')
+const pkg = require('../package.json')
 
 const appVersion = pkg.version
 const appName = pkg.name

@@ -6,16 +6,18 @@
 			<div id="user-input-inner">
 				<div id="user-input-container">
 					<div id="user-upload">
-						<span><i class="icon-share"></i></span>
+						<span><i class="icon-plus2"></i></span>
 					</div>
 					<div id="user-message-input">
-						<input id="contact_message" 
-							v-model="message" 
-							@keyup.enter="trySendMessage()"
-							type="text" 
-							placeholder="Chat with {{ contact.username }}..." 
-							autocomplete="off">
-						<!-- <span class="icon-grid"></span> -->
+						<textarea
+              rows="1"
+              v-model="message"
+              autocomplete="off"
+              id="contact_message"
+              @keyup.enter="trySendMessage($event)"
+              placeholder="Chat in {{ contact.username }}...">
+            </textarea>
+						<span class="icon-grid"></span>
 					</div>
 				</div>
 			</div>
@@ -42,6 +44,7 @@
 </template>
 
 <script>
+import autogrow from 'textarea-autogrow'
 import * as helpers from '../utils/helpers'
 import { sendContactMessage } from '../vuex/contacts/actions'
 import { getContact } from '../vuex/contacts/getters'
@@ -65,6 +68,12 @@ export default {
 		}
 	},
 	watch: {
+		'contact.ready': function() {
+      const textarea = document.getElementById('contact_message')
+      if(textarea !== null) {
+        this.autogrow = new autogrow(textarea, 8)
+      }
+    },
 		'contact.events': function () {
 			this.$nextTick(() => {
 				const container = this.$els.container
@@ -74,11 +83,21 @@ export default {
 		}
 	},
 	methods: {
-		trySendMessage() {
-			if(this.message.trim().length)
-				this.sendContactMessage(this.message)
-			this.message = ''
-		}
+		trySendMessage(event) {
+      if(event.keyCode == 13 && !event.shiftKey) {
+      
+        const emptyStringTest = this.message.replace(/\r?\n|\r/g, "");
+
+        if(emptyStringTest.length) {
+
+          if(this.message.trim().length) 
+            this.sendContactMessage(this.message)
+
+          this.message = ''
+          document.getElementById('contact_message').style.height = '39px'
+        }
+      }
+    }
 	}
 }
 </script>

@@ -6,6 +6,7 @@ export const setNoticeMessage = (store, tone, message) => {
 }
 
 export const switchChannelsPanel = (store, panel) => {
+    hideModal(store, 'serverMenu')
 	store.dispatch(types.SWITCH_CHANNELS_PANEL, panel)
 }
 

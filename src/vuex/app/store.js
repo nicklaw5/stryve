@@ -42,8 +42,8 @@ const mutations = {
 	[types.TOGGLE_SERVER_MENU] (state, forceState) {
 		set(state, 'serverMenu', 
 			(!helpers.isNullOrUndefined(forceState))
-			? forceState
-			: !state.serverMenu
+				? forceState
+				: !state.serverMenu
 		)
 	},
 }

@@ -15,13 +15,8 @@
               autocomplete="off"
               id="channel_message"
               @keyup.enter="trySendMessage($event)"
-              placeholder="Chat in {{ channel.name }}..."></textarea>   
-            <!-- <input id="channel_message" 
-              v-model="message" 
-              @keyup.enter="trySendMessage()"
-              type="text" 
-              placeholder="Chat in {{ channel.name }}..." 
-              autocomplete="off"> -->
+              placeholder="Chat in {{ channel.name }}...">
+            </textarea>
             <span class="icon-grid"></span>
           </div>
         </div>
@@ -99,7 +94,7 @@ export default {
     trySendMessage(event) {
       if(event.keyCode == 13 && !event.shiftKey) {
       
-        let emptyStringTest = this.message.replace(/\r?\n|\r/g, "");
+        const emptyStringTest = this.message.replace(/\r?\n|\r/g, "");
 
         if(emptyStringTest.length) {
 
