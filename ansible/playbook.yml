@@ -1,0 +1,13 @@
+---
+- hosts: all
+  remote_user: "{{ system_user }}"
+  roles:
+    - system
+    - { role: _dependencies/nodejs, become: yes }
+    - { role: _dependencies/yarn, become: yes }
+    - stryve
+
+- hosts: dev
+  remote_user: "{{ system_user }}"
+  roles:
+    - vagrant

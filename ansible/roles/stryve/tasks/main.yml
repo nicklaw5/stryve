@@ -1,0 +1,8 @@
+---
+- name: Install global node packages
+  become: yes
+  command: yarn global add {{ item.package }}@{{ item.version }} --tilde
+  args:
+    creates: "{{ item.creates }}"
+  with_items:
+    - { package: pm2, version: 2.4.4, creates: /usr/bin/pm2 }

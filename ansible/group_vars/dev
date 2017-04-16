@@ -1,0 +1,4 @@
+---
+is_dev: yes
+login_root_path: /vagrant
+app_domain: dev.stryve.com

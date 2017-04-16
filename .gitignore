@@ -5,3 +5,15 @@ dist/
 builds/
 .build/
 src/assets/img/emoticons/*
+
+# Ansible #
+###########
+ansible/playbook.retry
+ansible/roles/_dependencies/*
+!ansible/roles/_dependencies/.gitkeep
+
+
+# Vagrant #
+###########
+.vagrant
+ubuntu-xenial-16.04-cloudimg-console.log

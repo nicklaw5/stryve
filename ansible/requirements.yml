@@ -1,0 +1,20 @@
+---
+- name: nginx
+  src: geerlingguy.nginx
+  version: '2.1.0'
+
+- name: nodejs
+  src: geerlingguy.nodejs
+  version: '4.0.1'
+
+- name: postgres
+  src: ANXS.postgresql
+  version: 'v1.7.1'
+
+- name: rabbitmq
+  src: Stouts.rabbitmq
+  version: '1.2.1'
+
+- name: yarn
+  src: Oefenweb.yarn
+  version: 'v1.0.5'

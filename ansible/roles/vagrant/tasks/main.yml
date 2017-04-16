@@ -1,0 +1,8 @@
+---
+- name: cd into {{ login_root_path }} on login
+  lineinfile:
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    line: "cd {{ login_root_path }}"
+    state: present
+
+- include: swap.yml
