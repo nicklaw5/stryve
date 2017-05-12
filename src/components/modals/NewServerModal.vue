@@ -22,7 +22,7 @@
 
 		<div id="join-server" v-if="whichForm == 'join'">
 			<div class="form-element-wrapper">
-				<label>Enter Inivite Token:</label>
+				<label>Enter Invite Token:</label>
 				<input v-model="token" type="text">
 			</div>
 			<p v-if="notice.message.length"
