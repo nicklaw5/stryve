@@ -3,6 +3,9 @@ A self-hosted chat/messaging application, heavily inspired by [Discord](https://
 
 ![stryve-screenshot](http://i.imgur.com/wUCQEjq.png)
 
+
+> **UPDATE (14th May 2017):** This project is being revitalised under another github account - [stryveapp](https://github.com/stryveapp)
+
 ## Demo
 Check out the lasted alpha release: **http://alpha.stryve.io/**
 
