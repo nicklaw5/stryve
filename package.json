@@ -7,6 +7,7 @@
   "main": "index.html",
   "scripts": {
     "build": "node_modules/.bin/shjs scripts/build",
+    "webpack": "node_modules/.bin/webpack",
     "postinstall": "node_modules/.bin/shjs scripts/post-install",
     "w-app": "webpack-dev-server --inline --hot",
     "d-app": "webpack --progress --hide-modules && nw .",
@@ -41,6 +42,7 @@
     "babel-core": "^6.8.0",
     "babel-preset-es2015": "^6.6.0",
     "express": "^4.10.2",
+    "marked": "^0.3.6",
     "socket.io": "^1.4.4",
     "striptags": "^2.1.1",
     "stryve-api-client": "^0.1.0",

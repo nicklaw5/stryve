@@ -3,7 +3,7 @@ const pkg = require('../package.json')
 
 const appVersion = pkg.version
 const appName = pkg.name
-const nwVersion = '0.15.0'    // The node webkit sdk version to build with
+const nwVersion = '0.16.1'    // The node webkit sdk version to build with
 const distPath = 'dist'       // The folder that contains the webpack build files (don't change unless you know what you're doing)
 const sourcePath = '.build'    // The temp folder that holds our platform build files
 const buildPath = 'builds'    // The output directory our platform builds will be generated to

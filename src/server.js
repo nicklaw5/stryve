@@ -1,19 +1,24 @@
 var uuid = require('uuid')
 var http = require('http')
+// var marked = require('marked')
 var express = require('express')
+var config = require('./config')
 var socketio = require('socket.io')
 var striptags = require('striptags')
 var client = require('stryve-api-client')
+
+// setup marked (markdown)
+// marked.setOptions(config.markdown_options)
 
 var dev 		= (JSON.parse(process.env.PROD_ENV || '0') == '0')? true: false
 	, app		= express()
 	, server	= http.Server(app)
 	, io 		= socketio(server)
-	, port		= 3333
+	, port		= config.default_socket_port || 3333
 
 // start the server
-server.listen(port, () => {
-	console.log("\nListening on *:" + port + "\r\n")
+server.listen(port, config.default_socket_url, () => {
+	console.log(`\nListening on *: ${port}\r\n`)
 })
 
 /********************************/
@@ -31,7 +36,7 @@ users_io.on('connection', function(socket) {
 	/*** ON CONTACT MESSAGE RECEIVED ***/
 	/***********************************/
 	socket.on('contact-message', function(payload) {
-		
+
 		// parse the text
 		payload.event_text = parseEventText(payload.event_text)
 
@@ -71,7 +76,7 @@ users_io.on('connection', function(socket) {
 				//TODO
 				console.log(res)
 			}
-		)	
+		)
 	})
 })
 /* end $users_io */
@@ -125,7 +130,7 @@ servers_io.on('connection', function(socket) {
 
 				// add the servers's info to the socket for later user
 				socket.activeServers.push({ uuid: res.server_uuid, name: res.server_name })
-			
+
 				// besides the socket initiator,  let all users know when a connection is received,
 				// even if they don't want to hear it
 				socket.broadcast.emit('user-connected', res)
@@ -158,7 +163,7 @@ servers_io.on('connection', function(socket) {
 		payload['uuid'] 		= uuid.v1()
 		payload['event_type'] 	= 'user_subscribed'
 		payload['event_text'] 	= payload.owner_username + ' has joined your channel'
-		
+
 		// broadcast user subscription to all subscribers but the instantiating socket
 		socket.broadcast.emit('user-subscribed-to::' + payload.channel_uuid, payload)
 
@@ -172,7 +177,7 @@ servers_io.on('connection', function(socket) {
 	socket.on('unsubscribe-from-channel', function(payload) {
 		// unsubscribe from the intended channel
 		socket.leave(payload.channel_uuid)
-		
+
 		// modify payload
 		payload['uuid'] 		= uuid.v1()
 		payload['event_type'] 	= 'user_unsubscribed'
@@ -238,19 +243,18 @@ servers_io.on('connection', function(socket) {
 /* end $servers_io */
 
 /**
- * Pares the provided string for insecurities.
+ * Pares the provided string for insecurities and
+ * advanced text features, like markdown
  *
  * @param {string} text
  * @return string
  */
 parseEventText = function(text) {
-	// replace certain emojis
 	text = text.replace(/<3|&lt;3/g, ":heart:")
 	text = text.replace(/<\/3|&lt;&#x2F;3/g, ":broken_heart:")
-    text = striptags(text)
+  text = striptags(text)
 	text = parseTextForMarkdownProperties(text)
 
-	// strip any html tags from the text for security
 	return text
 }
 
@@ -266,17 +270,17 @@ parseTextForMarkdownProperties = function(text) {
     var strikethroughRegex = /\~.\w*\~/g
     var boldInstances = []
     var strikethroughInstances = []
-  
+
     boldInstances = text.match(boldRegex)
     strikethroughInstances = text.match(strikethroughRegex)
-    
+
     if(strikethroughInstances != null) {
         strikethroughInstances.forEach(function(value) {
             value = "<strike>"+value.substring(1,value.length - 1)+"</strike>"
             text = text.replace(strikethroughRegex, value)
         })
     }
-  
+
   	if(boldInstances != null) {
         boldInstances.forEach(function(value) {
             value = "<strong>"+value.substring(1,value.length - 1)+"</strong>"

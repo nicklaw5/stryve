@@ -262,7 +262,7 @@ module.exports = {
 	/**
 	 * Destroys a class element on the DOM
 	 * 
-	 * @param {string} $className
+	 * @param {string} $class_name
 	 * @return void
 	 */
 	removeClassElementFromDom: class_name => {
@@ -305,8 +305,8 @@ module.exports = {
 		// linkify http text
 		event_text = module.exports.linkify(event_text)
 
-        // apply mark properties to text
-        event_text = module.exports.parseTextForMarkdownProperties(event_text)
+    // apply mark properties to text
+    event_text = module.exports.parseTextForMarkdownProperties(event_text)
 
 		return event_text;
 	},
