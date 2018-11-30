@@ -1,10 +1,10 @@
-# Stryve
+# Stryve (ABANDONED)
+
+***Note: This project has been abandoned and is no longer under active development.***
+
 A self-hosted chat/messaging application, heavily inspired by [Discord](https://discordapp.com/) and [Slack](https://slack.com/). Stryve comes as both a browser-based and desktop (Windows, MacOS & Linux) application.
 
 ![stryve-screenshot](http://i.imgur.com/wUCQEjq.png)
-
-
-> **UPDATE (14th May 2017):** This project is being revitalised under another github account - [stryveapp](https://github.com/stryveapp)
 
 ## Demo
 Check out the lasted alpha release: **http://alpha.stryve.io/**
